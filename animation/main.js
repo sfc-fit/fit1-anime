@@ -9,10 +9,15 @@ addComponent(labelUI(630,100,25,"","イベントハンドラの練習","black"))
 addComponent(rectSoft(630,150,100,50,"#ccc",0,"black",1));
 addComponent(labelUI(635,180,13,"","ここをクリック","black"));
 addComponent(rectHard(770,135,330,70,"#fff",0,"black",1))
-addComponent(labelUI(795,180,23,"",'onclick="　　　　　　　　"',"black"));
+addComponent(labelUI(795,180,23,"",'onclick="　　　　　　　　 "',"black"));
 addComponent(labelUI(885,180,23,"","alert('Hello,World!')","black"));
 addComponent(rectHard(630,230,130,70,"#fff",0,"black",1));
 addComponent(labelUI(642,272,20,"","Hello,World!","black"));
+addVariable(component[0]);
+addVariable(component[2]);
+
+setBox(103,427,162,"イベントハンドラの練習",htmlText[9],0);
+setBox(257,450,103,"ここをクリック",htmlText[10],0);
 
 function update(){
 	if(started==true){

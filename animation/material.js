@@ -12,6 +12,7 @@ function exec(){
 	started=true;
 	document.getElementById("resetButton").style.opacity=1;
 	document.getElementById("aheadButton").style.opacity=1;
+	checkVariable();
 	if(document.getElementById("autoBox").checked==false){
 		draw();
 	}
