@@ -660,6 +660,10 @@ function checkVariable(){
 	}
 }
 
+function setReset(){
+	document.getElementById("resetButton").style.opacity=1;
+}
+
 function resetAll(){
 	for(var i=0;i<htmlText.length;i++){
 		defuse(htmlText[i]);

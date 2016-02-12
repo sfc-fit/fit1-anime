@@ -67,7 +67,7 @@ function draw(){
 			break;
 		case 4:
 			alert("アニメーションが終了しました");
-			document.getElementById("resetButton").style.opacity=1;
+			setReset();
 			break;
 	}
 	phase++;
