@@ -38,7 +38,6 @@ function draw(){
 			highlight(htmlText[9]);
 			setVisible(0,1);
 			setArrow(htmlText[9],component[0]);
-			scroll(0);
 			break;
 		case 1:
 			highlight(htmlText[10]);
@@ -68,6 +67,7 @@ function draw(){
 			break;
 		case 4:
 			alert("アニメーションが終了しました");
+			document.getElementById("resetButton").style.opacity=1;
 			break;
 	}
 	phase++;

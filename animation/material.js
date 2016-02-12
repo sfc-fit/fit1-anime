@@ -10,7 +10,6 @@ document.getElementById("aheadButton").style.opacity=0;
 
 function exec(){
 	started=true;
-	document.getElementById("resetButton").style.opacity=1;
 	document.getElementById("aheadButton").style.opacity=1;
 	if(phase==0){
 		fixBox();

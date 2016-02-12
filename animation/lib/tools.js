@@ -616,7 +616,7 @@ function setBox(x,y,w,val,line,no){
 
 function fixBox(){
 	for(var i=0;i<boxCount;i++){
-		document.getElementById("box"+i).style.border="none";
+		//document.getElementById("box"+i).style.border="none";
 		document.getElementById("box"+i).style.pointerEvents="none";
 		document.getElementById("box"+i).style.zIndex=-1;
 		var x=Number(document.getElementById("box"+i).style.left.replace("px",""));
@@ -634,6 +634,15 @@ function fixBox(){
 			}
 		}
 		document.getElementById("box"+i).style.opacity=0;
+	}
+}
+
+function rebirthBox(){
+	for(var i=0;i<boxCount;i++){
+		//document.getElementById("box"+i).style.border="outset";
+		document.getElementById("box"+i).style.pointerEvents="auto";
+		document.getElementById("box"+i).style.zIndex=1;
+		document.getElementById("box"+i).style.opacity=1;
 	}
 }
 
@@ -669,6 +678,15 @@ function resetAll(){
 		component[i].attr("y",componentPos[i]);
 		component[i].attr("fill",componentCol[i]);
 	}
+	for(var i=0;i<boxList.htmlObj.length;i++){
+		remove(boxList.htmlObj[i]);
+	}
+	for(var i=0;i<boxList.jsObj.length;i++){
+		remove(boxList.jsObj[i]);
+	}
+	boxList.htmlObj=new Array();
+	boxList.hsObj=new Array();
+	rebirthBox();
 	for(var i=0;i<scrollCount.length;i++){
 		scrollCount[i]=0;
 	}
