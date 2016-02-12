@@ -1,6 +1,6 @@
 var count=0;
 var phase=0;
-parseText(0,'<!DOCTYPE html>\n<html>\n \n  <head>\n    <meta charset="utf-8">\n    <title>練習問題05-11</title>\n  </head>\n \n  <body>\n    <h1>イベントハンドラの練習</h1>\n    <input type="button" value="ここをクリック" onclick="alert(\'Hello, world!\');">\n  </body>\n \n</html>');
+parseText(0,'<!DOCTYPE html>\n<html>\n \n  <head>\n    <meta charset="utf-8">\n    <title>練習問題05-11</title>\n  </head>\n \n  <body>\n    <h1>　　　　　　　　　　　</h1>\n    <input type="button" value="　　　　　　　" onclick="alert(\'Hello, world!\');">\n  </body>\n \n</html>');
 //parseText(1,'function　student()　{\n　　var　f　=　\'不明\';\n　　var　x　=　document.getElementsByName(\'faculty\');\n　　var　i　=　0;\n　　while　(i　<　x.length)　{\n　　　　if　(x[i].checked)　{\n　　　　　　f　=　x[i].value;\n　　　　}\n　　　　i　=　i+1;\n　　}\n　　alert(f);\n}');
 setFrame(1,1,0);
 setText();
@@ -16,8 +16,8 @@ addComponent(labelUI(642,272,20,"","Hello,World!","black"));
 addVariable(component[0]);
 addVariable(component[2]);
 
-setBox(103,427,162,"イベントハンドラの練習",htmlText[9],0);
-setBox(257,450,103,"ここをクリック",htmlText[10],0);
+setBox(103,429,162,"イベントハンドラの練習",htmlText[9],0);
+setBox(257,452,103,"ここをクリック",htmlText[10],0);
 
 function update(){
 	if(started==true){
@@ -38,6 +38,7 @@ function draw(){
 			highlight(htmlText[9]);
 			setVisible(0,1);
 			setArrow(htmlText[9],component[0]);
+			scroll(0);
 			break;
 		case 1:
 			highlight(htmlText[10]);
@@ -67,6 +68,7 @@ function draw(){
 			break;
 		case 4:
 			alert("アニメーションが終了しました");
+			break;
 	}
 	phase++;
 }

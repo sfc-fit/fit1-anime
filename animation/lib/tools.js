@@ -31,6 +31,8 @@ var boxList={
 	"js":new Array(),
 	"pos":new Array(),
 	"line":new Array(),
+	"htmlObj":new Array(),
+	"jsObj":new Array(),
 	"exist":false
 };
 var highColor="#e8383d";
@@ -344,6 +346,10 @@ function setFrame(html,browser,js){
 	if(js>0){
 		frame.push(rectSoft(600,325,600,350,"#fff",1,"black",1));
 	}
+	for(var i=0;i<frame.length;i++){
+		frame[i].attr("fill","none");
+		frame[i].attr("pointerEvents","none");
+	}
 }
 
 var stringCounter = function(str,seq){
@@ -398,7 +404,7 @@ function setText(){
 	}
 }
 
-function scroll(no){
+function scroll(no,count){
 	if(no==0){
 		scrollCount[0]+=25;
 		for(var i=0;i<htmlText.length;i++){
@@ -407,7 +413,8 @@ function scroll(no){
 		for(var i=0;i<boxList["html"].length;i++){
 			var id="box"+boxList["html"][i];
 			var past=getBoxPos(id);
-			scrollBox(past-25,id);
+			scrollBox(0);
+			//scrollBox(past-25,id);
 		}
 		scrollArrow(25,0);
 	}
@@ -426,7 +433,8 @@ function scroll(no){
 		for(var i=0;i<boxList["js"].length;i++){
 			var id="box"+boxList["js"][i];
 			var past=getBoxPos(id);
-			scrollBox(past-25,id);
+			scrollBox(1);
+			//scrollBox(past-25,id);
 		}
 		scrollArrow(25,0);
 	}
@@ -450,8 +458,20 @@ function getBoxPos(id){
 	return Number(document.getElementById(id).style.top.replace("px",""));
 }
 
-function scrollBox(y,id){
-	document.getElementById(id).style.top=y;
+function scrollBox(no){
+	//document.getElementById(id).style.top=y;
+	if(no==0){
+		for(var i=0;i<boxList.htmlObj.length;i++){
+			var target=boxList.htmlObj[i];
+			trans(target,target.attr("x"),Number(target.attr("y"))-25,100);
+		}
+	}
+	if(no==1){
+		for(var i=0;i<boxList.jsObj.length;i++){
+			var target=boxList.jsObj[i];
+			trans(target,target.attr("x"),Nubmer(target.attr("y"))-25,100);
+		}
+	}
 }
 
 function checkText(){
@@ -499,7 +519,17 @@ function highlight(obj){
 	if(boxList.exist==true){
 		for(var i=0;i<boxList.line.length;i++){
 			if(obj.id==boxList.line[i]){
-				document.getElementById("box"+i).style.color=highColor;
+				for(var j=0;j<boxList.html.length;j++){
+					if(i==boxList.html[j]){
+						highlight(boxList.htmlObj[j]);
+					}
+				}
+				for(var j=0;j<boxList.js.length;j++){
+					if(i==boxList.js[j]){
+						highlight(boxList.jsObj[j]);
+					}
+				}
+				//document.getElementById("box"+i).style.color=highColor;
 			}
 		}
 	}
@@ -511,7 +541,18 @@ function defuse(obj){
 		if(boxList.exist==true){
 			for(var i=0;i<boxList.line.length;i++){
 				if(obj.id==boxList.line[i]){
-					document.getElementById("box"+i).style.color="black";
+					for(var j=0;j<boxList.html.length;j++){
+						if(i==boxList.html[j]){
+							defuse(boxList.htmlObj[j]);
+						}
+					}
+					for(var j=0;j<boxList.js.length;j++){
+						if(i==boxList.js[j]){
+							defuse(boxList.jsObj[j]);
+						}
+					}
+					//defuse(boxList.obj[i]);
+					//document.getElementById("box"+i).style.color="black";
 				}
 			}
 		}
@@ -552,10 +593,11 @@ function hideArrow(){
 function setBox(x,y,w,val,line,no){
 	document.write('<input type="text" id="box'+boxCount+'">');
 	document.getElementById("box"+boxCount).style.position="absolute";
-	document.getElementById("box"+boxCount).style.zIndex="1";
+	document.getElementById("box"+boxCount).style.zIndex=0;
 	document.getElementById("box"+boxCount).style.left=x;
 	document.getElementById("box"+boxCount).style.top=y;
 	document.getElementById("box"+boxCount).style.width=w;
+	document.getElementById("box"+boxCount).style.height=20;
 	document.getElementById("box"+boxCount).style.fontSize=13;
 	document.getElementById("box"+boxCount).value=val;
 	if(no==0){
@@ -570,6 +612,29 @@ function setBox(x,y,w,val,line,no){
 		boxList["exist"]=true;
 	}
 	boxCount++;
+}
+
+function fixBox(){
+	for(var i=0;i<boxCount;i++){
+		document.getElementById("box"+i).style.border="none";
+		document.getElementById("box"+i).style.pointerEvents="none";
+		document.getElementById("box"+i).style.zIndex=-1;
+		var x=Number(document.getElementById("box"+i).style.left.replace("px",""));
+		var y=Number(document.getElementById("box"+i).style.top.replace("px",""));
+		var val=document.getElementById("box"+i).value;
+		var fixVal=labelUI(x-7.5,y+7,15,"",val,"black");
+		for(var j=0;j<boxList.html.length;j++){
+			if(i==boxList.html[j]){
+				boxList.htmlObj.push(fixVal);
+			}
+		}
+		for(var j=0;j<boxList.js.length;j++){
+			if(i==boxList.js[j]){
+				boxList.jsObj.push(fixVal);
+			}
+		}
+		document.getElementById("box"+i).style.opacity=0;
+	}
 }
 
 function addVariable(obj){
