@@ -1,27 +1,71 @@
+//初期設定
 var count=0;
 var phase=0;
-parseText(0,'<!DOCTYPE html>\n<html>\n \n  <head>\n    <meta charset="utf-8">\n    <title>練習問題05-11</title>\n  </head>\n \n  <body>\n    <h1>　　　　　　　　　　　</h1>\n    <input type="button" value="　　　　　　　" onclick="alert(\'Hello, world!\');">\n  </body>\n \n</html>');
+
+//コード追加
+parseText(0,'<!DOCTYPE html>\n<html>\n \n  <head>\n    <meta charset="utf-8">\n    <title>練習問題05-11</title>\n  </head>\n \n  <body>\n    <h1>　　　　　　　　　　　</h1>\n    <input type="button" value="　　　　　　　" \nonclick="alert(\'　　　　　　\');">\n  </body>\n \n</html>');
 //parseText(1,'function　student()　{\n　　var　f　=　\'不明\';\n　　var　x　=　document.getElementsByName(\'faculty\');\n　　var　i　=　0;\n　　while　(i　<　x.length)　{\n　　　　if　(x[i].checked)　{\n　　　　　　f　=　x[i].value;\n　　　　}\n　　　　i　=　i+1;\n　　}\n　　alert(f);\n}');
+
+//フレーム設定
 setFrame(1,1,0);
+
+//コードをセット
 setText();
+
+//フレーム名を設定
 setLabels("ex05-11.html","file:///hoge/ex05-11.html","");
-addComponent(labelUI(630,100,25,"","イベントハンドラの練習","black"));
-addComponent(rectSoft(630,150,100,50,"#ccc",0,"black",1));
-addComponent(labelUI(635,180,13,"","ここをクリック","black"));
-addComponent(rectHard(770,135,330,70,"#fff",0,"black",1))
-addComponent(labelUI(795,180,23,"",'onclick="　　　　　　　　 "',"black"));
-addComponent(labelUI(885,180,23,"","alert('Hello,World!')","black"));
-addComponent(rectHard(630,230,130,70,"#fff",0,"black",1));
-addComponent(labelUI(642,272,20,"","Hello,World!","black"));
-addVariable(component[0]);
-addVariable(component[2]);
 
-setBox(103,429,162,"イベントハンドラの練習",htmlText[9],0);
-setBox(257,452,103,"ここをクリック",htmlText[10],0);
+/*
+コンポーネント追加
+上から順に配列に格納していく
+component[num]で参照できる
+後に書いたものほど手前に表示される点に注意
+*/
+addComponent(labelUI(630,80,25,"","イベントハンドラの練習","black"));		//component[0]
+addComponent(rectSoft(630,130,100,50,"#ccc",0,"black",1));				//component[1]
+addComponent(labelUI(635,160,15,"","ここをクリック","black"));				//component[2]
+addComponent(rectDot(885,115,100,70,"#fff",1,"black",1));				//component[3]
+addComponent(labelUI(895,160,23,"",'onclick=alert("　")',"black"));				//component[4]
+addComponent(labelUI(1050,160,23,"","","black"));	//component[5]
+addComponent(rectHard(630,210,130,70,"#fff",0,"black",1));				//component[6]
+addComponent(labelUI(635,252,20,"","Hello,World","black"));				//component[7]
 
+/*
+リレーション設定
+第一引数に、onclick="　　　"のような空白を含むテキスト
+第二引数に、クオーテーションの中に入れたいテキスト
+中身に応じて、空白部分が伸びる
+*/
+reQuotation(component[4],component[5]);
+reQuotation(component[6],component[7]);
+reQuotation(component[3],component[4]);
+reQuotation(component[1],component[2]);
+
+/*
+可変コンポーネント追加
+第二引数で指定したテキストボックスの内容が反映されるようになる
+*/
+addVariable(component[0],0);
+addVariable(component[2],1);
+addVariable(component[5],2);
+addVariable(component[7],2);
+
+//影指定
+addShadow(component[4]);
+addShadow(component[5]);
+
+/*
+テキストボックス作成
+引数はx,y,width,初期値,対応する行,対象コード(0:html,1:js)
+*/
+setBox(105,440,162,"イベントハンドラの練習",htmlText[9],0);
+setBox(260,465,103,"ここをクリック",htmlText[10],0);
+setBox(167,491,90,"Hello,world!",htmlText[11],0);
+
+//毎フレーム呼ばれる関数
 function update(){
 	if(started==true){
-		if(count%5==0){
+		if(count%3==0){
 			checkText();
 		}
 		if(count%60==0&&phase<5&&auto==true){
@@ -31,23 +75,29 @@ function update(){
 	}
 }
 
+/*
+描画関数
+updateから一定時間ごとに呼ばれる
+次へボタンを押したときにも呼ばれる
+アニメーションの設定を書く
+*/
 function draw(){
 	switch(phase){
 		case 0:
-			showArrow();
-			highlight(htmlText[9]);
-			setVisible(0,1);
-			setArrow(htmlText[9],component[0]);
+			showArrow();							//矢印表示
+			highlight(htmlText[9]);					//テキストハイライト
+			setVisible(0,1);						//コンポーネント表示
+			setArrow(htmlText[9],component[0]);		//矢印位置調整
 			break;
 		case 1:
 			highlight(htmlText[10]);
 			highlight(htmlText[11]);
-			defuse(htmlText[9]);
+			defuse(htmlText[9]);					//テキストハイライト解除
 			setVisible(1,1);
 			setVisible(2,1);
-			setVisible(3,0.1);
 			setVisible(4,1);
-			setVisible(5,0.1);
+			setVisible(5,1);
+			setVisible(3,1);
 			setArrow(htmlText[10],component[1]);
 			break;
 		case 2:
@@ -55,24 +105,28 @@ function draw(){
 			defuse(htmlText[11]);
 			highlight(component[1]);
 			highlight(component[5]);
-			hideArrow();
+			hideArrow();							//矢印非表示
 			break;
 		case 3:
 			defuse(component[1]);
 			setVisible(6,1);
 			setVisible(7,1);
-			setArrow(component[5],component[6]);
+			setArrow(component[5],component[7]);
 			showArrow();
-			scroll(1);
+			scroll(1);								//スクロール
 			break;
 		case 4:
 			alert("アニメーションが終了しました");
-			setReset();
+			end();									//アニメーション終了
 			break;
 	}
-	phase++;
+	phase++;									
 }
 
+/*
+リセット関数
+リセットボタンに反応
+*/
 function reset(){
 	count=0;
 	phase=0;
