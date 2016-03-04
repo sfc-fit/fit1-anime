@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>ex06-1</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <script src="snap.svg-min.js"></script>
+    <script src="functionInterface.js"></script>
+    <script type="text/javascript">
+    var svgSize = 1200;
+    var SVG = Snap(svgSize, svgSize);
+    var SVGAry = new Array(), SVGPushLog = new Array();
+    var animationStepIndex = 0, debugAnimationIndex = 0, animationSpeed = 400;
+    animationStepIndex += debugAnimationIndex;
+    setAllData();
+    // setGridChart(); // draw grid SVG for animation and debugging.
+    (function animationLoop(){
+	    callAnimation();
+	    window.setTimeout(animationLoop, 2000);
+    }());
+
+    console.log("exit-status : 0");
+    
+    </script>
+  </body>
+</html>
