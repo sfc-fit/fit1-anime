@@ -160,7 +160,7 @@ function setTextRectangle(x, y, width, title, strAry){
     }
 }
 
-function setAllData(){
+function setAllSVGData(){
     
     setTitleAreaRectangle(300, 50, 400, 250,
 			  "file:///hoge/ex06-1.html",
@@ -225,8 +225,7 @@ var callAnimation = function(){
 	execArrowAnimation("SecondArrow", 1, { opacity: 1 });
 	break;
     case 7:
-	execAnimation("SecondText", "指定されたスクリプトファイルが読み込まれる", 1,
-		      { opacity: 1, strokeWidth: 1 });
+	execAnimation("SecondText", "指定されたスクリプトファイルが読み込まれる", 1, { opacity: 1, strokeWidth: 1 });
 	break;
     case 8:
 	execAnimation("FunctionBallon", "line", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
@@ -234,14 +233,12 @@ var callAnimation = function(){
 	execAnimation("FunctionBallon", "function sayhello()", 1, { stroke: "black", strokeWidth: 0, opacity: 1 });
 	break;
     case 9:
-	execAnimation("RegisterFunction", "関数の登録", 1,
-		      { stroke: "black", strokeWidth: 1, opacity: 1 });
+	execAnimation("RegisterFunction", "関数の登録", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
 	break;
     case 10:
 	execAnimation("FunctionBallon", "line", 1, { opacity: 0 });
 	execAnimation("ex06-1.js", "title", 1, { stroke: "black", strokeWidth: 0 });
-	execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>",
-		      1, { stroke: "black", strokeWidth: 0 });
+	execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>", 1, { stroke: "black", strokeWidth: 0 });
 	execArrowAnimation("FirstArrow", 1, { opacity: 0 });
 	execArrowAnimation("SecondArrow", 1, { opacity: 0 });
 	execAnimation("FirstText", "スクリプトファイルの指定", 1, { opacity: 0 });
@@ -251,8 +248,7 @@ var callAnimation = function(){
     case 11:
 	break;
     case 12:
-	execAnimation("ex06-1.html", "<h1> 関数の練習 </h1>", 1,
-		      { strokeWidth: 1, stroke: "red", fill: "black" });
+	execAnimation("ex06-1.html", "<h1> 関数の練習 </h1>", 1, { strokeWidth: 1, stroke: "red", fill: "black" });
 	break;
     case 13:
 	execArrowAnimation("ThirdArrow", 1, { opacity: 1 });
@@ -270,10 +266,8 @@ var callAnimation = function(){
     case 17:
 	break;
     case 18:
-	execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"",
-		      1,  { strokeWidth: 1, fill: "black", stroke: "red" });
-	execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">",
-		      1, { strokeWidth: 1, fill: "black", stroke: "red" });
+	execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1,  { strokeWidth: 1, fill: "black", stroke: "red" });
+	execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">", 1, { strokeWidth: 1, fill: "black", stroke: "red" });
 	break;
     case 19:
 	execArrowAnimation("ClickHere", 1, { opacity: 1 });
@@ -287,10 +281,8 @@ var callAnimation = function(){
 	break;
     case 22:
 	execArrowAnimation("ClickHere", 1, { opacity: 0 });
-	execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1,
-		      { stroke: "black", fill: "black", strokeWidth: 0 });
-	execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">", 1,
-		      { stroke: "black", fill: "black", strokeWidth: 0 });
+	execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
+	execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
 	break;
     case 23:
 	execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "red", stroke: "red", strokeWidth: 1 });
@@ -367,8 +359,7 @@ var callAnimation = function(){
 	execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue" });
 	break;
     case 43:
-	execAnimation("ex06-1.js", "alert('Hello, world!);", 1,
-		      { fill: "black", stroke: "black", strokeWidth: 0, opacity: 1 });
+	execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { fill: "black", stroke: "black", strokeWidth: 0, opacity: 1 });
 	execArrowAnimation("alertArrow", 1, { opacity: 0 });
 	execAnimation("HelloWorldRect", "rect", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1, opacity: 0 });
 	execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue", opacity: 0 });
@@ -380,11 +371,203 @@ var callAnimation = function(){
     animationStepIndex++;
 };
 
+function setUpDefaultFunctionAry(){
+    AnimationFunctionAry = [
+	function(){
+	    execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>", 1, { fill: "black", stroke: "red", strokeWidth: 2 });
+	},
+	function(){
+	    execArrowAnimation("FirstArrow", 1, { opacity: 1 });
+	},
+	function(){
+	    execAnimation("FirstText", "スクリプトファイルの指定", 1, { opacity: 1, strokeWidth: 1 });
+	},
+	function(){
+	    execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>", 1, { fill: "black", stroke: "black", strokeWidth: 1 });
+	},
+	function(){
+	    execAnimation("ex06-1.js", "title", 1, { fill: "black", stroke: "red", strokeWidth: 2 });
+	},
+	function(){
+	    execArrowAnimation("SecondArrow", 1, { opacity: 1 });
+	},
+	function(){
+	    execAnimation("SecondText", "指定されたスクリプトファイルが読み込まれる", 1, { opacity: 1, strokeWidth: 1 });
+	},
+	function(){
+	    execAnimation("FunctionBallon", "line", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	    execAnimation("FunctionBallon", "eclipse", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	    execAnimation("FunctionBallon", "function sayhello()", 1, { stroke: "black", strokeWidth: 0, opacity: 1 });
+	},
+	function(){
+	    execAnimation("RegisterFunction", "関数の登録", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	},
+	function(){
+	    execAnimation("FunctionBallon", "line", 1, { opacity: 0 });
+	    execAnimation("ex06-1.js", "title", 1, { stroke: "black", strokeWidth: 0 });
+	    execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>", 1, { stroke: "black", strokeWidth: 0 });
+	    execArrowAnimation("FirstArrow", 1, { opacity: 0 });
+	    execArrowAnimation("SecondArrow", 1, { opacity: 0 });
+	    execAnimation("FirstText", "スクリプトファイルの指定", 1, { opacity: 0 });
+	    execAnimation("SecondText", "指定されたスクリプトファイルが読み込まれる", 1, { opacity: 0 });
+	    execAnimation("RegisterFunction", "関数の登録", 1, { strokeWidth: 0 });
+	},
+	function(){
+	    execAnimation("ex06-1.html", "<h1> 関数の練習 </h1>", 1, { strokeWidth: 1, stroke: "red", fill: "black" });
+	},
+	function(){
+	    execArrowAnimation("ThirdArrow", 1, { opacity: 1 });
+	},
+	function(){
+	    execAnimation("ThirdText", "関数の練習", 1, { opacity: 1, stroke: 1, strokeWidth: 1 });
+	},
+	function(){
+	    execAnimation("ex06-1.html", "<h1> 関数の練習 </h1>", 1, { stroke: "black", strokeWidth: 0 });
+	    execAnimation("ThirdText", "関数の練習", 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    execArrowAnimation("ThirdArrow", 1, { opacity: 0 });
+	},
+	function(){ 
+	    execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1,  { strokeWidth: 1, fill: "black", stroke: "red" });
+	    // 条件分岐	    
+	    execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">", 1, { strokeWidth: 1, fill: "black", stroke: "red" });
+	},
+	function(){
+	    execArrowAnimation("ClickHere", 1, { opacity: 1 });
+	},
+	function(){
+	    execAnimation("ClickHereRect", "rect", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	    execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "white", stroke: "black", strokeWidth: 1, opacity: 1 });
+	},
+	function(){
+	    execAnimation("onclick", "tspan", 1, { opacity: 1 });
+	},
+	function(){
+	    execArrowAnimation("ClickHere", 1, { opacity: 0 });
+	    execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
+	    /* 条件分岐 */
+	    execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
+	},
+	function(){
+	    execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    execAnimation("ClickHereRect", "rect", 1, { fill: "pink", stroke: "red", strokeWidth: 1 });
+	},
+	function(){
+	    execArrowAnimation("fromClickHere", 1, { opacity: 1 });
+	},
+	function(){ /* tspan */
+	    execStringAnimationByTspan("onclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
+	},
+	function(){ /* tspan */
+	    execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "black", stroke: "black", strokeWidth: 1 });
+	    execAnimation("ClickHereRect", "rect", 1, { fill: "white", stroke: "black", strokeWidth: 1 });			    
+	    execArrowAnimation("fromClickHere", 1, { opacity: 0 });
+	},
+	function(){
+	    execArrowAnimation("ForthArrow", 1, { opacity: 1 });
+	},
+	function(){
+	    execArrowAnimation("ForthArrow", 1, { opacity: 0 });
+	    execArrowAnimation("FifthArrow", 1, { opacity: 1 });
+	},
+	function(){
+	    execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { fill: "black", stroke: "red", strokeWidth: 1 });
+	},
+	function(){
+	    execArrowAnimation("FifthArrow", 1, { opacity: 0 });
+	    execArrowAnimation("alertArrow", 1, { opacity: 1 });
+	},
+	function(){
+	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 1 });
+	},
+	function(){
+	    execArrowAnimation("alertArrow", 1, { opacity: 0 });
+	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "red", fill: "pink", strokeWidth: 1 });
+	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "pink", stroke: "red" });
+	},
+	function(){
+	    /* tspan */
+	    execStringAnimationByTspan("onclick", 1, 1, { fill: "black", strokeWidth: 0 });
+	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", fill: "white", strokeWidth: 1, opacity: 0 });
+	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 0 });
+	    execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
+	},
+	function(){
+	    /* tspan */
+	    execStringAnimationByTspan("onclick", 1, 2, { stroke: "blue", fill: "black", strokeWidth: 1 });
+	},
+	function(){
+	    execArrowAnimation("ForthArrow", 1, { opacity: 1});
+	},
+	function(){
+	    execArrowAnimation("ForthArrow", 1, { opacity: 0 });
+	    execArrowAnimation("FifthArrow", 1, { opacity: 1 });
+	},
+	function(){
+	    execArrowAnimation("FifthArrow", 1, { opacity: 0 });
+	    execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { fill: "black", stroke: "blue", strokeWidth: 1 });
+	},
+	function(){
+	    execArrowAnimation("alertArrow", 1, { opacity: 1 });
+	},
+	function(){
+	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 1 });
+	},
+	function(){
+	    execArrowAnimation("alertArrow", 1, { opacity: 0 });
+	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1 });
+	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue" });
+	},
+	function(){
+	    execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { fill: "black", stroke: "black", strokeWidth: 0, opacity: 1 });
+	    execArrowAnimation("alertArrow", 1, { opacity: 0 });
+	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1, opacity: 0 });
+	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue", opacity: 0 });
+	    execStringAnimationByTspan("onclick", 1, 2, { stroke: "black", fill: "black", strokeWidth: 0 });
+	}
+    ];
+}
+
 function execTextRectAnimation(id, str, timesAry, jsonAry){
     execAnimation(id, "rect", timesAry[0], jsonAry[0]);
     execAnimation(id, str, timesAry[1], jsonAry[1]);
 }
 
-function drawArc(id, x, path, json){
-    
+function setArc(){
+    // var p = "M 75,125 A 60,40 15 1,0 125,75";
+    var startX, startY, endX, endY;
+    startX = 560; startY = 320;
+    endX = 520; endY = 330;
+    var p = "M " + startX + "," + startY + " A 30,25, 15, 1,1 " + endX + "," + endY;
+    var markerShape = SVG.path("M0,0L8,5L0,10L4,5z").attr({ fill: "black", opacity: 1 });
+    var tip = markerShape.marker(0, 0, 10, 10, 5, 5);
+    var tmp = SVG.path(p)
+	    .attr({ fill: "white", stroke: "black", strokeWidth: 2, markerEnd: tip });
+    SVGAry.push(tmp);
+    SVGPushLog.push(["load", "arc"]);
+}
+
+function generateDescriptiveJson(descriptiveOrder){
+    var mergedJSON = { };
+    var description;
+    for(var i = 0; i < descriptiveJson.length; i++){
+	description = descriptiveJson[i];
+	switch(description){
+	case "":
+	    break;
+	case "":
+	    break;
+	case "":
+	    break;
+	case "":
+	    break;
+	case "":
+	    break;
+	default:
+	    alert("failed to find your descriptive order : " + description);
+	    break;
+	}
+    }
+    return mergedJSON;
 }
