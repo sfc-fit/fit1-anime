@@ -14,22 +14,11 @@
     var animationStepIndex = 0, debugAnimationIndex = 0, animationSpeed = 400;
     animationStepIndex += debugAnimationIndex;
     setAllData();
-    /* 
-    setTspanStrs("SnapSVG", 10, 50, ["Snap.svg", " ", "is", " ", "great!"], { fill: "black", fontSize: "50px" });
-    execStringAnimationByTSPAN("SnapSVG", 1, 2, { fill: "red", fontSize: "30px"});
-    execStringAnimationByTSPAN("SnapSVG", 1, 4, { fill: "red", fontSize: "30px"});
-    setTspanStrs("Second", 10, 100,
-	    ["My", " ", "name", " ", "is", " ", "Takamichi"],
-	    { fill: "black" , fontSize: "20px" });
-    execStringAnimationByTSPAN("Second", 1, 0, { fill: "red", fontSize: "30px" });
-     */
-    
     // setGridChart(); // draw grid SVG for animation and debugging.
     (function animationLoop(){
 	    callAnimation();
 	    window.setTimeout(animationLoop, 2000);
     }());
-    // console.log("exit-status : 0");
     
     </script>
   </body>
