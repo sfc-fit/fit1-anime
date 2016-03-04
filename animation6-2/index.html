@@ -16,10 +16,7 @@
     var SVGAry = new Array(), SVGPushLog = new Array(), AnimationFunctionAry = new Array();
     var animationStepIndex = 0, debugAnimationIndex = 0, animationSpeed = 400;
     animationStepIndex += debugAnimationIndex;
-    setAllSVGData();
-    // setArc(); // test method.
-    // setGridChart(); // draw grid SVGs.
-    setUpDefaultFunctionAry();
+    init();
     (function animationLoop(){
 	    if(AnimationFunctionAry.length > 0){
 		    AnimationFunctionAry.shift()();
