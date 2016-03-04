@@ -8,6 +8,19 @@ function changeJSONAttr(id, str, times, json)
     SVGAry[index].animate(json, 0);
 }
 
+
+function setTspanStrs(id,  x, y, strAry, json){
+    var svgStrAryText = SVG.text(x, y, strAry).attr(json);
+    SVGAry.push(svgStrAryText);
+    SVGPushLog.push([id, "tspan"]);
+}
+
+function execStringAnimationByTSPAN(id, times, strIndex, json){
+    var svgElement;
+    var i = searchSVGElementIndex(id, "tspan", times);
+    SVGAry[i].selectAll("tspan")[strIndex].animate(json, animationSpeed);
+}
+
 function execAnimation(id, str, times, json)
 {
     var index = searchSVGElementIndex(id, str, times);
@@ -91,7 +104,7 @@ function setRect(id, x1, y1, charSize ,space, curve, text){
     var msg = SVG.text(x1 + 15, y1 + 21, text).attr({ strokeWidth: 2, stroke: "black", opacity: 0});
     SVGAry.push(r);
     SVGAry.push(msg);
-    SVGPushLog.push([id, "rec"]);
+    SVGPushLog.push([id, "rect"]);
     SVGPushLog.push([id, text]);
 }
 
@@ -127,7 +140,7 @@ function setTitleAreaRectangle(x, y, width, height, title, text)
     SVGAry.push(rec);
     SVGPushLog.push([title, "line"]);
     SVGPushLog.push([title, "title"]);
-    SVGPushLog.push([title, "rec"]);
+    SVGPushLog.push([title, "rect"]);
 }
 
 function setTextRectangle(x, y, width, title, strAry){
@@ -137,7 +150,7 @@ function setTextRectangle(x, y, width, title, strAry){
     var titleX = x + 10 , titleY = y - 9;
     SVGAry.push(SVG.rect(x, y, width, height).attr({ fill: "white", strokeWidth: 2, stroke: "black" })); // the frame of text.
     SVGAry.push(SVG.text(titleX, titleY, title)); // the element of title text.
-    SVGPushLog.push([title, "rec"]);
+    SVGPushLog.push([title, "rect"]);
     SVGPushLog.push([title, "title"]);
     for(var i = 0; i < strAry.length; i++){
 	lineX = x + 10;
@@ -271,7 +284,7 @@ var callAnimation = function(){
 	execArrowAnimation("ClickHere", 1, { opacity: 1 });
 	break;
     case 20:
-	execAnimation("ClickHereRect", "rec", 1,
+	execAnimation("ClickHereRect", "rect", 1,
 		      { stroke: "black", strokeWidth: 1, opacity: 1 });
 	execAnimation("ClickHereRect", "ここをクリック", 1,
 		      { fill: "white", stroke: "black", strokeWidth: 1, opacity: 1 });
@@ -292,7 +305,7 @@ var callAnimation = function(){
 	// ボタンのクリック(第一回目)
 	// break;
 	execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "red", stroke: "red", strokeWidth: 1});
-	execAnimation("ClickHereRect", "rec", 1, { fill: "pink", stroke: "red", strokeWidth: 1 });
+	execAnimation("ClickHereRect", "rect", 1, { fill: "pink", stroke: "red", strokeWidth: 1 });
 	break;
     case 24:
 	execArrowAnimation("fromClickHere", 1, { opacity: 1 });
@@ -303,7 +316,7 @@ var callAnimation = function(){
 	break;
     case 26:
 	execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "black", stroke: "black", strokeWidth: 1});
-	execAnimation("ClickHereRect", "rec", 1, { fill: "white", stroke: "black", strokeWidth: 1 });			    
+	execAnimation("ClickHereRect", "rect", 1, { fill: "white", stroke: "black", strokeWidth: 1 });			    
 	execArrowAnimation("fromClickHere", 1, { opacity: 0 });
 	break;
     case 27:
@@ -324,16 +337,16 @@ var callAnimation = function(){
 	execArrowAnimation("alertArrow", 1, { opacity: 1 });
 	break;
     case 32:
-	execAnimation("HelloWorldRect", "rec", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
 	execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 1 });
 	break;
     case 33:
 	execArrowAnimation("alertArrow", 1, { opacity: 0 });
-	execAnimation("HelloWorldRect", "rec", 1, { stroke: "red", fill: "pink", strokeWidth: 1 });
+	execAnimation("HelloWorldRect", "rect", 1, { stroke: "red", fill: "pink", strokeWidth: 1 });
 	execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "pink", stroke: "red" });
 	break;
     case 34:
-	execAnimation("HelloWorldRect", "rec", 1, { stroke: "black", fill: "white", strokeWidth: 1, opacity: 0 });
+	execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", fill: "white", strokeWidth: 1, opacity: 0 });
 	execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 0 });
 	execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
 	execAnimation("onclickFunc1", "sayhello();", 1, { opacity: 0 });
@@ -359,12 +372,12 @@ var callAnimation = function(){
 	execArrowAnimation("alertArrow", 1, { opacity: 1 });
 	break;
     case 41:
-	execAnimation("HelloWorldRect", "rec", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
 	execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 1 });
 	break;
     case 42:
 	execArrowAnimation("alertArrow", 1, { opacity: 0 });
-	execAnimation("HelloWorldRect", "rec", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1 });
+	execAnimation("HelloWorldRect", "rect", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1 });
 	execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue" });
 	break;
     case 43:
@@ -372,7 +385,7 @@ var callAnimation = function(){
 		      { fill: "black", stroke: "black", strokeWidth: 0, opacity: 1 });
 	execAnimation("onclickFunc2", "sayhello();", 1, { fill: "black", stroke: "blue", strokeWidth: 1, opacity: 0 });
 	execArrowAnimation("alertArrow", 1, { opacity: 0 });
-	execAnimation("HelloWorldRect", "rec", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1, opacity: 0 });
+	execAnimation("HelloWorldRect", "rect", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1, opacity: 0 });
 	execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue", opacity: 0 });
 	break;
     default:
@@ -381,10 +394,11 @@ var callAnimation = function(){
     animationStepIndex++;
 };
 
-function execTextRectAnimation(){
-    
+function execTextRectAnimation(id, str, timesAry, jsonAry){
+    execAnimation(id, "rect", timesAry[0], jsonAry[0]);
+    execAnimation(id, str, timesAry[1], jsonAry[1]);
 }
 
-function execStringAnimationByTSPAN(){
+function drawArc(id, x, path, json){
     
 }
