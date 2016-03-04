@@ -191,7 +191,7 @@ function setAllData(){
 var callAnimation = function(){
     switch(animationStepIndex){
     case 0:
-	alert("JavaScriptソースコードの読み込み");
+	// alert("JavaScriptソースコードの読み込み");
 	break;
     case 1:
 	execAnimation("ex06-1.html",
@@ -239,7 +239,7 @@ var callAnimation = function(){
 	execAnimation("RegisterFunction", "関数の登録", 1, { strokeWidth: 0 });
 	break;
     case 11:
-	alert("h1タブの読み込み");
+	// alert("h1タブの読み込み");
 	break;
     case 12:
 	// Second Stage of the Animation.
@@ -259,7 +259,7 @@ var callAnimation = function(){
 	execAnimation("ThirdText", "関数の練習", 1, { fill: "black", stroke: "black", strokeWidth: 0 });
 	break;
     case 17:
-	alert("inputタグの読み込み");
+	// alert("inputタグの読み込み");
 	break;
     case 18:
 	execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"",
