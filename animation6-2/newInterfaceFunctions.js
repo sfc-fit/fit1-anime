@@ -201,7 +201,6 @@ function setAllSVGData(){
     var twiceID = "onclick=\"sayhello();sayhello();\">";
     var dummyTag = "<d>dummy</d>";
     var dummyIndex = searchSVGElementIndex(html, dummyTag);
-
     var html = ["<!DOCTYPE html>",
 		"<html>", "", "<head>",
 		"<meta charset=\"utf-8\">",
@@ -213,13 +212,9 @@ function setAllSVGData(){
 		"<input type=\"button\" value=\"ここをクリック\"",
 		"onclick=\"sayhello();sayhello();\">", // dummyTag,
 		"</body>", "", "</html>"];
-    
-    setTitleAreaRectangle(300, 50, 400, 250,
-			  "file:///hoge/ex06-1.html", [ ]);
+    setTitleAreaRectangle(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
     setTextRectangle(50, 390, 400, "ex06-1.html", html);
-    setTextRectangle(600, 390, 300,
-		     "ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
-    
+    setTextRectangle(600, 390, 300,"ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
     setArrow("FirstArrow", 250, 540, 420, 250);
     setText("FirstText", 155, 340, "スクリプトファイルの指定");
     setArrow("SecondArrow", 650, 350, 550, 250);
@@ -230,25 +225,34 @@ function setAllSVGData(){
     setText("ThirdText", 325, 145, "関数の練習");
     setArrow("ClickHere", 300, 650, 370, 230);
     setRect("ClickHereRect", 325, 180, 15, 40, 5, "ここをクリック");
-    setTspanStrs("onclick", 485, 250, ["onclick=\"", "sayhello();", "sayhello();", "\""],
-		 { stroke: "black", strokeWidth: 0, opacity: 0 });
+    setTspanStrs("onclick", 485, 250, ["onclick=\"", "sayhello();", "sayhello();", "\""], { stroke: "black", strokeWidth: 0, opacity: 0 });
     setArrow("ForthArrow", 485 + 245, 240, 790, 220);
     setArrow("alertArrow", 580, 410, 450, 310);
     setArrow("FifthArrow", 850, 235, 750, 380);
     setArrow("fromClickHere", 460, 200, 550, 230);
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
-
     makeButton("Automatic", 180, 135, 30,
 	       function(){
-		   execAnimation("Manual", "button", 1, { opacity: 0});
+		   if(executed == false){
+		       execAnimation("Manual", "button", 1, { opacity: 0 });
+		       execAnimation("ManualButtonStr", "手動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
+		       executed = true;
+		   }
 		   execManager({ state : 0 });
 	       }, { fill: "white", stroke: "black", strokeWidth: 2 });
     makeButton("Manual", 180, 250, 30,
 	       function(){
-		   execAnimation("Automatic", "button", 1, { opacity: 0});
+		   if(executed == false){
+		       execAnimation("Automatic", "button", 1, { opacity: 0 });
+		       execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
+		       executed = true;
+		   }
 		   execManager({ state : 1 });
 	       }, { fill: "white", stroke: "black", strokeWidth: 2 });
-    // setText(id, x1, y1, str)
+    setText("AutomaticButtonStr", 163, 140, "自動");
+    execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1});
+    setText("ManualButtonStr", 163, 255, "手動");
+    execAnimation("ManualButtonStr", "手動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1});
 }
 
 function setUpDefaultFunctionAry(){
