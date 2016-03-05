@@ -236,6 +236,8 @@ function setAllSVGData(){
 		   if(executed == false){
 		       execAnimation("Manual", "button", 1, { opacity: 0 });
 		       execAnimation("ManualButtonStr", "手動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
+		       execAnimation("Automatic", "button", 1 , { fill : "aquamarine", stroke: "green" });
+		       execAnimation("AutomaticButtonStr", "自動", 1, { fill: "green", stroke: "green" });
 		       executed = true;
 		   }
 		   execManager({ state : 0 });
@@ -245,6 +247,8 @@ function setAllSVGData(){
 		   if(executed == false){
 		       execAnimation("Automatic", "button", 1, { opacity: 0 });
 		       execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
+		       execAnimation("Manual", "button", 1 , { fill : "aquamarine", stroke: "green" });
+		       execAnimation("ManualButtonStr", "手動", 1, { fill: "green", stroke: "green" });
 		       executed = true;
 		   }
 		   execManager({ state : 1 });
@@ -407,6 +411,9 @@ function setUpDefaultFunctionAry(){
 	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1, opacity: 0 });
 	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue", opacity: 0 });
 	    execStringAnimationByTspan("onclick", 1, 2, { stroke: "black", fill: "black", strokeWidth: 0 });
+	},
+	function(){
+	    alert("アニメーションは終了しました。");
 	}
     ];
 }
