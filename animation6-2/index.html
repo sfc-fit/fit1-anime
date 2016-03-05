@@ -4,26 +4,16 @@
     <meta charset="UTF-8">
   </head>
   <body>
-    <!--
-    <input type="radio" name = "function" value="Once">Once</input>
-    <input type="radio" name="function" value="Twice">Twice</input>
-    -->
     <script src="snap.svg-min.js"></script>
     <script src="newInterfaceFunctions.js"></script>
     <script type="text/javascript">
     var svgSize = 1200;
     var SVG = Snap(svgSize, svgSize);
     var SVGAry = new Array(), SVGPushLog = new Array(), AnimationFunctionAry = new Array();
-    var animationStepIndex = 0, debugAnimationIndex = 0, animationSpeed = 400;
-    animationStepIndex += debugAnimationIndex;
+    var animationStepIndex = 0, debugAnimationIndex = 0; animationStepIndex += debugAnimationIndex;
+    var animationSpeed = 400, executionState = 0;
     init();
-    (function animationLoop(){
-	    if(AnimationFunctionAry.length > 0){
-		    AnimationFunctionAry.shift()();
-	    }
-	    window.setTimeout(animationLoop, 2000);
-    }());
-    // console.log('exit status : 0');
+    console.log('exit status : 0');
     </script>
   </body>
 </html>

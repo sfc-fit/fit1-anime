@@ -1,4 +1,11 @@
 
+function makeButton(id, x, y, size, event, json){
+    var button = SVG.circle(x, y, size).attr(json);
+    button.click(event);
+    SVGAry.push(button);
+    SVGPushLog.push([id, "button"]);
+}
+
 function execEffectSVGIndexes(id1, str1, times1, id2, str2, times2, effectJson, sec){
     var from = searchSVGElementIndex(id1, str1, times1);
     var to = searchSVGElementIndex(id2, str2, times2);
@@ -146,7 +153,7 @@ function setArrow(id, x1, y1, x2, y2){
 
 function setTitleAreaRectangle(x, y, width, height, title, text)
 {
-    var rec = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2 });
+    var rec = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
     var line = SVG.path("M " + x + " "+ (y + 30) + " h " + width).attr({ stroke: "black", strokeWidth: 2 });
     var text = SVG.text(x + 10, y + 21, title);
     SVGAry.push(line); SVGPushLog.push([title, "line"]);
@@ -159,7 +166,7 @@ function setTextRectangle(x, y, width, title, strAry){
     var height = strAry.length * 23 + space; // the height of text area.
     var lineX, lineY, firstLine = y + 27;
     var titleX = x + 10 , titleY = y - 9;
-    SVGAry.push(SVG.rect(x, y, width, height).attr({ fill: "white", strokeWidth: 2, stroke: "black" })); // the frame of text.
+    SVGAry.push(SVG.rect(x, y, width, height).attr({ fill: "white", strokeWidth: 2, stroke: "black", r: 5 })); // the frame of text.
     SVGAry.push(SVG.text(titleX, titleY, title)); // the element of title text.
     SVGPushLog.push([title, "rect"]);
     SVGPushLog.push([title, "title"]);
@@ -174,7 +181,7 @@ function setTextRectangle(x, y, width, title, strAry){
 function init(){
     setAllSVGData();
     // setArc(); // test method.
-    // setGridChart(); // draw grid SVGs.
+    setGridChart(); // draw grid SVGs.
     setUpDefaultFunctionAry();
     // execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 0 }, 0);
 }
@@ -185,29 +192,31 @@ function searchTextAryIndex(stringAry, str){
 	    return i;
 	}
     }
-    return -1;
+    alert("failed to find 'dummy' tag.");
 }
 
 function setAllSVGData(){
+    
+    var onceID = "onclick=\"sayhello();\"";
+    var twiceID = "onclick=\"sayhello();sayhello();\">";
+    var dummyTag = "<d>dummy</d>";
+    var dummyIndex = searchSVGElementIndex(html, dummyTag);
 
-    var htmlText = [];
-    var dummyTag = "<d>d</d>";
+    var html = ["<!DOCTYPE html>",
+		"<html>", "", "<head>",
+		"<meta charset=\"utf-8\">",
+		"<title> 練習問題06-1 </title>",
+		"<script src=\"ex06-1.js\"><\/script>",
+		"</head>", "",
+		"<body>",
+		"<h1> 関数の練習 </h1>",
+		"<input type=\"button\" value=\"ここをクリック\"",
+		"onclick=\"sayhello();sayhello();\">", // dummyTag,
+		"</body>", "", "</html>"];
     
     setTitleAreaRectangle(300, 50, 400, 250,
-			  "file:///hoge/ex06-1.html",
-			  [ ]);
-    setTextRectangle(50, 390, 400,
-		     "ex06-1.html", ["<!DOCTYPE html>",
-				     "<html>", "", "<head>",
-				     "<meta charset=\"utf-8\">",
-				     "<title> 練習問題06-1 </title>",
-				     "<script src=\"ex06-1.js\"><\/script>",
-				     "</head>", "",
-				     "<body>",
-				     "<h1> 関数の練習 </h1>",
-				     "<input type=\"button\" value=\"ここをクリック\"",
-				     "onclick=\"sayhello();sayhello();\">", // "tmp"
-				     "</body>", "", "</html>"]);
+			  "file:///hoge/ex06-1.html", [ ]);
+    setTextRectangle(50, 390, 400, "ex06-1.html", html);
     setTextRectangle(600, 390, 300,
 		     "ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
     
@@ -228,8 +237,18 @@ function setAllSVGData(){
     setArrow("FifthArrow", 850, 235, 750, 380);
     setArrow("fromClickHere", 460, 200, 550, 230);
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
-    setArrow("SecondTimes", 460, 200, 660, 230);
-    
+
+    makeButton("Automatic", 180, 135, 30,
+	       function(){
+		   execAnimation("Manual", "button", 1, { opacity: 0});
+		   execManager({ state : 0 });
+	       }, { fill: "white", stroke: "black", strokeWidth: 2 });
+    makeButton("Manual", 180, 250, 30,
+	       function(){
+		   execAnimation("Automatic", "button", 1, { opacity: 0});
+		   execManager({ state : 1 });
+	       }, { fill: "white", stroke: "black", strokeWidth: 2 });
+    // setText(id, x1, y1, str)
 }
 
 function setUpDefaultFunctionAry(){
@@ -245,8 +264,6 @@ function setUpDefaultFunctionAry(){
 	},
 	function(){
 	    execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>", 1, { fill: "black", stroke: "black", strokeWidth: 1 });
-	},
-	function(){
 	    execAnimation("ex06-1.js", "title", 1, { fill: "black", stroke: "red", strokeWidth: 2 });
 	},
 	function(){
@@ -255,10 +272,6 @@ function setUpDefaultFunctionAry(){
 	function(){
 	    execAnimation("SecondText", "指定されたスクリプトファイルが読み込まれる", 1, { opacity: 1, strokeWidth: 1 });
 	},
-	/* test */
-	// function(){
-	//    execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 1 }, 0);
-	//},
 	function(){
 	    execAnimation("FunctionBallon", "line", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
 	    execAnimation("FunctionBallon", "eclipse", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
@@ -435,4 +448,28 @@ function generateDescriptiveJson(descriptiveOrder){
 	}
     }
     return mergedJSON;
+}
+
+function execManager(userInput){
+    var state = userInput["state"];
+    // console.log("animation index : " + animationStepIndex);
+    if(state == 0){
+	(function animationLoop(){
+	    if(executionState != 1){
+		if(AnimationFunctionAry.length > 0){
+		    AnimationFunctionAry.shift()();
+		}
+		window.setTimeout(animationLoop, 2000);
+	    }
+	}());
+    }else if(state == 1){
+	executionState = 1;
+	if(AnimationFunctionAry.length > 0){
+	    animationStepIndex++;
+	    AnimationFunctionAry.shift()();
+	    // window.setTimeout(animationLoop, 2000);
+	}
+    }else{
+	alert("found invalid input");
+    }
 }
