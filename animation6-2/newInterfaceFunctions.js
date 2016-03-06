@@ -1,9 +1,34 @@
 
+function execSVGAnimation(json, sec){
+    var from = 0;
+    var to = SVGAry.length - 1;
+    for(var i = 0; i <= to; i++){
+	SVGAry[i].animate(json, sec);
+    }
+}
+
+function makeEllipseButton(id, x1, y1, width, height, event, json){
+    var ellipse = SVG.ellipse(x1, y1, width, height).attr(json);
+    ellipse.click(event);
+    SVGAry.push(ellipse);
+    SVGPushLog.push([id, "eclipse"]);
+}
+
 function makeButton(id, x, y, size, event, json){
     var button = SVG.circle(x, y, size).attr(json);
     button.click(event);
     SVGAry.push(button);
     SVGPushLog.push([id, "button"]);
+}
+
+/*
+ * makeInteractiveButton("id", SVG.circle(x, y, size).attr(json), function(){ });
+ * makeInteractiveButton("id", SVG.ellipse(x, y, width, height).attr(json), function(){ });
+ */
+function makeInteractiveButton(id, svgObj, event){
+    svgObj.click(event);
+    SVGAry.push(svgObj);
+    SVGPushLog.push(id, "interactive");
 }
 
 function execEffectSVGIndexes(id1, str1, times1, id2, str2, times2, effectJson, sec){
@@ -38,7 +63,7 @@ function setTspanStrs(id, x, y, strAry, json){
 function execStringAnimationByTspan(id, times, strIndex, json){
     var i = searchSVGElementIndex(id, "tspan", times);
     if(i == -1){
-	alert("failed to find the animation target by double ID.");
+	alert("failed to find the animation target by ID.");
     }
     SVGAry[i].selectAll("tspan")[strIndex].animate(json, animationSpeed);
 }
@@ -81,11 +106,11 @@ function setGridChart(){
 	    SVGPushLog.push(["grid", (i + "," + k)]);
 	}
     }
-    // the center of SVG. make new center.
-    SVGAry.push(SVG.circle(500, 500, 5).attr({ opacity: 0.8, fill: "pink", stroke: "red", strokeWidth: 2 }));
-    SVGPushLog.push("center", "5,5"); 
-    // remove the duplication of SVG circle. make the center tmp circle 'transparent'
-    execAnimation("grid", "5,5", 1, { opacity: 0 }); 
+    // the center of SVG. make new center and remove the duplication of SVG circle. make the center tmp circle 'transparent'.
+    var c = SVG.circle(500, 500, 5).attr({ opacity: 0.8, fill: "pink", stroke: "red", strokeWidth: 2 });
+    SVGAry.push(c);
+    SVGPushLog.push(["center", "5,5"]);
+    execAnimation("grid", "5,5", 1, { opacity: 0 });
 }
 
 function setLine(id, x1, y1, x2, y2){
@@ -113,9 +138,10 @@ function setBallon(id, lineX, lineY, ballonX, ballonY, text){
     changeJsonAttr(id, text, 1, { opacity: 0 });
 }
 
-function setAllElement(){
-    for (var i = snappaths.length - 1; i >= 0; i--) {
-	snappaths[i].animate({ strokeDashoffset: 0 }, 1000);
+function d(str){
+    if((SVGPushLog.length) != (SVGAry.length)){
+	console.log("msg : " + str);
+	console.log("SVGPushLog.length : " + SVGPushLog.length + ", SVGAry.length : " + SVGAry.length);
     }
 }
 
@@ -123,10 +149,8 @@ function setRect(id, x1, y1, charSize ,space, curve, text){
     var width = text.length * charSize + space;
     var r = SVG.rect(x1, y1, width, 30).attr({ fill: "white", stroke: "black", strokeWidth: 0, opacity: 0, r: curve });
     var msg = SVG.text(x1 + 15, y1 + 21, text).attr({ strokeWidth: 2, stroke: "black", opacity: 0 });
-    SVGAry.push(r);
-    SVGAry.push(msg);
-    SVGPushLog.push([id, "rect"]);
-    SVGPushLog.push([id, text]);
+    SVGAry.push(r); SVGPushLog.push([id, "rect"]);
+    SVGAry.push(msg); SVGPushLog.push([id, text]);
 }
 
 function setText(id, x1, y1, str){
@@ -145,10 +169,8 @@ function setArrow(id, x1, y1, x2, y2){
     var markerShape = SVG.path("M0,0L8,5L0,10L4,5z").attr({ fill: "black", opacity: 0 });
     var tip = markerShape.marker(0, 0, 10, 10, 5, 5);
     var arrowLine = SVG.path(lineP).attr({ stroke: "black", strokeWidth: 2 , opacity: 0 , markerEnd: tip });
-    SVGAry.push(markerShape);
-    SVGAry.push(arrowLine);
-    SVGPushLog.push([id, "tip"]);
-    SVGPushLog.push([id, "line"]);
+    SVGAry.push(markerShape); SVGPushLog.push([id, "tip"]);
+    SVGAry.push(arrowLine); SVGPushLog.push([id, "line"]);
 }
 
 function setTitleAreaRectangle(x, y, width, height, title, text)
@@ -178,11 +200,52 @@ function setTextRectangle(x, y, width, title, strAry){
     }
 }
 
+function erasePreButton(){
+    execAnimation("callOnce", "eclipse", 1, { opacity: 0 });
+    execAnimation("callTwice", "eclipse", 1, { opacity: 0 });
+    execAnimation("leftButtonText", "onclick=\"sayhello();\"", 1, { opacity: 0 });
+    execAnimation("rightButtonText", "onclick=\"sayhello();sayhello();\"", 1, { opacity: 0 });
+}
+
+function preUserChoise(){
+    var ellipseWidth = 100;
+    var ellipseHeight = 90;
+    var ellipseY = 350;
+    var strY = ellipseY + 5;
+    makeEllipseButton("callOnce", 300, ellipseY, ellipseWidth, ellipseHeight,
+		      function(){
+			  if(select == true){
+			      return;
+			  }
+			  erasePreButton();
+			  select = true;
+			  setSVG("onclick=\"sayhello();\"");
+			  execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 1 }, 0);
+			  setUpFunctionAry("onclick=\"sayhello();\"");
+		      }, { fill: "mistyrose", stroke: "pink", strokeWidth: 2 });
+    makeEllipseButton("callTwice", 650, ellipseY, ellipseWidth, ellipseHeight,
+		      function(){
+			  if(select == true){
+			      return;
+			  }
+			  erasePreButton();
+			  select = true;
+			  setSVG("onclick=\"sayhello();sayhello();\"");
+			  execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1, { opacity: 1 }, 0);
+			  setUpFunctionAry("onclick=\"sayhello();sayhello();\"");
+		      }, { fill: "mistyrose", stroke: "pink", strokeWidth: 2 });
+    setText("leftButtonText", 223, strY, "onclick=\"sayhello();\"");
+    changeJsonAttr("leftButtonText",     "onclick=\"sayhello();\"", 1, { stroke : "pink", fill: "pink", strokeWidth: 2, opacity: 1 });
+    setText("rightButtonText", 540, strY, "onclick=\"sayhello();sayhello();\"");
+    changeJsonAttr("rightButtonText",     "onclick=\"sayhello();sayhello();\"", 1, { stroke : "pink", fill: "pink", strokeWidth: 2, opacity: 1 });
+}
+
 function init(){
-    setAllSVGData();
+    preUserChoise();
+    // setSVG(userInput);
     // setArc(); // test method.
-    setGridChart(); // draw grid SVGs.
-    setUpDefaultFunctionAry();
+    // setGridChart(); // draw grid SVGs.
+    // setUpFunctionAry(userInput);
     // execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 0 }, 0);
 }
 
@@ -193,14 +256,12 @@ function searchTextAryIndex(stringAry, str){
 	}
     }
     alert("failed to find 'dummy' tag.");
+    return -1;
 }
 
-function setAllSVGData(){
+function setSVG(key){
     
-    var onceID = "onclick=\"sayhello();\"";
-    var twiceID = "onclick=\"sayhello();sayhello();\">";
     var dummyTag = "<d>dummy</d>";
-    var dummyIndex = searchSVGElementIndex(html, dummyTag);
     var html = ["<!DOCTYPE html>",
 		"<html>", "", "<head>",
 		"<meta charset=\"utf-8\">",
@@ -210,8 +271,12 @@ function setAllSVGData(){
 		"<body>",
 		"<h1> 関数の練習 </h1>",
 		"<input type=\"button\" value=\"ここをクリック\"",
-		"onclick=\"sayhello();sayhello();\">", // dummyTag,
+		// "onclick=\"sayhello();sayhello();\">",
+		"<d>dummy</d>", // dummyTag
 		"</body>", "", "</html>"];
+    
+    var dummyIndex = searchTextAryIndex(html, dummyTag);
+    html[dummyIndex] = key + ">";
     setTitleAreaRectangle(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
     setTextRectangle(50, 390, 400, "ex06-1.html", html);
     setTextRectangle(600, 390, 300,"ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
@@ -226,7 +291,9 @@ function setAllSVGData(){
     setArrow("ClickHere", 300, 650, 370, 230);
     setRect("ClickHereRect", 325, 180, 15, 40, 5, "ここをクリック");
     setTspanStrs("onclick", 485, 250, ["onclick=\"", "sayhello();", "sayhello();", "\""], { stroke: "black", strokeWidth: 0, opacity: 0 });
+    setTspanStrs("partialOnclick", 485, 250, ["onclick=\"", "sayhello();", "\""], { stroke: "black", strokeWidth: 0, opacity: 0 });
     setArrow("ForthArrow", 485 + 245, 240, 790, 220);
+    setArrow("AnotherForthArrow", 650, 240, 790, 220);
     setArrow("alertArrow", 580, 410, 450, 310);
     setArrow("FifthArrow", 850, 235, 750, 380);
     setArrow("fromClickHere", 460, 200, 550, 230);
@@ -259,7 +326,12 @@ function setAllSVGData(){
     execAnimation("ManualButtonStr", "手動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1});
 }
 
-function setUpDefaultFunctionAry(){
+function pushAry(ary, newElement){
+    ary.push(newElement);
+    return newElement;
+}
+
+function setUpFunctionAry(key){
     AnimationFunctionAry = [
 	function(){
 	    execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>", 1, { fill: "black", stroke: "red", strokeWidth: 2 });
@@ -314,8 +386,7 @@ function setUpDefaultFunctionAry(){
 	},
 	function(){ 
 	    execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1,  { strokeWidth: 1, fill: "black", stroke: "red" });
-	    // 条件分岐	    
-	    execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">", 1, { strokeWidth: 1, fill: "black", stroke: "red" });
+	    execAnimation("ex06-1.html", key + ">", 1, { strokeWidth: 1, fill: "black", stroke: "red" });
 	},
 	function(){
 	    execArrowAnimation("ClickHere", 1, { opacity: 1 });
@@ -325,13 +396,22 @@ function setUpDefaultFunctionAry(){
 	    execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "white", stroke: "black", strokeWidth: 1, opacity: 1 });
 	},
 	function(){
-	    execAnimation("onclick", "tspan", 1, { opacity: 1 });
+	    if(key == "onclick=\"sayhello();sayhello();\""){
+		execAnimation("onclick", "tspan", 1, { opacity: 1 });
+	    }else if(key == "onclick=\"sayhello();\""){
+		execAnimation("partialOnclick", "tspan", 1, { opacity: 1 });
+	    }else{
+		alert("found invalid key");
+	    }
 	},
 	function(){
 	    execArrowAnimation("ClickHere", 1, { opacity: 0 });
 	    execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
-	    /* 条件分岐 */
-	    execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
+	    var targetStr = "onclick=\"sayhello();sayhello();\">";
+	    if(key == "onclick=\"sayhello();\""){
+		targetStr = "onclick=\"sayhello();\">";
+	    }
+	    execAnimation("ex06-1.html", targetStr , 1, { stroke: "black", fill: "black", strokeWidth: 0 });
 	},
 	function(){
 	    execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "red", stroke: "red", strokeWidth: 1 });
@@ -340,19 +420,31 @@ function setUpDefaultFunctionAry(){
 	function(){
 	    execArrowAnimation("fromClickHere", 1, { opacity: 1 });
 	},
-	function(){ /* tspan */
-	    execStringAnimationByTspan("onclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
+	function(){
+	    if(key != "onclick=\"sayhello();\""){
+		execStringAnimationByTspan("onclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
+	    }else{
+		execStringAnimationByTspan("partialOnclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
+	    }
 	},
-	function(){ /* tspan */
+	function(){
 	    execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "black", stroke: "black", strokeWidth: 1 });
-	    execAnimation("ClickHereRect", "rect", 1, { fill: "white", stroke: "black", strokeWidth: 1 });			    
+	    execAnimation("ClickHereRect", "rect", 1, { fill: "white", stroke: "black", strokeWidth: 1 });
 	    execArrowAnimation("fromClickHere", 1, { opacity: 0 });
 	},
 	function(){
-	    execArrowAnimation("ForthArrow", 1, { opacity: 1 });
+	    if(key == "onclick=\"sayhello();\""){
+		execArrowAnimation("AnotherForthArrow", 1, { opacity: 1 });
+	    }else{
+		execArrowAnimation("ForthArrow", 1, { opacity: 1 });
+	    }
 	},
 	function(){
-	    execArrowAnimation("ForthArrow", 1, { opacity: 0 });
+	    if(key == "onclick=\"sayhello();\""){
+		execArrowAnimation("AnotherForthArrow", 1, { opacity: 0 });
+	    }else{
+		execArrowAnimation("ForthArrow", 1, { opacity: 0 });
+	    }
 	    execArrowAnimation("FifthArrow", 1, { opacity: 1 });
 	},
 	function(){
@@ -372,14 +464,24 @@ function setUpDefaultFunctionAry(){
 	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "pink", stroke: "red" });
 	},
 	function(){
-	    /* tspan */
-	    execStringAnimationByTspan("onclick", 1, 1, { fill: "black", strokeWidth: 0 });
+	    if(key != "onclick=\"sayhello();\""){
+		execStringAnimationByTspan("onclick", 1, 1, { fill: "black", strokeWidth: 0 });
+	    }else{
+		execStringAnimationByTspan("partialOnclick", 1, 1, { fill: "black", strokeWidth: 0 });
+	    }
 	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", fill: "white", strokeWidth: 1, opacity: 0 });
 	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 0 });
 	    execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
-	},
+	}	
+    ];
+    if(key == "onclick=\"sayhello();\""){
+	AnimationFunctionAry.push(function(){
+	    alert("アニメーションは終了しました。");
+	});
+	return;
+    }
+    FunctionStorage = [
 	function(){
-	    /* tspan */
 	    execStringAnimationByTspan("onclick", 1, 2, { stroke: "blue", fill: "black", strokeWidth: 1 });
 	},
 	function(){
@@ -416,6 +518,9 @@ function setUpDefaultFunctionAry(){
 	    alert("アニメーションは終了しました。");
 	}
     ];
+    for(var i = 0; i < FunctionStorage.length ; i++){
+	AnimationFunctionAry.push(FunctionStorage[i]);
+    }
 }
 
 function execTextRectAnimation(id, str, timesAry, jsonAry){
@@ -424,7 +529,6 @@ function execTextRectAnimation(id, str, timesAry, jsonAry){
 }
 
 function setArc(){
-    // var p = "M 75,125 A 60,40 15 1,0 125,75";
     var startX, startY, endX, endY;
     startX = 560; startY = 320;
     endX = 520; endY = 330;
@@ -476,6 +580,7 @@ function execManager(userInput){
     }else if(state == 1){
 	executionState = 1;
 	if(AnimationFunctionAry.length > 0){
+	    // console.log("animation index : " + animationStepIndex);
 	    animationStepIndex++;
 	    AnimationFunctionAry.shift()();
 	    // window.setTimeout(animationLoop, 2000);
