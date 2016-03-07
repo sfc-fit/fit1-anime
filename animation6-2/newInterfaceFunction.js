@@ -209,7 +209,7 @@ function erasePreButton(){
 
 function preUserChoise(){
     var ellipseWidth = 100;
-    var ellipseHeight = 90;
+    var ellipseHeight = 100;
     var ellipseY = 350;
     var strY = ellipseY + 5;
     makeEllipseButton("callOnce", 300, ellipseY, ellipseWidth, ellipseHeight,
@@ -222,6 +222,7 @@ function preUserChoise(){
 			  setSVG("onclick=\"sayhello();\"");
 			  execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 1 }, 0);
 			  setUpFunctionAry("onclick=\"sayhello();\"");
+			  selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
 		      }, { fill: "mistyrose", stroke: "pink", strokeWidth: 2 });
     makeEllipseButton("callTwice", 650, ellipseY, ellipseWidth, ellipseHeight,
 		      function(){
@@ -233,6 +234,7 @@ function preUserChoise(){
 			  setSVG("onclick=\"sayhello();sayhello();\"");
 			  execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1, { opacity: 1 }, 0);
 			  setUpFunctionAry("onclick=\"sayhello();sayhello();\"");
+			  selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
 		      }, { fill: "mistyrose", stroke: "pink", strokeWidth: 2 });
     setText("leftButtonText", 223, strY, "onclick=\"sayhello();\"");
     changeJsonAttr("leftButtonText",     "onclick=\"sayhello();\"", 1, { stroke : "pink", fill: "pink", strokeWidth: 2, opacity: 1 });
@@ -541,6 +543,7 @@ function setArc(){
     SVGPushLog.push(["load", "arc"]);
 }
 
+// under development.
 function generateDescriptiveJson(descriptiveOrder){
     var mergedJSON = { };
     var description;
@@ -563,6 +566,27 @@ function generateDescriptiveJson(descriptiveOrder){
 	}
     }
     return mergedJSON;
+}
+
+function selectiveFunctionExecution(indexAry, fromIndex){
+    var index;
+    if(indexAry.length <= 0){
+	if(fromIndex === 0){
+	    return;
+	}
+    }
+    for(var i = 0; i < indexAry.length; i++){
+	index = indexAry[i];
+	if((index >= 0) && (index < (AnimationFunctionAry.length))){
+	    AnimationFunctionAry[index]();
+	}
+    }
+    if(fromIndex !== 0){
+	// remove functions.
+	for(var k = 0; k < fromIndex; k++){
+	    AnimationFunctionAry.shift();
+	}
+    }
 }
 
 function execManager(userInput){

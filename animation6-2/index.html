@@ -5,13 +5,13 @@
   </head>
   <body>
     <script src="snap.svg-min.js"></script>
-    <script src="newInterfaceFunctions.js" charset="UTF-8"></script>
+    <script src="newInterfaceFunction.js" charset="UTF-8"></script>
     <script type="text/javascript">
     var svgSize = 1200;
     var SVG = Snap(svgSize, svgSize);
     var SVGAry = new Array(), SVGPushLog = new Array();
     var AnimationFunctionAry = new Array(); FunctionStorage = new Array();
-    var animationStepIndex = 0, debugAnimationIndex = 0; animationStepIndex += debugAnimationIndex;
+    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ];
     var animationSpeed = 400, executionState = 0, executed = false; select = false;
     preUserChoise();
     // console.log('exit status : 0');
