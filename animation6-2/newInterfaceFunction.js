@@ -570,6 +570,12 @@ function generateDescriptiveJson(descriptiveOrder){
 
 function selectiveFunctionExecution(indexAry, fromIndex){
     var index;
+    for(var l = 0; l < indexAry.length; l++){
+	if(indexAry[l] > fromIndex){
+	    alert("debug logic is inappropriate. reset debug parameters.");
+	    return;
+	}
+    }
     if(indexAry.length <= 0){
 	if(fromIndex === 0){
 	    return;
