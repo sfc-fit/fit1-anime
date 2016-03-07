@@ -223,7 +223,7 @@ function preUserChoise(){
 			  execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 1 }, 0);
 			  setUpFunctionAry("onclick=\"sayhello();\"");
 			  selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
-		      }, { fill: "mistyrose", stroke: "pink", strokeWidth: 2 });
+		      }, { fill: "mistyrose", stroke: "red", strokeWidth: 2 });
     makeEllipseButton("callTwice", 650, ellipseY, ellipseWidth, ellipseHeight,
 		      function(){
 			  if(select == true){
@@ -235,11 +235,15 @@ function preUserChoise(){
 			  execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1, { opacity: 1 }, 0);
 			  setUpFunctionAry("onclick=\"sayhello();sayhello();\"");
 			  selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
-		      }, { fill: "mistyrose", stroke: "pink", strokeWidth: 2 });
+		      }, { fill: "mistyrose", stroke: "red", strokeWidth: 2 });
     setText("leftButtonText", 223, strY, "onclick=\"sayhello();\"");
-    changeJsonAttr("leftButtonText",     "onclick=\"sayhello();\"", 1, { stroke : "pink", fill: "pink", strokeWidth: 2, opacity: 1 });
+    setText("case1", 270, 376, "の場合");
+    changeJsonAttr("leftButtonText",     "onclick=\"sayhello();\"", 1, { stroke : "red", fill: "red", strokeWidth: 2, opacity: 1 });
+    changeJsonAttr("case1", "の場合", 1, { stroke: "red", fill: "red", strokeWidth: 2, opacity: 1 });
     setText("rightButtonText", 540, strY, "onclick=\"sayhello();sayhello();\"");
-    changeJsonAttr("rightButtonText",     "onclick=\"sayhello();sayhello();\"", 1, { stroke : "pink", fill: "pink", strokeWidth: 2, opacity: 1 });
+    setText("case2", 625, 376, "の場合");
+    changeJsonAttr("rightButtonText",     "onclick=\"sayhello();sayhello();\"", 1, { stroke : "red", fill: "red", strokeWidth: 2, opacity: 1 });
+    changeJsonAttr("case2", "の場合", 1, { stroke: "red", fill: "red", strokeWidth: 2, opacity: 1 });
 }
 
 function init(){
