@@ -22,14 +22,16 @@ function makeButton(id, x, y, size, event, json){
 }
 
 /*
+ * SAMPLE => replaced by pushEventBySVGID
  * makeInteractiveButton("id", SVG.circle(x, y, size).attr(json), function(){ });
  * makeInteractiveButton("id", SVG.ellipse(x, y, width, height).attr(json), function(){ });
  */
-function makeInteractiveButton(id, svgObj, event){
-    svgObj.click(event);
-    SVGAry.push(svgObj);
-    SVGPushLog.push(id, "interactive");
-}
+/* 
+ function makeInteractiveButton(id, svgObj, event){
+ svgObj.click(event);
+ SVGAry.push(svgObj);
+ SVGPushLog.push(id, "interactive");
+}*/
 
 function execEffectSVGIndexes(id1, str1, times1, id2, str2, times2, effectJson, sec){
     var from = searchSVGElementIndex(id1, str1, times1);
@@ -205,6 +207,8 @@ function erasePreButton(){
     execAnimation("callTwice", "eclipse", 1, { opacity: 0 });
     execAnimation("leftButtonText", "onclick=\"sayhello();\"", 1, { opacity: 0 });
     execAnimation("rightButtonText", "onclick=\"sayhello();sayhello();\"", 1, { opacity: 0 });
+    changeJsonAttr("case1", "の場合", 1, { opacity: 0 });
+    changeJsonAttr("case2", "の場合", 1, { opacity: 0 });
 }
 
 function preUserChoise(){
@@ -212,36 +216,42 @@ function preUserChoise(){
     var ellipseHeight = 100;
     var ellipseY = 350;
     var strY = ellipseY + 5;
-    makeEllipseButton("callOnce", 300, ellipseY, ellipseWidth, ellipseHeight,
-		      function(){
-			  if(select == true){
-			      return;
-			  }
-			  erasePreButton();
-			  select = true;
-			  setSVG("onclick=\"sayhello();\"");
-			  execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 1 }, 0);
-			  setUpFunctionAry("onclick=\"sayhello();\"");
-			  selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
-		      }, { fill: "mistyrose", stroke: "red", strokeWidth: 2 });
-    makeEllipseButton("callTwice", 650, ellipseY, ellipseWidth, ellipseHeight,
-		      function(){
-			  if(select == true){
-			      return;
-			  }
-			  erasePreButton();
-			  select = true;
-			  setSVG("onclick=\"sayhello();sayhello();\"");
-			  execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1, { opacity: 1 }, 0);
-			  setUpFunctionAry("onclick=\"sayhello();sayhello();\"");
-			  selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
-		      }, { fill: "mistyrose", stroke: "red", strokeWidth: 2 });
+    var onceButtonTriggerFunc = function(){
+	if(select == true){
+	    return;
+	}
+	erasePreButton();
+	select = true;
+	setSVG("onclick=\"sayhello();\"");
+	execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 1 }, 0);
+	setUpFunctionAry("onclick=\"sayhello();\"");
+	selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
+    };
+    var twiceButtonTriggerFunc = function(){
+	if(select == true){
+	    return;
+	}
+	erasePreButton();
+	select = true;
+	setSVG("onclick=\"sayhello();sayhello();\"");
+	execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1, { opacity: 1 }, 0);
+	setUpFunctionAry("onclick=\"sayhello();sayhello();\"");
+	selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
+    };
+    makeEllipseButton("callOnce", 300, ellipseY, ellipseWidth, ellipseHeight, onceButtonTriggerFunc, { fill: "mistyrose", stroke: "red", strokeWidth: 2 });
+    makeEllipseButton("callTwice", 650, ellipseY, ellipseWidth, ellipseHeight,twiceButtonTriggerFunc, { fill: "mistyrose", stroke: "red", strokeWidth: 2 });
+    /* once */
     setText("leftButtonText", 223, strY, "onclick=\"sayhello();\"");
     setText("case1", 270, 376, "の場合");
     changeJsonAttr("leftButtonText",     "onclick=\"sayhello();\"", 1, { stroke : "red", fill: "red", strokeWidth: 2, opacity: 1 });
     changeJsonAttr("case1", "の場合", 1, { stroke: "red", fill: "red", strokeWidth: 2, opacity: 1 });
+    pushEventBySVGID("leftButtonText", "onclick=\"sayhello();\"", 1, onceButtonTriggerFunc);
+    pushEventBySVGID("case1", "の場合", 1, onceButtonTriggerFunc);
+    /* twice */
     setText("rightButtonText", 540, strY, "onclick=\"sayhello();sayhello();\"");
     setText("case2", 625, 376, "の場合");
+    pushEventBySVGID("rightButtonText", "onclick=\"sayhello();sayhello();\"", 1, twiceButtonTriggerFunc);
+    pushEventBySVGID("case2", "の場合", 1, twiceButtonTriggerFunc);
     changeJsonAttr("rightButtonText",     "onclick=\"sayhello();sayhello();\"", 1, { stroke : "red", fill: "red", strokeWidth: 2, opacity: 1 });
     changeJsonAttr("case2", "の場合", 1, { stroke: "red", fill: "red", strokeWidth: 2, opacity: 1 });
 }
@@ -280,7 +290,6 @@ function setSVG(key){
 		// "onclick=\"sayhello();sayhello();\">",
 		"<d>dummy</d>", // dummyTag
 		"</body>", "", "</html>"];
-    
     var dummyIndex = searchTextAryIndex(html, dummyTag);
     html[dummyIndex] = key + ">";
     setTitleAreaRectangle(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
@@ -304,32 +313,50 @@ function setSVG(key){
     setArrow("FifthArrow", 850, 235, 750, 380);
     setArrow("fromClickHere", 460, 200, 550, 230);
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
-    makeButton("Automatic", 180, 135, 30,
-	       function(){
-		   if(executed == false){
-		       execAnimation("Manual", "button", 1, { opacity: 0 });
-		       execAnimation("ManualButtonStr", "手動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
-		       execAnimation("Automatic", "button", 1 , { fill : "aquamarine", stroke: "green" });
-		       execAnimation("AutomaticButtonStr", "自動", 1, { fill: "green", stroke: "green" });
-		       executed = true;
-		   }
-		   execManager({ state : 0 });
-	       }, { fill: "white", stroke: "black", strokeWidth: 2 });
-    makeButton("Manual", 180, 250, 30,
-	       function(){
-		   if(executed == false){
-		       execAnimation("Automatic", "button", 1, { opacity: 0 });
-		       execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
-		       execAnimation("Manual", "button", 1 , { fill : "aquamarine", stroke: "green" });
-		       execAnimation("ManualButtonStr", "手動", 1, { fill: "green", stroke: "green" });
-		       executed = true;
-		   }
-		   execManager({ state : 1 });
-	       }, { fill: "white", stroke: "black", strokeWidth: 2 });
+    var autoButtonTriggerFunc = function(){
+	if(executed == false){
+	    execAnimation("Manual", "button", 1, { opacity: 0 });
+	    execAnimation("ManualButtonStr", "次へ", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
+	    execAnimation("Automatic", "button", 1 , { fill : "aquamarine", stroke: "green" });
+	    execAnimation("AutomaticButtonStr", "自動", 1, { fill: "green", stroke: "green" });
+	    executed = true;
+	}
+	execManager({ state : 0 });
+    };
+    var nextButtonTriggerFunc = function(){
+	if(executed == false){
+	    execAnimation("Automatic", "button", 1, { opacity: 0 });
+	    execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
+	    execAnimation("Manual", "button", 1 , { fill : "aquamarine", stroke: "green" });
+	    execAnimation("ManualButtonStr", "次へ", 1, { fill: "green", stroke: "green" });
+	    executed = true;
+	}
+	execManager({ state : 1 });
+    };
+
+    var resetAnimationFunc = function(){
+	console.log("「最初から」がクリックされました。");
+    };
+
+    makeButton("Automatic", 180, 135, 30, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+    makeButton("Manual", 180, 250, 30, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+    // makeButton("Reset", 180, 250, 30, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     setText("AutomaticButtonStr", 163, 140, "自動");
     execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1});
-    setText("ManualButtonStr", 163, 255, "手動");
-    execAnimation("ManualButtonStr", "手動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1});
+    setText("ManualButtonStr", 163, 255, "次へ");
+    execAnimation("ManualButtonStr", "次へ", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1});
+    // setText("ResetButtonStr", "最初から");
+    pushEventBySVGID("AutomaticButtonStr", "自動", 1, autoButtonTriggerFunc);
+    pushEventBySVGID("ManualButtonStr", "次へ", 1, nextButtonTriggerFunc);
+    
+}
+
+function pushEventBySVGID(id, str, times, f){
+    var index = searchSVGElementIndex(id, str, times);
+    if(index == -1){
+	alert("failed to find SVG element by ID.");
+    }
+    SVGAry[index].click(f);
 }
 
 function pushAry(ary, newElement){
