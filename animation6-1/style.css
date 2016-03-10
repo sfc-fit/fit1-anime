@@ -1,0 +1,66 @@
+#button{
+	position:absolute;
+	top:10%;
+	left:7%;
+	width:8%;
+	height:8%;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#resetButton{
+	position:absolute;
+	top:10%;
+	left:27%;
+	width:8%;
+	height:8%;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#aheadButton{
+	position:absolute;
+	top:10%;
+	left:17%;
+	width:8%;
+	height:8%;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#buttonText{
+	position:absolute;
+	color:white;
+ 	font-size:25;
+ 	top:-32%;
+ 	left:27%;
+ 	pointer-events:none;
+}
+
+#autoText{
+	position:absolute;
+	color:black;
+ 	font-size:15;
+ 	top:3.8%;
+ 	left:19.5%;
+ 	pointer-events:none;
+}
+
+input.exec{
+  position:absolute;
+  top:5.4%;
+  left:15%;
+  width:8%;
+  height:6.8%;
+  z-index: 1;
+}
+
+input.auto{
+	position:absolute;
+	top:4%;
+	left:18.2%;
+	z-index: 1;
+}
