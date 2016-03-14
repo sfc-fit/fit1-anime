@@ -1,4 +1,14 @@
 
+
+function makeCheckboxBySVG(id, x, y, json){
+    var frame = SVG.rect(x, y, 30, 30).attr(json);
+    var checkPath;
+    SVGAry.push(frame);
+    // SVGAry.push(checkbox); <- checkPath
+    SVGPushLog.push([id, "checkboxFrame"]);
+    
+}
+
 function execSVGAnimation(json, sec){
     var from = 0;
     var to = SVGAry.length - 1;
