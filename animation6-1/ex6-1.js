@@ -14,12 +14,14 @@ addComponent(rectSoft(770,120,100,50,"#ccc",0,"black",1));
 addComponent(labelUI(1100,100,25,"","function sayhello()","black"));
 addComponent(labelUI(1150,160,25,"","関数の登録","black"));
 addComponent(setEllipse(1200,90,130,25,"#fff",0,"black",1));
-addComponent(labelUI(800,170,25,"","何も表示されない","black"));
+addComponent(labelUI(650,100,25,"","関数の練習","black"));
 addComponent(setLine(900,90,1072,90,"black",1));
 
 function update(){
 	if(started==true){
 		if(count%5==0){
+
+
 		}
 		if(count%60==0&&phase<5&&auto==true){
 			draw();
