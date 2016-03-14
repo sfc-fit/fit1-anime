@@ -15,7 +15,7 @@ function exec(){
 		fixBox();
 		checkVariable();
 		parent();
-		if(document.getElementById("autoBox").checked==false){
+		if(document.getElementById("autoText").checked==false){
 			draw();
 		}
 	}
@@ -34,7 +34,7 @@ function ahead(){
 
 //updata関数を呼び続ける
 function parent(){
-	if(document.getElementById("autoBox").checked==false){
+	if(document.getElementById("autoText").checked==false){
 		auto=false;
 	}
 	else{
