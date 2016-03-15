@@ -12,17 +12,16 @@
     var SVGAry = new Array(), SVGPushLog = new Array();
     var AnimationFunctionAry = new Array(); FunctionStorage = new Array();
     var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ];
-    var animationSpeed = 400, executionState = 0, executed = false; select = false;
+    var animationSpeed = 500, executionState = 0, executed = false; select = false;
     // 「最初から」の実装
     // var obj = SVG.circle(10, 20, 5);
     //console.log(obj.attr("cx"));
     
     // makeCheckboxBySVG()
-    var frame = SVG.rect(10, 10, 30, 30).attr({ fill: "white", stroke: "black", strokeWidth: 2 });
-    var checkPath = "M 15, 25 L 25,34 L 35,15";
+    // var frame = SVG.rect(10, 10, 30, 30).attr({ fill: "white", stroke: "black", strokeWidth: 2 });
+    // var checkPath = "M 15, 25 L 25,34 L 35,15";
     // var checkPath = "M " + x + 
-    var checkbox = SVG.path(checkPath).attr({ fill: "white", stroke: "black", strokeWidth: 2 });
-    
+    // var checkbox = SVG.path(checkPath).attr({ fill: "white", stroke: "black", strokeWidth: 2 });
     
     preUserChoise();
     // console.log('exit status : 0');

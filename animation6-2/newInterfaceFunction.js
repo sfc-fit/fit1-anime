@@ -1,4 +1,17 @@
 
+function eA(id, strID, json){
+    // times : 1
+    var i;
+    if((i= searchSVGElementIndex(id, strID, 1)) == -1){
+	SVGAry[i].animate(json, animationSpeed);
+    }
+    alert("failed to find SVG element by ID.");
+}
+
+function getFixedIDAry(){
+    return ["checkboxFrame", "eclipse",
+	    "button", "line", "rect", "tip", "title", "arc"];
+}
 
 function makeCheckboxBySVG(id, x, y, json){
     var frame = SVG.rect(x, y, 30, 30).attr(json);
@@ -6,7 +19,6 @@ function makeCheckboxBySVG(id, x, y, json){
     SVGAry.push(frame);
     // SVGAry.push(checkbox); <- checkPath
     SVGPushLog.push([id, "checkboxFrame"]);
-    
 }
 
 function execSVGAnimation(json, sec){
@@ -286,7 +298,6 @@ function searchTextAryIndex(stringAry, str){
 }
 
 function setSVG(key){
-    
     var dummyTag = "<d>dummy</d>";
     var html = ["<!DOCTYPE html>",
 		"<html>", "", "<head>",
