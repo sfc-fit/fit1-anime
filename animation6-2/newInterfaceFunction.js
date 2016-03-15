@@ -1,24 +1,44 @@
 
+
+// MEMO:
+//「最初から」の実装
+// var obj = SVG.circle(10, 20, 5);
+// console.log(obj.attr("cx"));
+
+function setChromeBrowser(id, x, y, width, height, urlText){
+    var rec = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
+    var line = SVG.path("M " + x + " "+ (y + 30) + " h " + width).attr({ stroke: "black", strokeWidth: 2 });
+    // setTitleAreaRectangle(); var text = SVG.text(x + 10, y + 21, title);
+    var url = SVG.text(x + 100, y + 21, urlText);
+    var redCircle, yellowCircle, greenCircle;
+    // var google = SVG.text(x + 50, y + 50, ["G", "o", "o", "g", "l", "e"]).attr({ strokeWidth: 3, fontSize: 50, opacity: 1});
+    var google = SVG.text(x + (width / 4) + 10, y + 21 + (height / 2), ["G", "o", "o", "g", "l", "e"]).attr({ strokeWidth: 3, fontSize: 50, opacity: 1});    
+    // var googleColor = ["blue", "red", "yellow", "blue", "green", "red"];
+    var googleColor = ["#0080FF", "#FA5858", "#FFFF00", "#0080FF", "#2EFE2E", "#FA5858"];
+    for(var i = 0; i < googleColor.length; i++){
+	google.selectAll("tspan")[i].animate({ fill: googleColor[i], stroke: googleColor[i]}, 0);
+    }
+}
+
+function setCheckboxBySVG(id, x, y, json){
+    var checkPath = "M " + (x + 5) + "," + (y + 15) + " L " + (x + 15)+ "," + (y + 24) + " L " + (x + 25) + "," + (y + 5);
+    var box = SVG.rect(x, y, 30, 30).attr(json);
+    SVGAry.push(box); SVGPushLog.push([id, "rect"]);
+    var check = SVG.path(checkPath).attr(json);
+    SVGAry.push(check); SVGPushLog.push([id, "check"]);
+}
+
 function eA(id, strID, json){
     // times : 1
     var i;
-    if((i= searchSVGElementIndex(id, strID, 1)) == -1){
+    if((i= searchSVGElementIndex(id, strID, 1)) != -1){
 	SVGAry[i].animate(json, animationSpeed);
     }
     alert("failed to find SVG element by ID.");
 }
 
 function getFixedIDAry(){
-    return ["checkboxFrame", "eclipse",
-	    "button", "line", "rect", "tip", "title", "arc"];
-}
-
-function makeCheckboxBySVG(id, x, y, json){
-    var frame = SVG.rect(x, y, 30, 30).attr(json);
-    var checkPath;
-    SVGAry.push(frame);
-    // SVGAry.push(checkbox); <- checkPath
-    SVGPushLog.push([id, "checkboxFrame"]);
+    return ["eclipse", "check", "button", "line", "rect", "tip", "title", "arc"];
 }
 
 function execSVGAnimation(json, sec){
@@ -314,6 +334,8 @@ function setSVG(key){
     var dummyIndex = searchTextAryIndex(html, dummyTag);
     html[dummyIndex] = key + ">";
     setTitleAreaRectangle(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
+    setChromeBrowser("chrome", 300, 50, 400, 250, "URL:"); // no url.
+
     setTextRectangle(50, 390, 400, "ex06-1.html", html);
     setTextRectangle(600, 390, 300,"ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
     setArrow("FirstArrow", 250, 540, 420, 250);
@@ -358,7 +380,6 @@ function setSVG(key){
     var resetAnimationFunc = function(){
 	console.log("「最初から」がクリックされました。");
     };
-
     makeButton("Automatic", 180, 135, 30, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     makeButton("Manual", 180, 250, 30, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     // makeButton("Reset", 180, 250, 30, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
