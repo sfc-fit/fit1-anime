@@ -1,23 +1,30 @@
 
-
-// MEMO:
-//「最初から」の実装
-// var obj = SVG.circle(10, 20, 5);
-// console.log(obj.attr("cx"));
-
-function setChromeBrowser(id, x, y, width, height, urlText){
+// setTitleAreaRectangle(); var text = SVG.text(x + 10, y + 21, title);
+function setChromeBrowser(x, y, width, height, urlText){
     var rec = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
     var line = SVG.path("M " + x + " "+ (y + 30) + " h " + width).attr({ stroke: "black", strokeWidth: 2 });
-    // setTitleAreaRectangle(); var text = SVG.text(x + 10, y + 21, title);
     var url = SVG.text(x + 100, y + 21, urlText);
-    var redCircle, yellowCircle, greenCircle;
-    // var google = SVG.text(x + 50, y + 50, ["G", "o", "o", "g", "l", "e"]).attr({ strokeWidth: 3, fontSize: 50, opacity: 1});
-    var google = SVG.text(x + (width / 4) + 10, y + 21 + (height / 2), ["G", "o", "o", "g", "l", "e"]).attr({ strokeWidth: 3, fontSize: 50, opacity: 1});    
-    // var googleColor = ["blue", "red", "yellow", "blue", "green", "red"];
+    var google = SVG.text(x + (width / 4) + 10, y + 21 + (height / 2), ["G", "o", "o", "g", "l", "e"]).attr({ strokeWidth: 3, fontSize: 50, opacity: 1 });
     var googleColor = ["#0080FF", "#FA5858", "#FFFF00", "#0080FF", "#2EFE2E", "#FA5858"];
     for(var i = 0; i < googleColor.length; i++){
 	google.selectAll("tspan")[i].animate({ fill: googleColor[i], stroke: googleColor[i]}, 0);
     }
+    var redCircle, yellowCircle, greenCircle, r = 5;
+    var searchText = SVG.rect(x + 100, y + 180, 200, 21).attr({ fill: "white", stroke: "gray", opacity: 1, r: 2 });
+    redCircle = SVG.circle(x + 20, y + 16, r).attr({ fill: "#FA5858", opacity: 1 });
+    yellowCircle = SVG.circle(x + 42, y + 16, r).attr({ fill: "#FFFF00", opacity: 1 });
+    greenCircle = SVG.circle(x + 64, y + 16, r).attr({ fill: "#2EFE2E", opacity: 1 });
+    // 
+    SVGAry.push(rec);  SVGPushLog.push(["googleRect", "rect"]);
+    SVGAry.push(line); SVGPushLog.push(["googleLine", "line"]);
+    SVGAry.push(url);  SVGPushLog.push(["googleURL", "url"]);
+    SVGAry.push(searchText);   SVGPushLog.push(["searchArea", "rect"]);
+    SVGAry.push(google); SVGPushLog.push(["google", "text"]);
+    // 
+    SVGAry.push(redCircle);    SVGPushLog.push(["redCircle", "circle"]);
+    SVGAry.push(yellowCircle); SVGPushLog.push(["yellowCircle", "circle"]);
+    SVGAry.push(greenCircle);  SVGPushLog.push(["greenCircle", "circle"]);
+
 }
 
 function setCheckboxBySVG(id, x, y, json){
@@ -217,11 +224,12 @@ function setArrow(id, x1, y1, x2, y2){
     SVGAry.push(arrowLine); SVGPushLog.push([id, "line"]);
 }
 
-function setTitleAreaRectangle(x, y, width, height, title, text)
+function setBrowser(x, y, width, height, title, text)
 {
     var rec = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
     var line = SVG.path("M " + x + " "+ (y + 30) + " h " + width).attr({ stroke: "black", strokeWidth: 2 });
-    var text = SVG.text(x + 10, y + 21, title);
+    // var text = SVG.text(x + 10, y + 21, title);
+    var text = SVG.text(x + 100, y + 21, text);
     SVGAry.push(line); SVGPushLog.push([title, "line"]);
     SVGAry.push(text); SVGPushLog.push([title, "title"]);
     SVGAry.push(rec);  SVGPushLog.push([title, "rect"]);
@@ -333,9 +341,7 @@ function setSVG(key){
 		"</body>", "", "</html>"];
     var dummyIndex = searchTextAryIndex(html, dummyTag);
     html[dummyIndex] = key + ">";
-    setTitleAreaRectangle(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
-    setChromeBrowser("chrome", 300, 50, 400, 250, "URL:"); // no url.
-
+    setBrowser(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
     setTextRectangle(50, 390, 400, "ex06-1.html", html);
     setTextRectangle(600, 390, 300,"ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
     setArrow("FirstArrow", 250, 540, 420, 250);
@@ -390,7 +396,11 @@ function setSVG(key){
     // setText("ResetButtonStr", "最初から");
     pushEventBySVGID("AutomaticButtonStr", "自動", 1, autoButtonTriggerFunc);
     pushEventBySVGID("ManualButtonStr", "次へ", 1, nextButtonTriggerFunc);
-    
+    // draw browser
+    setChromeBrowser(300, 50, 400, 250, "URL:"); // no url.
+    // var url = SVG.text(x + 100, y + 21, urlText);
+    setText("newURL", 400, 71, "URL: file:///hoge/ex06-1.html");
+    changeJsonAttr("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0 });
 }
 
 function pushEventBySVGID(id, str, times, f){
@@ -408,6 +418,12 @@ function pushAry(ary, newElement){
 
 function setUpFunctionAry(key){
     AnimationFunctionAry = [
+	function(){
+	    // execEffectSVGIndexes(id1, str1, times1, id2, str2, times2, effectJson, sec)
+	    execEffectSVGIndexes("googleRect", "rect", 1, "google", "text", 1, { fillOpacity: 0, opacity: 0 }, 400);
+	    execAnimation("file:///hoge/ex06-1.html", "title", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+	    execAnimation("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0, stroke: "black", opacity: 1});
+	},
 	function(){
 	    execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>", 1, { fill: "black", stroke: "red", strokeWidth: 2 });
 	},
