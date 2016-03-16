@@ -1,5 +1,4 @@
 
-// setTitleAreaRectangle(); var text = SVG.text(x + 10, y + 21, title);
 function setChromeBrowser(x, y, width, height, urlText){
     var rec = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
     var line = SVG.path("M " + x + " "+ (y + 30) + " h " + width).attr({ stroke: "black", strokeWidth: 2 });
@@ -14,17 +13,14 @@ function setChromeBrowser(x, y, width, height, urlText){
     redCircle = SVG.circle(x + 20, y + 16, r).attr({ fill: "#FA5858", opacity: 1 });
     yellowCircle = SVG.circle(x + 42, y + 16, r).attr({ fill: "#FFFF00", opacity: 1 });
     greenCircle = SVG.circle(x + 64, y + 16, r).attr({ fill: "#2EFE2E", opacity: 1 });
-    // 
     SVGAry.push(rec);  SVGPushLog.push(["googleRect", "rect"]);
     SVGAry.push(line); SVGPushLog.push(["googleLine", "line"]);
-    SVGAry.push(url);  SVGPushLog.push(["googleURL", "url"]);
+    SVGAry.push(url);  SVGPushLog.push(["googleURL", "text"]);
     SVGAry.push(searchText);   SVGPushLog.push(["searchArea", "rect"]);
-    SVGAry.push(google); SVGPushLog.push(["google", "text"]);
-    // 
+    SVGAry.push(google);       SVGPushLog.push(["google", "text"]);
     SVGAry.push(redCircle);    SVGPushLog.push(["redCircle", "circle"]);
     SVGAry.push(yellowCircle); SVGPushLog.push(["yellowCircle", "circle"]);
     SVGAry.push(greenCircle);  SVGPushLog.push(["greenCircle", "circle"]);
-
 }
 
 function setCheckboxBySVG(id, x, y, json){
@@ -362,27 +358,29 @@ function setSVG(key){
     setArrow("FifthArrow", 850, 235, 750, 380);
     setArrow("fromClickHere", 460, 200, 550, 230);
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
+
     var autoButtonTriggerFunc = function(){
-	if(executed == false){
+	if(executedStatus === ButtonClickStatus.InitValue){
 	    execAnimation("Manual", "button", 1, { opacity: 0 });
 	    execAnimation("ManualButtonStr", "次へ", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
 	    execAnimation("Automatic", "button", 1 , { fill : "aquamarine", stroke: "green" });
 	    execAnimation("AutomaticButtonStr", "自動", 1, { fill: "green", stroke: "green" });
-	    executed = true;
+	    execManager({ state : 0 });
+	    executedStatus = ButtonClickStatus.AutoExecution;
 	}
-	execManager({ state : 0 });
     };
     var nextButtonTriggerFunc = function(){
-	if(executed == false){
+	if(executedStatus === ButtonClickStatus.InitValue){
 	    execAnimation("Automatic", "button", 1, { opacity: 0 });
 	    execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
 	    execAnimation("Manual", "button", 1 , { fill : "aquamarine", stroke: "green" });
 	    execAnimation("ManualButtonStr", "次へ", 1, { fill: "green", stroke: "green" });
-	    executed = true;
+	    executedStatus = ButtonClickStatus.ManualExecution;
 	}
-	execManager({ state : 1 });
+	if(executedStatus != ButtonClickStatus.AutoExecution){
+	    execManager({ state : 1 });
+	}
     };
-
     var resetAnimationFunc = function(){
 	console.log("「最初から」がクリックされました。");
     };
@@ -419,7 +417,6 @@ function pushAry(ary, newElement){
 function setUpFunctionAry(key){
     AnimationFunctionAry = [
 	function(){
-	    // execEffectSVGIndexes(id1, str1, times1, id2, str2, times2, effectJson, sec)
 	    execEffectSVGIndexes("googleRect", "rect", 1, "google", "text", 1, { fillOpacity: 0, opacity: 0 }, 400);
 	    execAnimation("file:///hoge/ex06-1.html", "title", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
 	    execAnimation("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0, stroke: "black", opacity: 1});
@@ -687,7 +684,7 @@ function selectiveFunctionExecution(indexAry, fromIndex){
 function execManager(userInput){
     var state = userInput["state"];
     // console.log("animation index : " + animationStepIndex);
-    if(state == 0){
+    if(state === 0){ // 自動
 	(function animationLoop(){
 	    if(executionState != 1){
 		if(AnimationFunctionAry.length > 0){
@@ -696,7 +693,7 @@ function execManager(userInput){
 		window.setTimeout(animationLoop, 2000);
 	    }
 	}());
-    }else if(state == 1){
+    }else if(state === 1){ // 次へ
 	executionState = 1;
 	if(AnimationFunctionAry.length > 0){
 	    // console.log("animation index : " + animationStepIndex);
