@@ -6,7 +6,7 @@ function setChromeBrowser(x, y, width, height, urlText){
     var google = SVG.text(x + (width / 4) + 10, y + 21 + (height / 2), ["G", "o", "o", "g", "l", "e"]).attr({ strokeWidth: 3, fontSize: 50, opacity: 1 });
     var googleColor = ["#0080FF", "#FA5858", "#FFFF00", "#0080FF", "#2EFE2E", "#FA5858"];
     for(var i = 0; i < googleColor.length; i++){
-	google.selectAll("tspan")[i].animate({ fill: googleColor[i], stroke: googleColor[i]}, 0);
+	google.selectAll("tspan")[i].animate({ fill: googleColor[i], stroke: googleColor[i] }, 0);
     }
     var redCircle, yellowCircle, greenCircle, r = 5;
     var searchText = SVG.rect(x + 100, y + 180, 200, 21).attr({ fill: "white", stroke: "gray", opacity: 1, r: 2 });
@@ -31,17 +31,13 @@ function setCheckboxBySVG(id, x, y, json){
     SVGAry.push(check); SVGPushLog.push([id, "check"]);
 }
 
-function eA(id, strID, json){
-    // times : 1
-    var i;
-    if((i= searchSVGElementIndex(id, strID, 1)) != -1){
+function eA(id, strID, json){ // times : 1
+    var i = searchSVGElementIndex(id, strID, 1);
+    if(i != -1){
 	SVGAry[i].animate(json, animationSpeed);
+    }else{
+	alert("failed to find SVG element by ID.");
     }
-    alert("failed to find SVG element by ID.");
-}
-
-function getFixedIDAry(){
-    return ["eclipse", "check", "button", "line", "rect", "tip", "title", "arc"];
 }
 
 function execSVGAnimation(json, sec){
@@ -65,18 +61,6 @@ function makeButton(id, x, y, size, event, json){
     SVGAry.push(button);
     SVGPushLog.push([id, "button"]);
 }
-
-/*
- * SAMPLE => replaced by pushEventBySVGID
- * makeInteractiveButton("id", SVG.circle(x, y, size).attr(json), function(){ });
- * makeInteractiveButton("id", SVG.ellipse(x, y, width, height).attr(json), function(){ });
- */
-/* 
- function makeInteractiveButton(id, svgObj, event){
- svgObj.click(event);
- SVGAry.push(svgObj);
- SVGPushLog.push(id, "interactive");
-}*/
 
 function execEffectSVGIndexes(id1, str1, times1, id2, str2, times2, effectJson, sec){
     var from = searchSVGElementIndex(id1, str1, times1);
@@ -337,6 +321,7 @@ function setSVG(key){
 		"</body>", "", "</html>"];
     var dummyIndex = searchTextAryIndex(html, dummyTag);
     html[dummyIndex] = key + ">";
+    
     setBrowser(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
     setTextRectangle(50, 390, 400, "ex06-1.html", html);
     setTextRectangle(600, 390, 300,"ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
@@ -358,7 +343,6 @@ function setSVG(key){
     setArrow("FifthArrow", 850, 235, 750, 380);
     setArrow("fromClickHere", 460, 200, 550, 230);
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
-
     var autoButtonTriggerFunc = function(){
 	if(executedStatus === ButtonClickStatus.InitValue){
 	    execAnimation("Manual", "button", 1, { opacity: 0 });
@@ -381,24 +365,29 @@ function setSVG(key){
 	    execManager({ state : 1 });
 	}
     };
-    var resetAnimationFunc = function(){
-	console.log("「最初から」がクリックされました。");
-    };
-    makeButton("Automatic", 180, 135, 30, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-    makeButton("Manual", 180, 250, 30, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-    // makeButton("Reset", 180, 250, 30, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-    setText("AutomaticButtonStr", 163, 140, "自動");
-    execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1});
-    setText("ManualButtonStr", 163, 255, "次へ");
-    execAnimation("ManualButtonStr", "次へ", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1});
-    // setText("ResetButtonStr", "最初から");
+    
+    makeButton("Automatic", 209, 135, 40, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+    makeButton("Manual", 209, 250, 40, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+    setText("AutomaticButtonStr", 191, 140, "自動"); // button's x - 18, button's y + 5
+    setText("ManualButtonStr", 191, 255, "次へ");
+    execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
+    execAnimation("ManualButtonStr", "次へ", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
     pushEventBySVGID("AutomaticButtonStr", "自動", 1, autoButtonTriggerFunc);
     pushEventBySVGID("ManualButtonStr", "次へ", 1, nextButtonTriggerFunc);
+    
     // draw browser
-    setChromeBrowser(300, 50, 400, 250, "URL:"); // no url.
-    // var url = SVG.text(x + 100, y + 21, urlText);
+    setChromeBrowser(300, 50, 400, 250, "URL:"); // black url.
     setText("newURL", 400, 71, "URL: file:///hoge/ex06-1.html");
     changeJsonAttr("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0 });
+
+    // reset button
+    var resetAnimationFunc = function(){
+	location.reload();
+    };
+    makeButton("reset", 110, 190, 40, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+    setText("ResetButtonStr", 110 - 30, 190 + 7, "最初から");
+    eA("ResetButtonStr", "最初から", { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
+    pushEventBySVGID("ResetButtonStr", "最初から", 1, resetAnimationFunc);
 }
 
 function pushEventBySVGID(id, str, times, f){
@@ -420,6 +409,7 @@ function setUpFunctionAry(key){
 	    execEffectSVGIndexes("googleRect", "rect", 1, "google", "text", 1, { fillOpacity: 0, opacity: 0 }, 400);
 	    execAnimation("file:///hoge/ex06-1.html", "title", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
 	    execAnimation("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0, stroke: "black", opacity: 1});
+	    eA("newURL", "URL: file:///hoge/ex06-1.html", { strokeWidth: 0, stroke: "black", opacity: 1});
 	},
 	function(){
 	    execAnimation("ex06-1.html", "<script src=\"ex06-1.js\"><\/script>", 1, { fill: "black", stroke: "red", strokeWidth: 2 });
@@ -683,7 +673,6 @@ function selectiveFunctionExecution(indexAry, fromIndex){
 
 function execManager(userInput){
     var state = userInput["state"];
-    // console.log("animation index : " + animationStepIndex);
     if(state === 0){ // 自動
 	(function animationLoop(){
 	    if(executionState != 1){
