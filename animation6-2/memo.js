@@ -16,3 +16,17 @@ for(var i = 0; i < googleColor.length; i++){
 }
 SVGAry[tmp] = google;
 
+// resetAnimationFunc
+setUpFunctionAry();
+var skipAry = getFixedIDAry();
+var from, to, exists, id2;
+from  = searchSVGElementIndex("FirstArrow", "tip", 1);
+to = searchSVGElementIndex("HelloWorldRect", "Hello, world!", 1);
+for(; from <= to; from++){
+    id2 = SVGPushLog[from][1];
+    exists = skipAry.includes(id2);
+    if(exists){
+	continue;
+    }
+    SVGAry[from].animate({ opacity: 0 }, animationSpeed);
+}

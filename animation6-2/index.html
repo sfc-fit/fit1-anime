@@ -8,16 +8,14 @@
     <script src="newInterfaceFunction.js" charset="UTF-8"></script>
     <script type="text/javascript">
     var svgSize = 1200;
-    var SVG = Snap(svgSize, svgSize);
-    var SVGAry = new Array(), SVGPushLog = new Array();
+    var SVG = Snap(svgSize, svgSize), SVGAry = new Array(), SVGPushLog = new Array();
     var AnimationFunctionAry = new Array(); FunctionStorage = new Array();
-    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ];
-    var animationSpeed = 300, executionState = 0;
+    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ], animationSpeed = 300, executionState = 0;
     var ButtonClickStatus = { AutoExecution : 1, InitValue : 0, ManualExecution : -1 };
     var executedStatus = ButtonClickStatus.InitValue, select = false;
     // setCheckboxBySVG("checkbox", 30, 30, { fill: "white", stroke: "black", strokeWidth: 2, opacity: 0 });
     preUserChoise();
-    console.log('exit status : 0');
+    // console.log('exit status : 0');
     </script>
   </body>
 </html>
