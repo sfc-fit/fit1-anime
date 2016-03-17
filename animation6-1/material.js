@@ -34,7 +34,7 @@ function ahead(){
 
 //updata関数を呼び続ける
 function parent(){
-	if(document.getElementById("autoText").checked==false){
+	if(document.getElementById("autoBox").checked==false){
 		auto=false;
 	}
 	else{
