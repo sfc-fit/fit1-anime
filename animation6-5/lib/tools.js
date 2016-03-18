@@ -50,6 +50,9 @@ var blankRelation={
 var highColor="#e8383d";
 var shadowRep = Snap.filter.shadow(4,4,4,"black",1);
 var shadow = svg.filter(shadowRep);
+var htmlTitle;
+var jsTitle;
+var browserTitle;
 textSet={};
 
 //rect描画
@@ -104,6 +107,30 @@ function rectDot(posX,posY,w,h,col,op,st,stw){
 	return obj;
 }
 
+function circleUI(posX,posY,r,col,op,st,stw){
+	var obj=svg.circle(posX,posY,r);
+	obj.attr({
+		fill:col,
+		opacity:op,
+		stroke:st,
+		strokeWidth:stw
+	});
+
+	return obj;
+}
+
+function ellipseUI(posX,posY,w,h,col,op,st,stw){
+	var obj=svg.ellipse(posX,posY,w,h);
+	obj.attr({
+		fill:col,
+		opacity:op,
+		stroke:st,
+		strokeWidth:stw
+	});
+
+	return obj;
+}
+
 //テキスト描画
 function label(posX,posY,size,family,content,col){
 	labels[label_count]=svg.text(posX,posY,content);
@@ -131,6 +158,10 @@ function labelUI(posX,posY,size,family,content,col){
 		new_label.attr("fontFamily","Helvetica");
 	}
 	return new_label;
+}
+
+function updateText(obj,new_text){
+	obj.attr("text",new_text);
 }
 
 function line(x,y,x2,y2,w,col,op){
@@ -353,20 +384,20 @@ function setParent(child,parent){
 
 function setLabels(html,browser,js){
 	if(html!=""){
-		var html=labelUI(160,90,30,"",html,"black");
+		htmlTitle=labelUI(160,160,30,"",html,"black");
 	}
 	if(browser!=""){
-		var browser=labelUI(760,26,25,"",browser,"black");
+		browserTitle=labelUI(760,26,25,"",browser,"black");
 	}
 	if(js!=""){
-		var js=labelUI(850,295,30,"",js,"black");
+		jsTitle=labelUI(850,295,30,"",js,"black");
 	}
 	return [html,browser,js];
 }
 
 function setFrame(html,browser,js){
 	if(html>0){
-		frame.push(rectSoft(50,100,500,400,"#fff",1,"black",1));
+		frame.push(rectSoft(50,170,500,400,"#fff",1,"black",1));
 	}
 	if(browser>0){
 		frame.push(rectSoft(600,1,600,240,"#fff",1,"black",1));
@@ -376,7 +407,7 @@ function setFrame(html,browser,js){
 		frame.push(rectSoft(600,305,600,350,"#fff",1,"black",1));
 	}
 	for(var i=0;i<frame.length;i++){
-		frame[i].attr("fill","none");
+		//frame[i].attr("fill","none");
 		frame[i].attr("pointerEvents","none");
 	}
 }
@@ -395,7 +426,7 @@ function showText(no){
 	switch(no){
 		case 0:
 			x=60;
-			y=130;
+			y=200;
 			for(var i=0;i<textSet[no+""].length;i++){
 				htmlText.push(labelUI(x,y+i*25,15,"",textSet[no+""][i],"black"));
 			}
@@ -505,7 +536,7 @@ function scrollBox(no){
 
 function checkText(){
 	for(var i=0;i<htmlText.length;i++){
-		if(htmlText[i].attr("y")<130){
+		if(htmlText[i].attr("y")<60){
 			htmlText[i].attr("opacity",0);
 		}
 		else{
@@ -521,7 +552,7 @@ function checkText(){
 		}
 	}
 	for(var i=0;i<component.length;i++){
-		if(component[i].attr("y")<65){
+		if(component[i].attr("y")<0){
 			component[i].attr("opacity",0);
 		}
 		else
@@ -540,11 +571,11 @@ function addComponent(obj){
 }
 
 function setVisible(no,rate){
-	repaint(component[no],component[no].attr("fill"),rate,100);
+	repaint(component[no],component[no].attr("fill"),rate,600);
 }
 
 function highlight(obj){
-	repaint(obj,highColor,obj.attr("opacity"),100);
+	repaint(obj,highColor,obj.attr("opacity"),400);
 	if(boxList.exist==true){
 		for(var i=0;i<boxList.line.length;i++){
 			if(obj.id==boxList.line[i]){
@@ -566,7 +597,7 @@ function highlight(obj){
 
 function defuse(obj){
 	if(obj.id.indexOf("Component")<0){
-		repaint(obj,"black",1,100);
+		repaint(obj,"black",1,500);
 		if(boxList.exist==true){
 			for(var i=0;i<boxList.line.length;i++){
 				if(obj.id==boxList.line[i]){
@@ -595,8 +626,11 @@ function defuse(obj){
 	}
 }	
 
-function setArrow(obj,obj2){
+function setArrow(obj,obj2,no){
 	var x_1,x_2,y_1,y_2;
+	if(no==null){
+		no=0;
+	}
 	if(Number(obj.attr("x"))<Number(obj2.attr("x"))){
 		x_2=Number(obj2.attr("x"));
 	}
@@ -605,7 +639,7 @@ function setArrow(obj,obj2){
 			x_2=Number(obj2.attr("x"))+Number(obj2.attr("width"));
 		}
 		else{
-			x_2=Number(obj2.attr("x"))+obj2.attr("text").length*10;
+			x_2=Number(obj2.attr("x"))+obj2.attr("text").length*8;
 		}
 	}
 	if(obj.attr("width")!=undefined){
@@ -621,7 +655,7 @@ function setArrow(obj,obj2){
 		y_1=Number(obj.attr("y"))-10;
 	}
 	y_2=Number(obj2.attr("y"))+Number(obj2.attr("height"))/2;
-	arrow.attr({
+	arrow[no].attr({
 		x1:x_1,
 		y1:y_1,
 		x2:x_2,
@@ -629,14 +663,32 @@ function setArrow(obj,obj2){
 	});
 }
 
-function showArrow(){
-	repaint(arrow,arrow.attr("fill"),1,100);
-	repaint(marker,marker.attr("fill"),1,100);
+function absoluteArrow(x1,y1,x2,y2,no){
+	if(no==null){
+		no=0;
+	}
+	arrow[no].attr({
+		x1:x1,
+		y1:y1,
+		x2:x2,
+		y2:y2
+	});
 }
 
-function hideArrow(){
-	repaint(arrow,arrow.attr("fill"),0,100);
-	repaint(marker,marker.attr("fill"),0,100);
+function showArrow(no){
+	if(no==null){
+		no=0;
+	}
+	repaint(arrow[no],arrow[no].attr("fill"),1,100);
+	repaint(marker[no],marker[no].attr("fill"),1,100);
+}
+
+function hideArrow(no){
+	if(no==null){
+		no=0;
+	}
+	repaint(arrow[no],arrow[no].attr("fill"),0,100);
+	repaint(marker[no],marker[no].attr("fill"),0,100);
 }
 
 function setBox(x,y,w,val,line,no){
@@ -796,7 +848,7 @@ function resetAll(){
 		defuse(htmlText[i]);
 		//htmlText[i].attr("fill","black");
 		htmlText[i].attr("opacity",1);
-		htmlText[i].attr("y",130+i*25);
+		htmlText[i].attr("y",200+i*25);
 	}
 	for(var i=0;i<jsText.length;i++){
 		jsText[i].attr("fill","black");
@@ -818,6 +870,9 @@ function resetAll(){
 	boxList.htmlObj=new Array();
 	boxList.hsObj=new Array();
 	rebirthBox();
+	defuse(htmlTitle);
+	defuse(jsTitle);
+	defuse(browserTitle);
 	for(var i=0;i<scrollCount.length;i++){
 		scrollCount[i]=0;
 	}
@@ -825,5 +880,7 @@ function resetAll(){
 		//document.getElementById("box"+i).style.top=boxList.posY[i];
 		//alert(document.getElementById("box"+i).style.top)
 	}*/
-	hideArrow();
+	for(var i=0;i<arrow.length;i++){
+		hideArrow(i);
+	}
 }

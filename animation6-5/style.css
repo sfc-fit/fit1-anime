@@ -1,0 +1,112 @@
+#button{
+	position:relative;
+	top:20px;
+	left:100px;
+	width:100px;
+	height:50px;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#resetButton{
+	position:relative;
+	top:20px;
+	left:210px;
+	width:100px;
+	height:50px;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#aheadButton{
+	position:relative;
+	top:20px;
+	left:0px;
+	width:100px;
+	height:50px;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#buttonText{
+	position:relative;
+	color:white;
+ 	font-size:25;
+ 	top:-32px;
+ 	left:100px;
+ 	pointer-events:none;
+}
+
+#autoText{
+	position:relative;
+	color:black;
+ 	font-size:15;
+ 	top:0px;
+ 	left:230px;
+ 	pointer-events:none;
+}
+
+#icon{
+	position:relative;
+	top:-1195px;
+	left:727px;
+	width:100px;
+	height:50px;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#logo{
+	position:relative;
+	top:-1135px;
+	left:815px;
+	width:100px;
+	height:50px;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#autoButton{
+	position:relative;
+	top:50px;
+	left:150px;
+	width: 50px;
+	height: 50px;
+	-webkit-border-radius: 25px;/* width,heightの半分 */
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	background-color: #0073a8
+}
+
+#manualButton{
+	position:relative;
+	
+	left:200px;
+	width: 50px;
+	height: 50px;
+	-webkit-border-radius: 25px;/* width,heightの半分 */
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	background-color: #0073a8
+}
+
+input.exec{
+  position:relative;
+  top:5.4px;
+  left:15px;
+  width:8px;
+  height:6.8px;
+  z-index: 1;
+}
+
+input.auto{
+	position:relative;
+	top:20px;
+	left:210px;
+	z-index: 1;
+}

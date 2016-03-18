@@ -25,14 +25,15 @@ addComponent(labelUI(630,80,25,"","イベントハンドラの練習","black"));
 addComponent(rectSoft(630,130,100,50,"#ccc",0,"black",1));				//component[1]
 addComponent(labelUI(635,160,15,"","ここをクリック","black"));				//component[2]
 addComponent(rectDot(885,115,100,70,"#fff",1,"black",1));				//component[3]
-addComponent(labelUI(895,160,23,"",'onclick=alert("　")',"black"));				//component[4]
-addComponent(labelUI(1050,160,23,"","","black"));	//component[5]
+addComponent(labelUI(895,160,23,"","onclick=alert(\"　\");","black"));	//component[4]
+addComponent(labelUI(1050,160,23,"","","black"));						//component[5]
 addComponent(rectHard(630,210,130,70,"#fff",0,"black",1));				//component[6]
 addComponent(labelUI(635,252,20,"","Hello,World","black"));				//component[7]
+addComponent(labelUI(500,100,50,"",["tspan","の","テスト"],"black",1));
 
 /*
 リレーション設定
-第一引数に、onclick="　　　"のような空白を含むテキスト
+第一引数に、onclick=alert("　　　")のような空白を含むテキスト
 第二引数に、クオーテーションの中に入れたいテキスト
 中身に応じて、空白部分が伸びる
 */
@@ -66,9 +67,9 @@ setBox(167,491,90,"Hello,world!",htmlText[11],0);
 function update(){
 	if(started==true){
 		if(count%3==0){
-			checkText();
+			checkText();	//テキスト等の要素が枠内にあるかチェック
 		}
-		if(count%60==0&&phase<5&&auto==true){
+		if(count%120==0&&phase<5&&auto==true){
 			draw();
 		}
 		count++;
@@ -113,7 +114,7 @@ function draw(){
 			setVisible(7,1);
 			setArrow(component[5],component[7]);
 			showArrow();
-			scroll(1);								//スクロール
+			scroll(1);								//ブラウザスクロール
 			break;
 		case 4:
 			alert("アニメーションが終了しました");
