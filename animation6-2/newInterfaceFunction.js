@@ -242,8 +242,8 @@ function erasePreButton(){
 }
 
 function preUserChoise(){
-    var ellipseWidth = 100;
-    var ellipseHeight = 100;
+    var ellipseWidth = 135;
+    var ellipseHeight = 135;
     var ellipseY = 350;
     var strY = ellipseY + 5;
     var onceButtonTriggerFunc = function(){
@@ -272,18 +272,20 @@ function preUserChoise(){
     makeEllipseButton("callTwice", 650, ellipseY, ellipseWidth, ellipseHeight,twiceButtonTriggerFunc, { fill: "mistyrose", stroke: "red", strokeWidth: 2 });
     /* once */
     setText("leftButtonText", 223, strY, "onclick=\"sayhello();\"");
-    setText("case1", 270, 376, "の場合");
-    changeJsonAttr("leftButtonText",     "onclick=\"sayhello();\"", 1, { stroke : "red", fill: "red", strokeWidth: 2, opacity: 1 });
-    changeJsonAttr("case1", "の場合", 1, { stroke: "red", fill: "red", strokeWidth: 2, opacity: 1 });
+    // setText("case1", 270, 376, "の場合");
+    setText("case1", 270, 381, "の場合");
+    changeJsonAttr("leftButtonText",     "onclick=\"sayhello();\"", 1, { stroke : "red", fill: "red", strokeWidth: 1, opacity: 1 });
+    changeJsonAttr("case1", "の場合", 1, { stroke: "red", fill: "red", strokeWidth: 1, opacity: 1 });
     pushEventBySVGID("leftButtonText", "onclick=\"sayhello();\"", 1, onceButtonTriggerFunc);
     pushEventBySVGID("case1", "の場合", 1, onceButtonTriggerFunc);
     /* twice */
     setText("rightButtonText", 540, strY, "onclick=\"sayhello();sayhello();\"");
-    setText("case2", 625, 376, "の場合");
+    // setText("case2", 625, 376, "の場合");
+    setText("case2", 625, 381, "の場合");
     pushEventBySVGID("rightButtonText", "onclick=\"sayhello();sayhello();\"", 1, twiceButtonTriggerFunc);
     pushEventBySVGID("case2", "の場合", 1, twiceButtonTriggerFunc);
-    changeJsonAttr("rightButtonText",     "onclick=\"sayhello();sayhello();\"", 1, { stroke : "red", fill: "red", strokeWidth: 2, opacity: 1 });
-    changeJsonAttr("case2", "の場合", 1, { stroke: "red", fill: "red", strokeWidth: 2, opacity: 1 });
+    changeJsonAttr("rightButtonText",     "onclick=\"sayhello();sayhello();\"", 1, { stroke : "red", fill: "red", strokeWidth: 1, opacity: 1 });
+    changeJsonAttr("case2", "の場合", 1, { stroke: "red", fill: "red", strokeWidth: 1, opacity: 1 });
 }
 
 function init(){
@@ -366,8 +368,12 @@ function setSVG(key){
 	}
     };
     
+    // makeButton("Automatic", 209, 135, 40, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+    // makeButton("Manual", 209, 250, 40, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+    
     makeButton("Automatic", 209, 135, 40, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     makeButton("Manual", 209, 250, 40, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+
     setText("AutomaticButtonStr", 191, 140, "自動"); // button's x - 18, button's y + 5
     setText("ManualButtonStr", 191, 255, "次へ");
     execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
@@ -376,18 +382,18 @@ function setSVG(key){
     pushEventBySVGID("ManualButtonStr", "次へ", 1, nextButtonTriggerFunc);
     
     // draw browser
-    setChromeBrowser(300, 50, 400, 250, "URL:"); // black url.
+    // setChromeBrowser(300, 50, 400, 250, "URL:"); // black url.
     setText("newURL", 400, 71, "URL: file:///hoge/ex06-1.html");
     changeJsonAttr("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0 });
-
+    
     // reset button
     var resetAnimationFunc = function(){
 	location.reload();
     };
     makeButton("reset", 110, 190, 40, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-    setText("ResetButtonStr", 110 - 30, 190 + 7, "最初から");
-    eA("ResetButtonStr", "最初から", { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
-    pushEventBySVGID("ResetButtonStr", "最初から", 1, resetAnimationFunc);
+    setText("ResetButtonStr", 110 - 25 , 190 + 7, "最初へ");
+    eA("ResetButtonStr", "最初へ", { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
+    pushEventBySVGID("ResetButtonStr", "最初へ", 1, resetAnimationFunc);
 }
 
 function pushEventBySVGID(id, str, times, f){

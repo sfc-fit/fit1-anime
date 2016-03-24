@@ -10,10 +10,14 @@
     var svgSize = 1200;
     var SVG = Snap(svgSize, svgSize), SVGAry = new Array(), SVGPushLog = new Array();
     var AnimationFunctionAry = new Array(); FunctionStorage = new Array();
-    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ], animationSpeed = 300, executionState = 0;
+    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ], animationSpeed = 400, executionState = 0;
     var ButtonClickStatus = { AutoExecution : 1, InitValue : 0, ManualExecution : -1 };
     var executedStatus = ButtonClickStatus.InitValue, select = false;
     // setCheckboxBySVG("checkbox", 30, 30, { fill: "white", stroke: "black", strokeWidth: 2, opacity: 0 });
+    // setText("test", 30, 30, "Hello.");
+    // changeJsonAttr("test", "Hello.", 1, { fill: "black", opacity: 1 });
+    // console.log(SVGPushLog[0][1]);
+    // console.log(SVGAry[0].attr("x"));
     preUserChoise();
     // console.log('exit status : 0');
     </script>
