@@ -323,7 +323,6 @@ function setSVG(key){
 		"</body>", "", "</html>"];
     var dummyIndex = searchTextAryIndex(html, dummyTag);
     html[dummyIndex] = key + ">";
-    
     setBrowser(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
     setTextRectangle(50, 390, 400, "ex06-1.html", html);
     setTextRectangle(600, 390, 300,"ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
@@ -346,34 +345,20 @@ function setSVG(key){
     setArrow("fromClickHere", 460, 200, 550, 230);
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
     var autoButtonTriggerFunc = function(){
-	if(executedStatus === ButtonClickStatus.InitValue){
-	    execAnimation("Manual", "button", 1, { opacity: 0 });
-	    execAnimation("ManualButtonStr", "次へ", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
-	    execAnimation("Automatic", "button", 1 , { fill : "aquamarine", stroke: "green" });
-	    execAnimation("AutomaticButtonStr", "自動", 1, { fill: "green", stroke: "green" });
-	    execManager({ state : 0 });
-	    executedStatus = ButtonClickStatus.AutoExecution;
-	}
+	executedStatus = ButtonClickStatus.AutoExecution;
+	ClickLog.push(executedStatus);
+	execManager({ state : 0 });
     };
     var nextButtonTriggerFunc = function(){
-	if(executedStatus === ButtonClickStatus.InitValue){
-	    execAnimation("Automatic", "button", 1, { opacity: 0 });
-	    execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 0 });
-	    execAnimation("Manual", "button", 1 , { fill : "aquamarine", stroke: "green" });
-	    execAnimation("ManualButtonStr", "次へ", 1, { fill: "green", stroke: "green" });
-	    executedStatus = ButtonClickStatus.ManualExecution;
-	}
-	if(executedStatus != ButtonClickStatus.AutoExecution){
-	    execManager({ state : 1 });
-	}
+	executedStatus = ButtonClickStatus.ManualExecution;
+	ClickLog.push(executedStatus);
+	execManager({ state : 1 });
     };
     
     // makeButton("Automatic", 209, 135, 40, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     // makeButton("Manual", 209, 250, 40, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-    
     makeButton("Automatic", 209, 135, 40, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     makeButton("Manual", 209, 250, 40, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-
     setText("AutomaticButtonStr", 191, 140, "自動"); // button's x - 18, button's y + 5
     setText("ManualButtonStr", 191, 255, "次へ");
     execAnimation("AutomaticButtonStr", "自動", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
@@ -394,6 +379,8 @@ function setSVG(key){
     setText("ResetButtonStr", 110 - 25 , 190 + 7, "最初へ");
     eA("ResetButtonStr", "最初へ", { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
     pushEventBySVGID("ResetButtonStr", "最初へ", 1, resetAnimationFunc);
+    
+    // checkbox
 }
 
 function pushEventBySVGID(id, str, times, f){
@@ -412,7 +399,7 @@ function pushAry(ary, newElement){
 function setUpFunctionAry(key){
     AnimationFunctionAry = [
 	function(){
-	    execEffectSVGIndexes("googleRect", "rect", 1, "google", "text", 1, { fillOpacity: 0, opacity: 0 }, 400);
+	    // execEffectSVGIndexes("googleRect", "rect", 1, "google", "text", 1, { fillOpacity: 0, opacity: 0 }, 400);
 	    execAnimation("file:///hoge/ex06-1.html", "title", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
 	    execAnimation("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0, stroke: "black", opacity: 1});
 	    eA("newURL", "URL: file:///hoge/ex06-1.html", { strokeWidth: 0, stroke: "black", opacity: 1});
@@ -677,26 +664,44 @@ function selectiveFunctionExecution(indexAry, fromIndex){
     }
 }
 
+function checkLastClickIsAutoButton(){
+    var last = ClickLog.length - 1;
+    var lastElem = ClickLog[last];
+    if(ClickLog.length <= 0){
+	return true;
+    }
+    if(lastElem == ButtonClickStatus.AutoExecution){
+	return true;
+    }
+    return false;
+}
+
 function execManager(userInput){
-    var state = userInput["state"];
-    if(state === 0){ // 自動
-	(function animationLoop(){
-	    if(executionState != 1){
+    var current = new Date();
+    var diff = current - LastButtonClickTime;
+    if(diff < 2000){
+	; // do nothing.
+    }else{
+	var state = userInput.state;
+	if(state === 0){ // 自動
+	    (function animationLoop(){
+		LastButtonClickTime = current;
 		if(AnimationFunctionAry.length > 0){
 		    AnimationFunctionAry.shift()();
 		}
-		window.setTimeout(animationLoop, 2000);
+		var b1 = (executedStatus == ButtonClickStatus.AutoExecution);
+		var b2 = checkLastClickIsAutoButton();
+		// console.log(b1 + "," + b2);
+		if(b1 && b2){
+		    window.setTimeout(animationLoop, 2000);
+		}
+	    }());
+	}else if(state === 1){ // 次へ
+	    if(AnimationFunctionAry.length > 0){
+		animationStepIndex++;
+		AnimationFunctionAry.shift()();
+		LastButtonClickTime = current - 2000;
 	    }
-	}());
-    }else if(state === 1){ // 次へ
-	executionState = 1;
-	if(AnimationFunctionAry.length > 0){
-	    // console.log("animation index : " + animationStepIndex);
-	    animationStepIndex++;
-	    AnimationFunctionAry.shift()();
-	    // window.setTimeout(animationLoop, 2000);
 	}
-    }else{
-	alert("found invalid input");
     }
 }
