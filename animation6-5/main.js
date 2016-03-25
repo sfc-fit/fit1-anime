@@ -53,7 +53,7 @@ function update(){
 		if(count%3==0){
 			checkText();	//テキスト等の要素が枠内にあるかチェック
 		}
-		if(count%60==0&&phase<16&&auto==true){
+		if(count%120==0&&phase<16&&auto==true){
 			draw();
 		}
 		count++;
@@ -229,7 +229,6 @@ function draw(){
 function branch(){
 	switch(execMode){
 		case 0:
-			return 0;
 			break;
 		case 1:
 			if(phase==11){
@@ -241,7 +240,6 @@ function branch(){
 				phase=11;
 			}
 			break;
-
 	}
 }
 

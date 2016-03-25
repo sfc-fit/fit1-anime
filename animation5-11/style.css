@@ -49,6 +49,52 @@
  	pointer-events:none;
 }
 
+#icon{
+	position:relative;
+	top:-1216px;
+	left:727px;
+	width:100px;
+	height:50px;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#logo{
+	position:relative;
+	top:-1135px;
+	left:815px;
+	width:100px;
+	height:50px;
+	z-index: 1;
+	opacity:1;
+	border-radius: 2px;
+}
+
+#autoButton{
+	position:relative;
+	top:50px;
+	left:150px;
+	width: 50px;
+	height: 50px;
+	-webkit-border-radius: 25px;/* width,heightの半分 */
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	background-color: #0073a8
+}
+
+#manualButton{
+	position:relative;
+	
+	left:200px;
+	width: 50px;
+	height: 50px;
+	-webkit-border-radius: 25px;/* width,heightの半分 */
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	background-color: #0073a8
+}
+
 input.exec{
   position:relative;
   top:5.4px;

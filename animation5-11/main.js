@@ -27,8 +27,8 @@ addComponent(labelUI(635,160,15,"","ここをクリック","black"));				//compo
 addComponent(rectDot(885,115,100,70,"#fff",1,"black",1));				//component[3]
 addComponent(labelUI(895,160,23,"","onclick=alert(\"　\");","black"));	//component[4]
 addComponent(labelUI(1050,160,23,"","","black"));						//component[5]
-addComponent(rectHard(630,210,130,70,"#fff",0,"black",1));				//component[6]
-addComponent(labelUI(635,252,20,"","Hello,World","black"));				//component[7]
+addComponent(rectHard(760,160,130,70,"#fff",0,"black",1));				//component[6]
+addComponent(labelUI(765,202,20,"","Hello,World","black"));				//component[7]
 addComponent(labelUI(500,100,50,"",["tspan","の","テスト"],"black",1));
 
 /*
@@ -54,14 +54,15 @@ addVariable(component[7],2);
 //影指定
 addShadow(component[4]);
 addShadow(component[5]);
+addShadow(component[6]);
 
 /*
 テキストボックス作成
 引数はx,y,width,初期値,対応する行,対象コード(0:html,1:js)
 */
-setBox(105,440,162,"イベントハンドラの練習",htmlText[9],0);
-setBox(260,465,103,"ここをクリック",htmlText[10],0);
-setBox(167,491,90,"Hello,world!",htmlText[11],0);
+setBox(105,420,162,"イベントハンドラの練習",htmlText[9],0);
+setBox(260,442,103,"ここをクリック",htmlText[10],0);
+setBox(167,470,90,"Hello,world!",htmlText[11],0);
 
 //毎フレーム呼ばれる関数
 function update(){
@@ -69,7 +70,7 @@ function update(){
 		if(count%3==0){
 			checkText();	//テキスト等の要素が枠内にあるかチェック
 		}
-		if(count%120==0&&phase<5&&auto==true){
+		if(count%60==0&&phase<5&&auto==true){
 			draw();
 		}
 		count++;
@@ -114,7 +115,7 @@ function draw(){
 			setVisible(7,1);
 			setArrow(component[5],component[7]);
 			showArrow();
-			scroll(1);								//ブラウザスクロール
+			//scroll(1);								//ブラウザスクロール
 			break;
 		case 4:
 			alert("アニメーションが終了しました");

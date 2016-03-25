@@ -500,16 +500,19 @@ function scroll(no,count){
 	}
 }
 
-function scrollArrow(rate,mode){
+function scrollArrow(rate,mode,no){
+	if(no==undefined||no==null){
+		no=0;
+	}
 	if(mode==0){
-		arrow.attr({
-			y1:Number(arrow.attr("y1"))-rate
+		arrow[no].attr({
+			y1:Number(arrow[no].attr("y1"))-rate
 		});
 	}
 	else{
-		arrow.attr({
-			y1:Number(arrow.attr("y1"))-rate,
-			y2:Number(arrow.attr("y2"))-rate
+		arrow[no].attr({
+			y1:Number(arrow[no].attr("y1"))-rate,
+			y2:Number(arrow[no].attr("y2"))-rate
 		});
 	}
 }
@@ -552,7 +555,7 @@ function checkText(){
 		}
 	}
 	for(var i=0;i<component.length;i++){
-		if(component[i].attr("y")<0){
+		if(component[i].attr("y")<50){
 			component[i].attr("opacity",0);
 		}
 		else
@@ -725,7 +728,7 @@ function fixBox(){
 		document.getElementById("box"+i).style.pointerEvents="none";
 		document.getElementById("box"+i).style.zIndex=-1;
 		var x=boxList.posX[i]-10//Number(document.getElementById("box"+i).style.left.replace("px",""));
-		var y=boxList.posY[i]-85//Number(document.getElementById("box"+i).style.top.replace("px",""));
+		var y=boxList.posY[i]+5//Number(document.getElementById("box"+i).style.top.replace("px",""));
 		var val=document.getElementById("box"+i).value;
 		var fixVal=labelUI(x,y,15,"",val,"black");
 		for(var j=0;j<boxList.html.length;j++){
@@ -840,7 +843,7 @@ function addShadow(obj){
 }
 
 function end(){
-	document.getElementById("resetButton").style.opacity=1;
+	//document.getElementById("resetButton").style.opacity=1;
 }
 
 function resetAll(){
