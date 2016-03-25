@@ -1,4 +1,4 @@
-#button{
+#autobutton{
 	position:relative;
 	top:20px;
 	left:100px;
@@ -9,7 +9,7 @@
 	border-radius: 2px;
 }
 
-#resetButton{
+#stepButton{
 	position:relative;
 	top:20px;
 	left:210px;
@@ -20,7 +20,7 @@
 	border-radius: 2px;
 }
 
-#aheadButton{
+#resetButton{
 	position:relative;
 	top:20px;
 	left:0px;
@@ -40,14 +40,7 @@
  	pointer-events:none;
 }
 
-#autoText{
-	position:relative;
-	color:black;
- 	font-size:15;
- 	top:0px;
- 	left:230px;
- 	pointer-events:none;
-}
+
 
 input.exec{
   position:relative;

@@ -5,46 +5,33 @@ update関数は毎フレーム読み込まれます
 
 var started=false;
 var auto=false;
-document.getElementById("resetButton").style.opacity=0;
-document.getElementById("aheadButton").style.opacity=0;
+var pid = 0;
 
-function exec(){
-	started=true;
-	document.getElementById("aheadButton").style.opacity=1;
-	if(phase==0){
-		fixBox();
-		checkVariable();
-		parent();
-		if(document.getElementById("autoText").checked==false){
-			draw();
-		}
-	}
-}
-
-function replay(){
-	started=false;
-	document.getElementById("resetButton").style.opacity=0;
-	document.getElementById("aheadButton").style.opacity=0;
-	reset();
-}
-
-function ahead(){
-	draw();
-}
-
-//updata関数を呼び続ける
-function parent(){
-	if(document.getElementById("autoBox").checked==false){
-		auto=false;
-	}
-	else{
-		auto=true;
-	}
-
+function animationExec(){
+	pid = requestAnimationFrame(animationExec)
 	if(started==true){
-		requestAnimationFrame(parent);
-		requestAnimationFrame(update);
+		update();
 	}
+}
+
+function autoExec(){
+	if(started==false){
+		started = true;
+		auto = true;
+		animationExec();
+	}
+}
+
+function reset(){
+	count = 0;
+	phase = 0;
+	started = false;
+	cancelAnimationFrame(pid);
+	resetAll();
+}
+
+function stepExec(){
+	draw();
 }
 
 //textを出力し改行

@@ -18,16 +18,10 @@ addComponent(labelUI(650,100,25,"","関数の練習","black"));
 addComponent(setLine(900,90,1072,90,"black",1));
 
 function update(){
-	if(started==true){
-		if(count%5==0){
-
-
-		}
-		if(count%60==0&&phase<5&&auto==true){
-			draw();
-		}
-		count++;
+	if(count%60==0&&phase<5&&auto==true){
+		draw();
 	}
+	count++;
 }
 
 function draw(){
@@ -64,9 +58,10 @@ function draw(){
 	phase++;
 }
 
-function reset(){
-	count = 0;
-	phase = 0;
-	started = false;
-	resetAll();
-}
+var a = document.getElementById("autoButton");
+var s = document.getElementById("stepButton");
+var r = document.getElementById("resetButton");
+
+a.addEventListener('click',autoExec,false);
+s.addEventListener('click',stepExec,false);
+r.addEventListener('click',reset,false);

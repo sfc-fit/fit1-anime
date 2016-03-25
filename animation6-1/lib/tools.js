@@ -127,7 +127,7 @@ function labelUI(posX,posY,size,family,content,col){
 	return new_label;
 }
 
-function line(x,y,x2,y2,w,col,op){
+function drawline(x,y,x2,y2,w,col,op){
 	var new_line=svg.line({
 		x1: x,
 		y1: y,
@@ -363,6 +363,7 @@ function setFrame(html,browser,js){
 		frame.push(rectSoft(50,180,500,400,"#fff",1,"black",1));
 	}
 	if(browser>0){
+		
 		frame.push(rectSoft(600,20,600,240,"#fff",1,"black",1));
 		frame.push(rectSoft(600,20,600,30,"#ddd",1,"black",1));
 	}
