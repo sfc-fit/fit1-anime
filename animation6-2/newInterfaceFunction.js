@@ -58,8 +58,7 @@ function makeEllipseButton(id, x1, y1, width, height, event, json){
 function makeButton(id, x, y, size, event, json){
     var button = SVG.circle(x, y, size).attr(json);
     button.click(event);
-    SVGAry.push(button);
-    SVGPushLog.push([id, "button"]);
+    SVGAry.push(button); SVGPushLog.push([id, "button"]);
 }
 
 function execEffectSVGIndexes(id1, str1, times1, id2, str2, times2, effectJson, sec){
@@ -186,8 +185,7 @@ function setRect(id, x1, y1, charSize ,space, curve, text){
 
 function setText(id, x1, y1, str){
     var msg = SVG.text(x1, y1, str).attr({ strokeWidth: 2, stroke: "black", opacity: 0 });
-    SVGAry.push(msg);
-    SVGPushLog.push([id, str]);
+    SVGAry.push(msg); SVGPushLog.push([id, str]);
 }
 
 function execArrowAnimation(id, times, json){
@@ -207,7 +205,7 @@ function setArrow(id, x1, y1, x2, y2){
 function setBrowser(x, y, width, height, title, text)
 {
     var rec = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
-    var line = SVG.path("M " + x + " "+ (y + 30) + " h " + width).attr({ stroke: "black", strokeWidth: 2 });
+    var line = SVG.path("M " + x + " " + (y + 30) + " h " + width).attr({ stroke: "black", strokeWidth: 2 });
     // var text = SVG.text(x + 10, y + 21, title);
     var text = SVG.text(x + 100, y + 21, text);
     SVGAry.push(line); SVGPushLog.push([title, "line"]);
@@ -228,6 +226,7 @@ function setTextRectangle(x, y, width, title, strAry){
 	lineX = x + 10;
 	lineY = firstLine + (i * 23);
 	SVGAry.push(SVG.text(lineX, lineY, strAry[i])); // every stmnt.
+	// console.log("str : " + strAry[i] + ", y : " + lineY);
 	SVGPushLog.push([title, strAry[i]]);
     }
 }
@@ -245,12 +244,12 @@ function init(){
     if(GlobalKey == KeyStatus.Once){
 	setSVG(GlobalKey);
 	execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1, { opacity: 1 }, 0);
-	setUpFunctionAry(GlobalKey);
+	setUpFunctionAry();
 	selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
     }else{
 	setSVG(GlobalKey);
 	execEffectSVGIndexes("file:///hoge/ex06-1.html", "line", 1, "ex06-1.js", "}", 1,{ opacity: 1 }, 0);
-	setUpFunctionAry(GlobalKey);
+	setUpFunctionAry();
 	selectiveFunctionExecution(selectiveDebugIndex, debugAnimationStartIndex);
     }
 }
@@ -394,29 +393,25 @@ function execManager(userInput){
 function execManager(userInput){
     var current = new Date();
     var diff = current - LastButtonClickTime;
-    if(diff < 2000){
-	; // do nothing.
-    }else{
-	var state = userInput.state;
-	if(state === 0){ // 自動
-	    (function animationLoop(){
-		LastButtonClickTime = current;
+    var state = userInput.state;
+    if(state === 0){ // 自動
+	(function animationLoop(){
+	    LastButtonClickTime = current;
+	    var b1 = (executedStatus == ButtonClickStatus.AutoExecution);
+	    var b2 = checkLastClickIsAutoButton();
+	    // console.log(b1 + "," + b2);
+	    if(b1 && b2){
 		if(AnimationFunctionAry.length > 0){
 		    AnimationFunctionAry.shift()();
 		}
-		var b1 = (executedStatus == ButtonClickStatus.AutoExecution);
-		var b2 = checkLastClickIsAutoButton();
-		// console.log(b1 + "," + b2);
-		if(b1 && b2){
-		    window.setTimeout(animationLoop, 2000);
-		}
-	    }());
-	}else if(state === 1){ // 次へ
-	    if(AnimationFunctionAry.length > 0){
-		animationStepIndex++;
-		AnimationFunctionAry.shift()();
-		LastButtonClickTime = current - 2000;
+		window.setTimeout(animationLoop, 2000);
 	    }
+	}());
+    }else if(state === 1){ // 次へ
+	if(AnimationFunctionAry.length > 0){
+	    animationStepIndex++;
+	    AnimationFunctionAry.shift()();
+	    LastButtonClickTime = current - 2000;
 	}
     }
 }

@@ -58,14 +58,19 @@ function setSVG(key){
 		"<body>",
 		"<h1> 関数の練習 </h1>",
 		"<input type=\"button\" value=\"ここをクリック\"",
-		// "onclick=\"sayhello();sayhello();\">",
-		"<d>dummy</d>", // dummyTag
+		"",
 		"</body>", "", "</html>"];
-    var dummyIndex = searchTextAryIndex(html, dummyTag);
-    html[dummyIndex] = key + ">";
+    
     setBrowser(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
+    
     setTextRectangle(50, 390, 400, "ex06-1.html", html); // html file.
+    setText("onceState", 60, 693, KeyStatus.Once + ">");
+    eA("onceState", KeyStatus.Once + ">", { fill: "black", stroke: "black", strokeWidth: 0, opacity: 1 });
+    setText("twiceState", 60, 693, KeyStatus.Twice + ">");
+    eA("twiceState", KeyStatus.Twice + ">", { fill: "black", stroke: "black", strokeWidth: 0, opacity: 0 });
+    
     setTextRectangle(600, 390, 300,"ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
+    
     setArrow("FirstArrow", 250, 540, 420, 250);
     setText("FirstText", 155, 340, "スクリプトファイルの指定");
     setArrow("SecondArrow", 650, 350, 550, 250);
@@ -87,18 +92,22 @@ function setSVG(key){
     setArrow("fromClickHere", 460, 200, 550, 230);
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
     var autoButtonTriggerFunc = function(){
+	isExecuted = true;
+	eraseSwitchFuncCallButton();
 	executedStatus = ButtonClickStatus.AutoExecution;
 	ClickLog.push(executedStatus);
+	appendFunctionStorage();
 	execManager({ state : 0 });
     };
     var nextButtonTriggerFunc = function(){
+	isExecuted = true;
+	eraseSwitchFuncCallButton();
 	executedStatus = ButtonClickStatus.ManualExecution;
 	ClickLog.push(executedStatus);
+	appendFunctionStorage();
 	execManager({ state : 1 });
     };
     
-    // makeButton("Automatic", 209, 135, 40, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-    // makeButton("Manual", 209, 250, 40, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     makeButton("Automatic", 209, 135, 40, autoButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     makeButton("Manual", 209, 250, 40, nextButtonTriggerFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     setText("AutomaticButtonStr", 191, 140, "自動"); // button's x - 18, button's y + 5
@@ -115,43 +124,62 @@ function setSVG(key){
     
     // reset button
     var resetAnimationFunc = function(){
+	isExecuted = false;
 	location.reload();
     };
-    
-    // makeButton("reset", 110, 190, 40, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-    // setText("ResetButtonStr", 110 - 25 , 190 + 7, "最初へ");
     makeButton("reset", 110, 135, 40, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
     setText("ResetButtonStr", 110 - 25 , 135 + 7, "最初へ");
     eA("ResetButtonStr", "最初へ", { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
     pushEventBySVGID("ResetButtonStr", "最初へ", 1, resetAnimationFunc);
 
-    // checkbox
+    var s1, s2;
+    s1 = "1回実行", s2 = "2回実行";
     var switchKeyState = function(){
+	if(isExecuted == true){
+	    return;
+	}
 	if(GlobalKey == KeyStatus.Once){
 	    GlobalKey = KeyStatus.Twice;
-	    eA("changeNumberText", "1回実行", { opacity: 1 });
-	    eA("changeNumberText", "2回実行", { opacity: 0 });
-	    // main
-	    window.alert("temp");	    
+	    eA("changeNumberText", s1, { opacity: 0 });
+	    eA("changeNumberText", s2, { opacity: 1 });
+	    eA("onceState", KeyStatus.Once + ">", { opacity: 0 });
+	    eA("twiceState", KeyStatus.Twice + ">", { opacity: 1 });
 	}else{
+	    //
 	    GlobalKey = KeyStatus.Once;
-	    eA("changeNumberText", "1回実行", { opacity: 0 });
-	    eA("changeNumberText", "2回実行", { opacity: 1 });
-	    // main
-	    window.alert("temp");
+	    eA("changeNumberText", s1, { opacity: 1 });
+	    eA("changeNumberText", s2, { opacity: 0 });
+	    eA("onceState", KeyStatus.Once + ">", { opacity: 1 });
+	    eA("twiceState", KeyStatus.Twice + ">", { opacity: 0 });
 	}
+	console.log("Key : [" + GlobalKey + "]");
     };
-    
     makeButton("changeNumberOfFuncCall", 110, 250, 40, switchKeyState, { fill: "white", stroke: "black", strokeWidth: 2 });
-    setText("changeNumberText", 110 - 30, 250 + 7, "1回実行");
-    setText("changeNumberText", 110 - 30, 250 + 7, "2回実行");
-    changeJsonAttr("changeNumberText", "1回実行", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
-    changeJsonAttr("changeNumberText", "2回実行", 1, { stroke: "black", strokeWidth: 1, opacity: 0 });
-    pushEventBySVGID("changeNumberText", "1回実行", 1, switchKeyState);
-    pushEventBySVGID("changeNumberText", "2回実行", 1, switchKeyState);
+    setText("changeNumberText", 110 - 30, 250 + 7, s1);
+    changeJsonAttr("changeNumberText", s1, 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+    pushEventBySVGID("changeNumberText", s1, 1, switchKeyState);
+    setText("changeNumberText", 110 - 30, 250 + 7, s2);
+    changeJsonAttr("changeNumberText", s2, 1, { stroke: "black", strokeWidth: 1, opacity: 0 });
+    pushEventBySVGID("changeNumberText", s2, 1, switchKeyState);
 }
 
-function setUpFunctionAry(key){
+function eraseSwitchFuncCallButton(){
+    /*
+     eA("changeNumberText", "1回実行", { opacity: 0 });
+     eA("changeNumberText", "2回実行", { opacity: 0 });
+     eA("changeNumberOfFuncCall", "button", { opacity: 0 });
+     */
+    if(GlobalKey == KeyStatus.Once){
+	eA("changeNumberText", "1回実行", { fill: "green", stroke: "green", strokeWidth: 1 });
+	eA("changeNumberOfFuncCall", "button", { fill : "aquamarine", stroke: "green" });
+    }else{
+	eA("changeNumberText", "2回実行", { fill: "green", stroke: "green", strokeWidth: 1 });
+	eA("changeNumberOfFuncCall", "button", { fill : "aquamarine", stroke: "green" });
+    }
+    
+}
+
+function setUpFunctionAry(){
     AnimationFunctionAry = [
 	function(){
 	    execAnimation("file:///hoge/ex06-1.html", "title", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
@@ -211,7 +239,16 @@ function setUpFunctionAry(key){
 	},
 	function(){ 
 	    execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1,  { strokeWidth: 1, fill: "black", stroke: "red" });
-	    execAnimation("ex06-1.html", key + ">", 1, { strokeWidth: 1, fill: "black", stroke: "red" });
+	    eA("onceState", KeyStatus.Once + ">", { fill: "black", stroke: "red", strokeWidth: 1 });
+	    eA("twiceState", KeyStatus.Twice + ">", { fill: "black", stroke: "red", strokeWidth: 1 });
+	    /*
+	    if(GlobalKey == KeyStatus.Once){
+		eA("onceState", KeyStatus.Once + ">", { fill: "black", stroke: "red", strokeWidth: 1 });
+		eA("twiceState", KeyStatus.Twice + ">", { fill: "black", stroke: "red", strokeWidth: 1 });
+	    }else{
+		eA("onceState", KeyStatus.Once + ">", { fill: "black", stroke: "red", strokeWidth: 1 });
+		eA("twiceState", KeyStatus.Twice + ">", { fill: "black", stroke: "red", strokeWidth: 1 });
+	    }*/
 	},
 	function(){
 	    execArrowAnimation("ClickHere", 1, { opacity: 1 });
@@ -221,20 +258,30 @@ function setUpFunctionAry(key){
 	    execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "white", stroke: "black", strokeWidth: 1, opacity: 1 });
 	},
 	function(){
+	    /*
 	    if(key == KeyStatus.Twice){
-		execAnimation("onclick", "tspan", 1, { opacity: 1 });
+	     execAnimation("onclick", "tspan", 1, { opacity: 1 });
 	    }else{
 		execAnimation("partialOnclick", "tspan", 1, { opacity: 1 });
+	     }*/
+	    if(GlobalKey == KeyStatus.Once){
+		execAnimation("partialOnclick", "tspan", 1, { opacity: 1 });
+	    }else{
+		execAnimation("onclick", "tspan", 1, { opacity: 1 });
 	    }
 	},
 	function(){
 	    execArrowAnimation("ClickHere", 1, { opacity: 0 });
 	    execAnimation("ex06-1.html", "<input type=\"button\" value=\"ここをクリック\"", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
+	    /*
 	    if(key == KeyStatus.Once){
 		execAnimation("ex06-1.html", "onclick=\"sayhello();\">", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
 	    }else{
 		execAnimation("ex06-1.html", "onclick=\"sayhello();sayhello();\">", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
-	    }
+	     }*/
+	    eA("onceState", KeyStatus.Once + ">", { fill: "black", stroke: "black", strokeWidth: 0 });
+	    eA("twiceState", KeyStatus.Twice + ">", { fill: "black", stroke: "black", strokeWidth: 0 });
+
 	},
 	function(){
 	    execAnimation("ClickHereRect", "ここをクリック", 1, { fill: "red", stroke: "red", strokeWidth: 1 });
@@ -244,10 +291,18 @@ function setUpFunctionAry(key){
 	    execArrowAnimation("fromClickHere", 1, { opacity: 1 });
 	},
 	function(){
+	    /*
 	    if(key != KeyStatus.Once){
 		execStringAnimationByTspan("onclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
 	    }else{
 		execStringAnimationByTspan("partialOnclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
+	     }*/
+	    if(GlobalKey != KeyStatus.Once){
+		execStringAnimationByTspan("onclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
+		// execStringAnimationByTspan("partialOnclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
+	    }else{
+		execStringAnimationByTspan("partialOnclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
+		// execStringAnimationByTspan("onclick", 1, 1, { stroke: "red", fill: "black", strokeWidth: 1 });
 	    }
 	},
 	function(){
@@ -256,18 +311,31 @@ function setUpFunctionAry(key){
 	    execArrowAnimation("fromClickHere", 1, { opacity: 0 });
 	},
 	function(){
+	    /*
 	    if(key == KeyStatus.Once){
+		execArrowAnimation("AnotherForthArrow", 1, { opacity: 1 });
+	    }else{
+		execArrowAnimation("ForthArrow", 1, { opacity: 1 });
+	     }*/
+	    if(GlobalKey == KeyStatus.Once){
 		execArrowAnimation("AnotherForthArrow", 1, { opacity: 1 });
 	    }else{
 		execArrowAnimation("ForthArrow", 1, { opacity: 1 });
 	    }
 	},
-	function(){
+	function(){ /////////////////////////////
+	    /*
 	    if(key == KeyStatus.Once){
 		execArrowAnimation("AnotherForthArrow", 1, { opacity: 0 });
 	    }else{
 		execArrowAnimation("ForthArrow", 1, { opacity: 0 });
+	     }*/
+	    if(GlobalKey == KeyStatus.Once){
+		execArrowAnimation("AnotherForthArrow", 1, { opacity: 0 });
+	    }else{
+		execArrowAnimation("ForthArrow", 1, { opacity: 0 });
 	    }
+	    
 	    execArrowAnimation("FifthArrow", 1, { opacity: 1 });
 	},
 	function(){
@@ -287,7 +355,12 @@ function setUpFunctionAry(key){
 	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "pink", stroke: "red" });
 	},
 	function(){
-	    if(key != KeyStatus.Once){
+	    /*if(key != KeyStatus.Once){
+		execStringAnimationByTspan("onclick", 1, 1, { fill: "black", strokeWidth: 0 });
+	    }else{
+		execStringAnimationByTspan("partialOnclick", 1, 1, { fill: "black", strokeWidth: 0 });
+	     }*/
+	    if(GlobalKey != KeyStatus.Once){
 		execStringAnimationByTspan("onclick", 1, 1, { fill: "black", strokeWidth: 0 });
 	    }else{
 		execStringAnimationByTspan("partialOnclick", 1, 1, { fill: "black", strokeWidth: 0 });
@@ -295,13 +368,14 @@ function setUpFunctionAry(key){
 	    execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", fill: "white", strokeWidth: 1, opacity: 0 });
 	    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 0 });
 	    execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { stroke: "black", fill: "black", strokeWidth: 0 });
-	}	
-    ];
-    if(key == KeyStatus.Once){
+	}];
+    /*
+    if(GlobalKey == KeyStatus.Once){
 	AnimationFunctionAry.push(function(){
+	    alert(GlobalKey);
 	    alert("アニメーションは終了しました。");
 	});
-	return;
+	// return;
     }
     FunctionStorage = [
 	function(){
@@ -343,5 +417,57 @@ function setUpFunctionAry(key){
     ];
     for(var i = 0; i < FunctionStorage.length ; i++){
 	AnimationFunctionAry.push(FunctionStorage[i]);
+    }
+     */
+}
+
+function appendFunctionStorage(){
+    if(GlobalKey == KeyStatus.Once){
+	AnimationFunctionAry.push(function(){
+	    alert("アニメーションは終了しました。");
+	});
+    }else{
+	    FunctionStorage = [
+		function(){
+		    execStringAnimationByTspan("onclick", 1, 2, { stroke: "blue", fill: "black", strokeWidth: 1 });
+		},
+		function(){
+		    execArrowAnimation("ForthArrow", 1, { opacity: 1});
+		},
+		function(){
+		    execArrowAnimation("ForthArrow", 1, { opacity: 0 });
+		    execArrowAnimation("FifthArrow", 1, { opacity: 1 });
+		},
+		function(){
+		    execArrowAnimation("FifthArrow", 1, { opacity: 0 });
+		    execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { fill: "black", stroke: "blue", strokeWidth: 1 });
+		},
+		function(){
+		    execArrowAnimation("alertArrow", 1, { opacity: 1 });
+		},
+		function(){
+		    execAnimation("HelloWorldRect", "rect", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
+		    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "black", stroke: "black", opacity: 1 });
+		},
+		function(){
+		    execArrowAnimation("alertArrow", 1, { opacity: 0 });
+		    execAnimation("HelloWorldRect", "rect", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1 });
+		    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue" });
+		},
+		function(){
+		    execAnimation("ex06-1.js", "alert('Hello, world!);", 1, { fill: "black", stroke: "black", strokeWidth: 0, opacity: 1 });
+		    execArrowAnimation("alertArrow", 1, { opacity: 0 });
+		    execAnimation("HelloWorldRect", "rect", 1, { stroke: "blue", fill: "cyan", strokeWidth: 1, opacity: 0 });
+		    execAnimation("HelloWorldRect", "Hello, world!", 1, { fill: "cyan", stroke: "blue", opacity: 0 });
+		    execStringAnimationByTspan("onclick", 1, 2, { stroke: "black", fill: "black", strokeWidth: 0 });
+		},
+		function(){
+		    alert("アニメーションは終了しました。");
+		}
+	    ];
+	for(var i = 0; i < FunctionStorage.length ; i++){
+	    AnimationFunctionAry.push(FunctionStorage[i]);
+	}
+
     }
 }

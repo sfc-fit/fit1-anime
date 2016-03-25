@@ -8,12 +8,12 @@
     <script src="newInterfaceFunction.js" charset="UTF-8"></script>
     <script src="data.js" charset="UTF-8"></script>
     <script type="text/javascript">
-    var svgSize = 1200, SVG = Snap(svgSize, svgSize), SVGAry = new Array(), SVGPushLog = new Array();
+    var SvgSize = 1200, SVG = Snap(SvgSize, SvgSize), SVGAry = new Array(), SVGPushLog = new Array();
     var AnimationFunctionAry = new Array(); FunctionStorage = new Array();
-    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ], animationSpeed = 200;
     var ButtonClickStatus = { AutoExecution: 1, InitValue: 0, ManualExecution: -1 }, executedStatus = ButtonClickStatus.InitValue;
-    var KeyStatus = { Once: "onclick=\"sayhello();\"", Twice: "onclick=\"sayhello();sayhello();\"" }, GlobalKey = KeyStatus.Once;
-    var LastButtonClickTime = new Date() + 3000, ClickLog = new Array();
+    var KeyStatus = { Once: 'onclick="sayhello();"', Twice: 'onclick="sayhello();sayhello();"' }, GlobalKey = KeyStatus.Once;
+    var LastButtonClickTime = new Date(), ClickLog = [ ], isExecuted = false;
+    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ], animationSpeed = 400;
     init();
     console.log("exit : 0");
     </script>
