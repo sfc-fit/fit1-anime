@@ -6,17 +6,16 @@
   <body>
     <script src="snap.svg-min.js"></script>
     <script src="newInterfaceFunction.js" charset="UTF-8"></script>
+    <script src="data.js" charset="UTF-8"></script>
     <script type="text/javascript">
-    var svgSize = 1200;
-    var SVG = Snap(svgSize, svgSize), SVGAry = new Array(), SVGPushLog = new Array();
+    var svgSize = 1200, SVG = Snap(svgSize, svgSize), SVGAry = new Array(), SVGPushLog = new Array();
     var AnimationFunctionAry = new Array(); FunctionStorage = new Array();
-    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ], animationSpeed = 300;
-    var ButtonClickStatus = { AutoExecution: 1, InitValue: 0, ManualExecution: -1 };
-    var AnimationKeyStatus = { Once: 1, Twice: 2 };
-    var executedStatus = ButtonClickStatus.InitValue, select = false;
+    var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ], animationSpeed = 200;
+    var ButtonClickStatus = { AutoExecution: 1, InitValue: 0, ManualExecution: -1 }, executedStatus = ButtonClickStatus.InitValue;
+    var KeyStatus = { Once: "onclick=\"sayhello();\"", Twice: "onclick=\"sayhello();sayhello();\"" }, GlobalKey = KeyStatus.Once;
     var LastButtonClickTime = new Date() + 3000, ClickLog = new Array();
-    preUserChoise();
-    setCheckboxBySVG("checkbox", 30, 30, { fill: "white", stroke: "black", strokeWidth: 2, opacity: 0 });
+    init();
+    console.log("exit : 0");
     </script>
   </body>
 </html>
