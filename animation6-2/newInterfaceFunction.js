@@ -359,37 +359,6 @@ function checkLastClickIsAutoButton(){
     return false;
 }
 
-/* backup
-function execManager(userInput){
-    var current = new Date();
-    var diff = current - LastButtonClickTime;
-    if(diff < 2000){
-	; // do nothing.
-    }else{
-	var state = userInput.state;
-	if(state === 0){ // 自動
-	    (function animationLoop(){
-		LastButtonClickTime = current;
-		if(AnimationFunctionAry.length > 0){
-		    AnimationFunctionAry.shift()();
-		}
-		var b1 = (executedStatus == ButtonClickStatus.AutoExecution);
-		var b2 = checkLastClickIsAutoButton();
-		// console.log(b1 + "," + b2);
-		if(b1 && b2){
-		    window.setTimeout(animationLoop, 2000);
-		}
-	    }());
-	}else if(state === 1){ // 次へ
-	    if(AnimationFunctionAry.length > 0){
-		animationStepIndex++;
-		AnimationFunctionAry.shift()();
-		LastButtonClickTime = current - 2000;
-	    }
-	}
-    }
-}*/
-
 function execManager(userInput){
     var current = new Date();
     var diff = current - LastButtonClickTime;
@@ -399,7 +368,6 @@ function execManager(userInput){
 	    LastButtonClickTime = current;
 	    var b1 = (executedStatus == ButtonClickStatus.AutoExecution);
 	    var b2 = checkLastClickIsAutoButton();
-	    // console.log(b1 + "," + b2);
 	    if(b1 && b2){
 		if(AnimationFunctionAry.length > 0){
 		    AnimationFunctionAry.shift()();

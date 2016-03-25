@@ -12,7 +12,7 @@
     var AnimationFunctionAry = new Array(); FunctionStorage = new Array();
     var ButtonClickStatus = { AutoExecution: 1, InitValue: 0, ManualExecution: -1 }, executedStatus = ButtonClickStatus.InitValue;
     var KeyStatus = { Once: 'onclick="sayhello();"', Twice: 'onclick="sayhello();sayhello();"' }, GlobalKey = KeyStatus.Once;
-    var LastButtonClickTime = new Date(), ClickLog = [ ], isExecuted = false;
+    var LastButtonClickTime = new Date(), ClickLog = new Array(), isExecuted = false;
     var animationStepIndex = 0, debugAnimationStartIndex = 0, selectiveDebugIndex = [ ], animationSpeed = 400;
     init();
     console.log("exit : 0");
