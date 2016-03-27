@@ -1,4 +1,37 @@
 
+
+function setSayHelloFuncSwitch(){
+    function switchClickEvent(){
+	var s1 = "sayhello関数を1回実行する";
+	var s2 = "sayhello関数を2回実行する";
+	if(isExecuted === true){
+	    return;
+	}
+	if(GlobalKey == KeyStatus.Once){
+	    GlobalKey = KeyStatus.Twice;
+	    console.log("Twice");
+	    eA("sayhelloSwitch", s1, { opacity : 1 });
+	    eA("sayhelloSwitch", s2, { opacity : 0 });
+	    eA("onceState", KeyStatus.Once + ">", { opacity: 0 });
+	    eA("twiceState", KeyStatus.Twice + ">", { opacity: 1 });
+	}else{
+	    GlobalKey = KeyStatus.Once;
+	    console.log("Once");
+	    eA("sayhelloSwitch", s1, { opacity : 0 });
+	    eA("sayhelloSwitch", s2, { opacity : 1 });
+	    eA("onceState", KeyStatus.Once + ">", { opacity: 1 });
+	    eA("twiceState", KeyStatus.Twice + ">", { opacity: 0 });
+	}
+    }
+    var str1 = "sayhello関数を1回実行する", str2 = "sayhello関数を2回実行する";
+    var rect = SVG.rect(150, 730, 250, 30).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
+    var txt1 = SVG.text(170, 751, str1).attr({ fill: "black", stroke: "black", strokeWidth: 1, opacity: 0 });
+    var txt2 = SVG.text(170, 751, str2).attr({ fill: "black", stroke: "black", strokeWidth: 1, opacity: 1 });
+    SVGAry.push(rect); SVGPushLog.push(["sayhelloSwitch", "rect"]); rect.click(switchClickEvent);
+    SVGAry.push(txt1); SVGPushLog.push(["sayhelloSwitch", str1]); txt1.click(switchClickEvent);
+    SVGAry.push(txt2); SVGPushLog.push(["sayhelloSwitch", str2]); txt2.click(switchClickEvent);
+}
+
 function setSVG(key){
     
     var dummyTag = "<d>dummy</d>";
@@ -15,15 +48,12 @@ function setSVG(key){
 		"</body>", "", "</html>"];
     
     setBrowser(300, 50, 400, 250, "file:///hoge/ex06-1.html", [ ]);
-    
     setTextRectangle(50, 390, 400, "ex06-1.html", html); // html file.
     setText("onceState", 60, 693, KeyStatus.Once + ">");
     eA("onceState", KeyStatus.Once + ">", { fill: "black", stroke: "black", strokeWidth: 0, opacity: 1 });
     setText("twiceState", 60, 693, KeyStatus.Twice + ">");
     eA("twiceState", KeyStatus.Twice + ">", { fill: "black", stroke: "black", strokeWidth: 0, opacity: 0 });
-    
     setTextRectangle(600, 390, 300,"ex06-1.js", [ "function sayhello(){", "alert('Hello, world!);", "}"]);
-    
     setArrow("FirstArrow", 250, 540, 420, 250);
     setText("FirstText", 155, 340, "スクリプトファイルの指定");
     setArrow("SecondArrow", 650, 350, 550, 250);
@@ -45,7 +75,8 @@ function setSVG(key){
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
     var autoButtonTriggerFunc = function(){
 	isExecuted = true;
-	eraseSwitchFuncCallButton();
+	// eraseSwitchFuncCallButton();
+	fixSwitchFuncCallButton();
 	executedStatus = ButtonClickStatus.AutoExecution;
 	ClickLog.push(executedStatus);
 	appendFunctionStorage();
@@ -53,7 +84,8 @@ function setSVG(key){
     };
     var nextButtonTriggerFunc = function(){
 	isExecuted = true;
-	eraseSwitchFuncCallButton();
+	// eraseSwitchFuncCallButton();
+	fixSwitchFuncCallButton();
 	executedStatus = ButtonClickStatus.ManualExecution;
 	ClickLog.push(executedStatus);
 	appendFunctionStorage();
@@ -77,15 +109,16 @@ function setSVG(key){
 	isExecuted = false;
 	location.reload();
     };
-    makeButton("reset", 110, 135, 40, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
-    setText("ResetButtonStr", 110 - 25 , 135 + 7, "最初へ");
+    makeButton("reset", 115, 190, 40, resetAnimationFunc, { fill: "white", stroke: "black", strokeWidth: 2 });
+    setText("ResetButtonStr", 115 - 25 , 190 + 7, "最初へ");
     eA("ResetButtonStr", "最初へ", { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
     pushEventBySVGID("ResetButtonStr", "最初へ", 1, resetAnimationFunc);
 
+    /*
     var s1, s2;
     s1 = "2回", s2 = "1回";
     var switchKeyState = function(){
-	if(isExecuted == true){
+     if(isExecuted == true){
 	    return;
 	}
 	if(GlobalKey == KeyStatus.Once){
@@ -110,16 +143,31 @@ function setSVG(key){
     setText("changeNumberText", 110 - 30 + 15, 250 + 7, s2);
     changeJsonAttr("changeNumberText", s2, 1, { stroke: "black", strokeWidth: 1, opacity: 0 });
     pushEventBySVGID("changeNumberText", s2, 1, switchKeyState);
+     */
+    setSayHelloFuncSwitch();
+}
+
+function fixSwitchFuncCallButton(){
+    var s1 = "sayhello関数を1回実行する";
+    var s2 = "sayhello関数を2回実行する";
+    if(GlobalKey == KeyStatus.Once){
+	eA("sayhelloSwitch", "rect", { fill: "aquamarine", stroke: "green" });
+	eA("sayhelloSwitch", s2, { stroke: "green", fill: "green" });
+    }else{
+	eA("sayhelloSwitch", "rect", { fill: "aquamarine", stroke: "green" });
+	eA("sayhelloSwitch", s1, { stroke: "green", fill: "green" });
+    }
 }
 
 function eraseSwitchFuncCallButton(){
+    /*
     if(GlobalKey == KeyStatus.Once){
 	eA("changeNumberText", "2回", { fill: "green", stroke: "green", strokeWidth: 1 });
 	eA("changeNumberOfFuncCall", "button", { fill : "aquamarine", stroke: "green" });
     }else{
 	eA("changeNumberText", "1回", { fill: "green", stroke: "green", strokeWidth: 1 });
 	eA("changeNumberOfFuncCall", "button", { fill : "aquamarine", stroke: "green" });
-    }
+    }*/
     
 }
 
