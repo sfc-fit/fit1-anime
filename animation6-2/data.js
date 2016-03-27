@@ -1,4 +1,16 @@
 
+function insertFirefoxImage(){
+    var redCircle, yellowCircle, greenCircle;
+    var i = SVG.image("Firefox-logo.png", 410, 120, 150, 150).attr({ opacity: 1 });
+    var x = 300, y = 50, r = 5;
+    redCircle = SVG.circle(x + 20, y + 16, r).attr({ fill: "#FA5858", opacity: 1 });
+    yellowCircle = SVG.circle(x + 42, y + 16, r).attr({ fill: "#FFFF00", opacity: 1 });
+    greenCircle = SVG.circle(x + 64, y + 16, r).attr({ fill: "#2EFE2E", opacity: 1 });
+    SVGAry.push(i); SVGPushLog.push(["firefox", "png"]);
+    SVGAry.push(redCircle);    SVGPushLog.push(["redCircle", "circle"]);
+    SVGAry.push(yellowCircle); SVGPushLog.push(["yellowCircle", "circle"]);
+    SVGAry.push(greenCircle);  SVGPushLog.push(["greenCircle", "circle"]);
+}
 
 function setSayHelloFuncSwitch(){
     function switchClickEvent(){
@@ -33,7 +45,6 @@ function setSayHelloFuncSwitch(){
 }
 
 function setSVG(key){
-    
     var dummyTag = "<d>dummy</d>";
     var html = ["<!DOCTYPE html>",
 		"<html>", "", "<head>",
@@ -75,7 +86,6 @@ function setSVG(key){
     setRect("HelloWorldRect", 330, 260, 10 ,0 , 1, "Hello, world!");
     var autoButtonTriggerFunc = function(){
 	isExecuted = true;
-	// eraseSwitchFuncCallButton();
 	fixSwitchFuncCallButton();
 	executedStatus = ButtonClickStatus.AutoExecution;
 	ClickLog.push(executedStatus);
@@ -84,7 +94,6 @@ function setSVG(key){
     };
     var nextButtonTriggerFunc = function(){
 	isExecuted = true;
-	// eraseSwitchFuncCallButton();
 	fixSwitchFuncCallButton();
 	executedStatus = ButtonClickStatus.ManualExecution;
 	ClickLog.push(executedStatus);
@@ -100,11 +109,8 @@ function setSVG(key){
     execAnimation("ManualButtonStr", "次へ", 1, { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
     pushEventBySVGID("AutomaticButtonStr", "自動", 1, autoButtonTriggerFunc);
     pushEventBySVGID("ManualButtonStr", "次へ", 1, nextButtonTriggerFunc);
-    
     setText("newURL", 400, 71, "URL: file:///hoge/ex06-1.html");
     changeJsonAttr("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0 });
-    
-    // reset button
     var resetAnimationFunc = function(){
 	isExecuted = false;
 	location.reload();
@@ -113,38 +119,8 @@ function setSVG(key){
     setText("ResetButtonStr", 115 - 25 , 190 + 7, "最初へ");
     eA("ResetButtonStr", "最初へ", { stroke: "black", strokeWidth: 1, fill: "black", opacity: 1 });
     pushEventBySVGID("ResetButtonStr", "最初へ", 1, resetAnimationFunc);
-
-    /*
-    var s1, s2;
-    s1 = "2回", s2 = "1回";
-    var switchKeyState = function(){
-     if(isExecuted == true){
-	    return;
-	}
-	if(GlobalKey == KeyStatus.Once){
-	    GlobalKey = KeyStatus.Twice;
-	    eA("changeNumberText", s1, { opacity: 0 });
-	    eA("changeNumberText", s2, { opacity: 1 });
-	    eA("onceState", KeyStatus.Once + ">", { opacity: 0 });
-	    eA("twiceState", KeyStatus.Twice + ">", { opacity: 1 });
-	}else{
-	    //
-	    GlobalKey = KeyStatus.Once;
-	    eA("changeNumberText", s1, { opacity: 1 });
-	    eA("changeNumberText", s2, { opacity: 0 });
-	    eA("onceState", KeyStatus.Once + ">", { opacity: 1 });
-	    eA("twiceState", KeyStatus.Twice + ">", { opacity: 0 });
-	}
-    };
-    makeButton("changeNumberOfFuncCall", 110, 250, 40, switchKeyState, { fill: "white", stroke: "black", strokeWidth: 2 });
-    setText("changeNumberText", 110 - 30 + 15, 250 + 7, s1);
-    changeJsonAttr("changeNumberText", s1, 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
-    pushEventBySVGID("changeNumberText", s1, 1, switchKeyState);
-    setText("changeNumberText", 110 - 30 + 15, 250 + 7, s2);
-    changeJsonAttr("changeNumberText", s2, 1, { stroke: "black", strokeWidth: 1, opacity: 0 });
-    pushEventBySVGID("changeNumberText", s2, 1, switchKeyState);
-     */
     setSayHelloFuncSwitch();
+    insertFirefoxImage();
 }
 
 function fixSwitchFuncCallButton(){
@@ -159,20 +135,11 @@ function fixSwitchFuncCallButton(){
     }
 }
 
-function eraseSwitchFuncCallButton(){
-    /*
-    if(GlobalKey == KeyStatus.Once){
-	eA("changeNumberText", "2回", { fill: "green", stroke: "green", strokeWidth: 1 });
-	eA("changeNumberOfFuncCall", "button", { fill : "aquamarine", stroke: "green" });
-    }else{
-	eA("changeNumberText", "1回", { fill: "green", stroke: "green", strokeWidth: 1 });
-	eA("changeNumberOfFuncCall", "button", { fill : "aquamarine", stroke: "green" });
-    }*/
-    
-}
-
 function setUpFunctionAry(){
     AnimationFunctionAry = [
+	function(){
+	    eA("firefox", "png", { opacity: 0 });
+	},
 	function(){
 	    execAnimation("file:///hoge/ex06-1.html", "title", 1, { stroke: "black", strokeWidth: 1, opacity: 1 });
 	    execAnimation("newURL", "URL: file:///hoge/ex06-1.html", 1, { strokeWidth: 0, stroke: "black", opacity: 1});
