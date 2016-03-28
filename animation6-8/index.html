@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>ex06-1</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <script src="snap.svg-min.js"></script>
+    <script src="newInterfaceFunction.js" charset="UTF-8"></script>
+    <script src="data.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+    /* most important global variables for animation management */
+    var SvgSize = 1400, SVG = Snap(SvgSize, SvgSize),
+	    SVGAry = new Array(), SVGPushLog = new Array();
+    var AnimationFunctionAry = new Array(); FunctionStorage = new Array();
+    /* variables for user interface */
+    var Status = { AutoExecution: 1, InitValue: 0, ManualExecution: -1 };
+    var executedStatus = Status.InitValue;
+    var t = new Date(), isExecuted = false;
+    /* global variables for debug */
+    var animationStepIndex = 0, debugAnimationStartIndex = 0,
+	    selectiveDebugIndex = [ ], animationSpeed = 400;
+    /* start animation ! */
+    init();
+    console.log("exit : 0");
+    </script>
+  </body>
+</html>
