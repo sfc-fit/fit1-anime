@@ -25,14 +25,14 @@ function eA(id, strID, json){
 function makeEllipseButton(id, x1, y1, width, height, event, json){
     var ellipse = SVG.ellipse(x1, y1, width, height).attr(json);
     ellipse.click(event);
-    SVGAry.push(ellipse); SVGPushLog.push([id, "eclipse"]);
+    SVGAry.push(ellipse); SVGIDLog.push([id, "eclipse"]);
     return ellipse;
 }
 
 function makeButton(id, x, y, size, event, json){
     var button = SVG.circle(x, y, size).attr(json);
     button.click(event);
-    SVGAry.push(button); SVGPushLog.push([id, "button"]);
+    SVGAry.push(button); SVGIDLog.push([id, "button"]);
     return button;
 }
 
@@ -50,21 +50,10 @@ function execEffectSVGIndexes(id1, str1, times1, id2, str2, times2, effectJson, 
     }
 }
 
-/*
-function changeJsonAttr(id, str, times, json)
-{
-    var index = searchSVGElementIndex(id, str, times);
-    if(index == -1){
-	alert("failed to find the animation target by ID.");
-    }
-    SVGAry[index].animate(json, 0);
-}
-*/
-
 function setTspanStrs(id, x, y, strAry, json){
     var svgStrAryText = SVG.text(x, y, strAry).attr(json);
     SVGAry.push(svgStrAryText);
-    SVGPushLog.push([id, "tspan"]);
+    SVGIDLog.push([id, "tspan"]);
     return svgStrAryText;
 }
 
@@ -88,9 +77,9 @@ function execAnimation(id, str, times, json)
 function searchSVGElementIndex(id, str, times)
 {
     var findCount = 0;
-    for(var i = 0; i < SVGPushLog.length; i++){
-	if(id == SVGPushLog[i][0]){
-	    if(str == SVGPushLog[i][1]){
+    for(var i = 0; i < SVGIDLog.length; i++){
+	if(id == SVGIDLog[i][0]){
+	    if(str == SVGIDLog[i][1]){
 		if(findCount == (times - 1)){
 		    return i;
 		}else{
@@ -111,25 +100,25 @@ function setGridChart(){
 	    tmp = SVG.circle(i * interval, k * interval, circleSize).
 		attr({ opacity: 0.5, fill: "cyan", stroke: "blue", strokeWidth: 1 });
 	    SVGAry.push(tmp);
-	    SVGPushLog.push(["grid", (i + "," + k)]);
+	    SVGIDLog.push(["grid", (i + "," + k)]);
 	}
     }
     // the center of SVG. make new center and remove the duplication of SVG circle. make the center tmp circle 'transparent'.
     var c = SVG.circle(500, 500, 5).attr({ opacity: 0.8, fill: "pink", stroke: "red", strokeWidth: 2 });
-    SVGAry.push(c); SVGPushLog.push(["center", "5,5"]);
+    SVGAry.push(c); SVGIDLog.push(["center", "5,5"]);
     execAnimation("grid", "5,5", 1, { opacity: 0 });
 }
 
 function setLine(id, x1, y1, x2, y2){
     var p = SVG.line(x1, y1, x2, y2).attr({ stroke: "black", strokeWidth: 1 });
-    SVGAry.push(p); SVGPushLog.push([id, "line"]);
+    SVGAry.push(p); SVGIDLog.push([id, "line"]);
     return p;
 }
 
 function setEllipse(id, x1, y1, width, height){
     var eclipse = SVG.ellipse(x1, y1, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 1 });
     SVGAry.push(eclipse);
-    SVGPushLog.push([id, "eclipse"]);
+    SVGIDLog.push([id, "eclipse"]);
     return eclipse;
 }
 
@@ -150,14 +139,14 @@ function setStringRect(id, x1, y1, charSize ,space, curve, text){
     var width = text.length * charSize + space;
     var r = SVG.rect(x1, y1, width, 30).attr({ fill: "white", stroke: "black", strokeWidth: 0, opacity: 0, r: curve });
     var msg = SVG.text(x1 + 15, y1 + 21, text).attr({ strokeWidth: 2, stroke: "black", opacity: 0 });
-    SVGAry.push(r);   SVGPushLog.push([id, "rect"]);
-    SVGAry.push(msg); SVGPushLog.push([id, text]);
+    SVGAry.push(r);   SVGIDLog.push([id, "rect"]);
+    SVGAry.push(msg); SVGIDLog.push([id, text]);
     return [r, msg];
 }
 
 function setText(id, x1, y1, str){
     var msg = SVG.text(x1, y1, str).attr({ strokeWidth: 2, stroke: "black", opacity: 0 });
-    SVGAry.push(msg); SVGPushLog.push([id, str]);
+    SVGAry.push(msg); SVGIDLog.push([id, str]);
     return msg;
 }
 
@@ -171,21 +160,20 @@ function setArrow(id, x1, y1, x2, y2){
     var markerShape = SVG.path("M0,0L8,5L0,10L4,5z").attr({ fill: "black", opacity: 0 });
     var tip = markerShape.marker(0, 0, 10, 10, 5, 5);
     var arrowLine = SVG.path(lineP).attr({ stroke: "black", strokeWidth: 2 , opacity: 0 , markerEnd: tip });
-    SVGAry.push(markerShape); SVGPushLog.push([id, "tip"]);
-    SVGAry.push(arrowLine); SVGPushLog.push([id, "line"]);
+    SVGAry.push(markerShape); SVGIDLog.push([id, "tip"]);
+    SVGAry.push(arrowLine); SVGIDLog.push([id, "line"]);
     return [tip, arrowLine];
 }
 
 function setBrowser(x, y, width, height, title, text)
 {
-    var rec = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
+    var rect = SVG.rect(x, y, width, height).attr({ fill: "white", stroke: "black", strokeWidth: 2, r: 5 });
     var line = SVG.path("M " + x + " " + (y + 30) + " h " + width).attr({ stroke: "black", strokeWidth: 2 });
-    // var text = SVG.text(x + 10, y + 21, title);
-    var text = SVG.text(x + 100, y + 21, text);
-    SVGAry.push(line); SVGPushLog.push([title, "line"]);
-    SVGAry.push(text); SVGPushLog.push([title, "title"]);
-    SVGAry.push(rec);  SVGPushLog.push([title, "rect"]);
-    return [rect, line, text];
+    var content = SVG.text(x + 100, y + 21, text).attr({ stroke: "black", fill: "black" });
+    SVGAry.push(rect);  SVGIDLog.push([title, "rect"]);
+    SVGAry.push(line); SVGIDLog.push([title, "line"]);
+    SVGAry.push(content); SVGIDLog.push([title, "title"]);
+    return [rect, line, content];
 }
 
 function setTextRectangle(x, y, width, title, strAry){
@@ -198,22 +186,17 @@ function setTextRectangle(x, y, width, title, strAry){
     var fileTitle = SVG.text(titleX, titleY, title);
     var tmp;
     SVGAry.push(rect);                SVGAry.push(fileTitle);
-    SVGPushLog.push([title, "rect"]); SVGPushLog.push([title, "title"]);
+    SVGIDLog.push([title, "rect"]); SVGIDLog.push([title, "title"]);
     elemAry.push(rect);               elemAry.push(fileTitle);
     for(var i = 0; i < strAry.length; i++){
 	lineX = x + 10;
 	lineY = firstLine + (i * 23);
 	tmp = SVG.text(lineX, lineY, strAry[i]);
 	SVGAry.push(tmp);
-	SVGPushLog.push([title, strAry[i]]);
+	SVGIDLog.push([title, strAry[i]]);
 	elemAry.push(tmp);
     }
     return elemAry;
-}
-
-function init(){
-    setGridChart();
-    
 }
 
 function searchTextAryIndex(stringAry, str){
