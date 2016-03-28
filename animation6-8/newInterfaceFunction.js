@@ -186,10 +186,10 @@ function setTextRectangle(x, y, width, title, strAry){
     var fileTitle = SVG.text(titleX, titleY, title);
     var tmp;
     SVGAry.push(rect);                SVGAry.push(fileTitle);
-    SVGIDLog.push([title, "rect"]); SVGIDLog.push([title, "title"]);
+    SVGIDLog.push([title, "rect"]);   SVGIDLog.push([title, "title"]);
     elemAry.push(rect);               elemAry.push(fileTitle);
     for(var i = 0; i < strAry.length; i++){
-	lineX = x + 10;
+	lineX = x + 13;
 	lineY = firstLine + (i * 23);
 	tmp = SVG.text(lineX, lineY, strAry[i]);
 	SVGAry.push(tmp);
