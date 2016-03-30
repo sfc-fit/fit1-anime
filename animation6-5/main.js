@@ -55,7 +55,7 @@ function update(){
 		if(count%3==0){
 			//checkText();	//テキスト等の要素が枠内にあるかチェック
 		}
-		if(count%120==0&&phase<21&&auto==true){
+		if(count%120==0&&phase<20&&auto==true){
 			draw();
 		}
 		count++;
