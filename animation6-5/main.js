@@ -42,18 +42,20 @@ addComponent(labelUI(675,168,20,"",["太郎　　onclick=\"","taro()",";\""],"bl
 addComponent(labelUI(675,218,20,"",["花子　　onclick=\"","hanako()",";\""],"black"));			//component[17]
 addComponent(rectHard(770,80,220,120,"white",1,"black",2));									//component[18]
 addComponent(labelUI(790,155,35,"","Hello,world","black"));									//component[19]
+addComponent(labelUI(1242,82,23,"","world","black"));
 
 
 jsText[3].attr("text",["　alert(\'Hello,\'　+　","who","　+　\'!\');"]);
 addShadow(component[18]);
+addShadow(component[20]);
 
 //毎フレーム呼ばれる関数
 function update(){
 	if(started==true){
 		if(count%3==0){
-			checkText();	//テキスト等の要素が枠内にあるかチェック
+			//checkText();	//テキスト等の要素が枠内にあるかチェック
 		}
-		if(count%120==0&&phase<16&&auto==true){
+		if(count%120==0&&phase<19&&auto==true){
 			draw();
 		}
 		count++;
@@ -132,15 +134,29 @@ function draw(){
 			defuse(jsText[3]);
 			highlight(component[3]);
 			highlight(jsText[3].selectAll("tspan")[1]);
-			setVisible(18,1);
-			setVisible(19,1);
+			//setVisible(18,1);
+			//setVisible(19,1);
 			showArrow(1);
-			setArrow(jsText[3],component[18],0);
+			//setArrow(jsText[3],component[18],0);
+			hideArrow(0);
 			absoluteArrow(1250,90,780,400,1);
+			component[20].attr("opacity",1);
+			highlight(component[20]);
+			trans(component[20],740,400,400);
 			break;
 		case 7:
+			setVisible(18,1);
+			setVisible(19,1);
+			showArrow(0);
+			setArrow(jsText[3],component[18],0);
+			hideArrow(1);
+			defuse(component[3]);
+			break;
+		case 8:
 			setVisible(18,0);
 			setVisible(19,0);
+			component[20].attr("opacity",0);
+			trans(component[20],componentPosX[20],componentPos[20],0);
 			defuse(component[3]);
 			defuse(jsText[3].selectAll("tspan")[1]);
 			highlight(component[13]);
@@ -149,14 +165,14 @@ function draw(){
 			hideArrow(1);
 			absoluteArrow(850,170,700,470,0);
 			break;
-		case 8:
+		case 9:
 			defuse(component[13]);
 			defuse(component[16].selectAll("tspan")[1]);
 			updateText(component[5],"太郎");
 			highlight(component[3]);
 			setArrow(jsText[7],component[3]);
 			break;
-		case 9:
+		case 10:
 			defuse(component[3]);
 			defuse(jsText[7]);
 			highlight(component[12]);
@@ -165,22 +181,35 @@ function draw(){
 			highlight(jsText[3].selectAll("tspan")[1]);
 			absoluteArrow(900,120,800,385,0);
 			break;
-		case 10:
+		case 11:
 			defuse(component[12]);
 			defuse(component[15].selectAll("tspan")[1]);
 			defuse(jsText[3]);
 			highlight(jsText[3].selectAll("tspan")[1]);
 			highlight(component[3]);
-			setVisible(18,1);
-			setVisible(19,1);
+			//setVisible(18,1);
+			//setVisible(19,1);
 			updateText(component[19],"Hello,太郎");
-			setArrow(jsText[3],component[18]);
+			component[20].attr("opacity",1);
+			trans(component[20],740,400,400);
+			//setArrow(jsText[3],component[18]);
+			hideArrow(0);
 			showArrow(1);
 			absoluteArrow(1250,90,780,400,1);
 			break;
-		case 11:
+		case 12:
+			setVisible(18,1);
+			setVisible(19,1);
+			showArrow(0);
+			defuse(component[3]);
+			hideArrow(1);
+			setArrow(jsText[3],component[18]);
+			break;
+		case 13:
 			setVisible(18,0);
 			setVisible(19,0);
+			component[20].attr("opacity",0);
+			trans(component[20],componentPosX[20],componentPos[20],0);
 			defuse(jsText[3].selectAll("tspan")[1]);
 			defuse(component[3]);
 			hideArrow(1);
@@ -189,14 +218,14 @@ function draw(){
 			highlight(component[17].selectAll("tspan")[1]);
 			absoluteArrow(850,220,700,590,0);
 			break;
-		case 12:
+		case 14:
 			defuse(component[14]);
 			defuse(component[17].selectAll("tspan")[1]);
 			highlight(component[3]);
 			updateText(component[5],"花子");
 			setArrow(jsText[11],component[3],0);
 			break;
-		case 13:
+		case 15:
 			defuse(component[3]);
 			defuse(jsText[11]);
 			highlight(component[12]);
@@ -205,24 +234,36 @@ function draw(){
 			highlight(jsText[3].selectAll("tspan")[1]);
 			absoluteArrow(900,120,800,385,0);
 			break;
-		case 14:
+		case 16:
 			defuse(component[12]);
 			defuse(component[15].selectAll("tspan")[1]);
 			defuse(jsText[3]);
 			highlight(jsText[3].selectAll("tspan")[1]);
 			highlight(component[3]);
-			setVisible(18,1);
-			setVisible(19,1);
+			//setVisible(18,1);
+			//setVisible(19,1);
 			updateText(component[19],"Hello,花子");
-			setArrow(jsText[3],component[18]);
+			//setArrow(jsText[3],component[18]);
+			hideArrow(0);
 			showArrow(1);
 			absoluteArrow(1250,90,780,400,1);
+			component[20].attr("opacity",1);
+			trans(component[20],740,400,400);
 			break;
-		case 15:
+		case 17:
+			setVisible(18,1);
+			setVisible(19,1);
+			showArrow(0);
+			defuse(component[3]);
+			hideArrow(1);
+			setArrow(jsText[3],component[18]);
+			break;
+		case 18:
 			alert("アニメーションが終了しました");
 			break;
 
 	}
+	updateText(component[20],component[5].attr("text"));
 	phase++;									
 }
 
@@ -231,13 +272,13 @@ function branch(){
 		case 0:
 			break;
 		case 1:
-			if(phase==11){
-				phase=15;
+			if(phase==13){
+				phase=18;
 			}
 			break;
 		case 2:
-			if(phase==7){
-				phase=11;
+			if(phase==8){
+				phase=13;
 			}
 			break;
 	}

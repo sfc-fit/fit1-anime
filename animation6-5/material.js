@@ -6,6 +6,8 @@ update関数は毎フレーム読み込まれます
 var started=false;
 var auto=false;
 var exection=false;
+var limitCount=0;
+var called=false;
 /*document.getElementById("resetButton").style.opacity=0;
 document.getElementById("aheadButton").style.opacity=0;*/
 
@@ -19,9 +21,10 @@ function exec(){
 			draw();
 		}*/
 	}
-	if(exection==false){
+	if(exection==false&&called==false){
 		parent();
 		exection=true;
+		called=true;
 	}
 }
 
@@ -33,7 +36,14 @@ function replay(){
 }
 
 function ahead(){
-	draw();
+	if(called==false){
+		parent();
+		called=true;
+	}
+	if(limitCount==0){
+		draw();
+		limitCount=30;
+	}
 }
 
 //updata関数を呼び続ける
@@ -44,9 +54,11 @@ function parent(){
 	else{
 		auto=true;
 	}*/
-
+	requestAnimationFrame(parent);
+	if(limitCount>0){
+		limitCount--;
+	}
 	if(started==true){
-		requestAnimationFrame(parent);
 		requestAnimationFrame(update);
 	}
 }

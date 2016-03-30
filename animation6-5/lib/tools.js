@@ -23,6 +23,7 @@ var jsText=new Array();
 var scrollCount=[0,0,0];
 var component=new Array();
 var componentPos=new Array();
+var componentPosX=new Array();
 var componentCol=new Array();
 var boxCount=0;
 var componentV={
@@ -123,7 +124,7 @@ function ellipseUI(posX,posY,w,h,col,op,st,stw){
 	var obj=svg.ellipse(posX,posY,w,h);
 	obj.attr({
 		fill:col,
-		opacity:op,
+		opacity:1,
 		stroke:st,
 		strokeWidth:stw
 	});
@@ -570,6 +571,7 @@ function addComponent(obj){
 	obj.id+="Component";
 	component.push(obj);
 	componentPos.push(obj.attr("y"));
+	componentPosX.push(obj.attr("x"));
 	componentCol.push(obj.attr("fill"));
 }
 
@@ -862,6 +864,7 @@ function resetAll(){
 		component[i].attr("opacity",0);
 		component[i].attr("opacity",0);
 		component[i].attr("y",componentPos[i]);
+		component[i].attr("x",componentPosX[i]);
 		component[i].attr("fill",componentCol[i]);
 	}
 	for(var i=0;i<boxList.htmlObj.length;i++){
