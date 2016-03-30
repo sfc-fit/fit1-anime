@@ -162,7 +162,7 @@ function setArrow(id, x1, y1, x2, y2){
     var arrowLine = SVG.path(lineP).attr({ stroke: "black", strokeWidth: 2 , opacity: 0 , markerEnd: tip });
     SVGAry.push(markerShape); SVGIDLog.push([id, "tip"]);
     SVGAry.push(arrowLine); SVGIDLog.push([id, "line"]);
-    return [tip, arrowLine];
+    return [markerShape, arrowLine];
 }
 
 function setBrowser(x, y, width, height, title, text)
