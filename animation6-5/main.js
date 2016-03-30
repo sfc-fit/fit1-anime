@@ -184,7 +184,7 @@ function draw(){
 			updateText(component[5],"太郎");
 			highlight(component[3]);
 			setVisible(20,0);
-			trans(component[20],componentPosX[20],componentPos[20],100);
+			trans(component[20],componentPosX[20],componentPos[20],200);
 			break;
 		case 11:
 			defuse(component[3]);
@@ -250,7 +250,7 @@ function draw(){
 			updateText(component[5],"花子");
 			highlight(component[3]);
 			setVisible(20,0);
-			trans(component[20],componentPosX[20],componentPos[20],100);
+			trans(component[20],componentPosX[20],componentPos[20],200);
 			break;
 		case 17:
 			defuse(component[3]);
