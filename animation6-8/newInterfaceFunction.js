@@ -150,7 +150,7 @@ function setText(id, x1, y1, str){
     return msg;
 }
 
-function execArrowAnimation(id, times, json){
+function execArrowAnimation(id, json){
     execAnimation(id, "tip", 1, json);
     execAnimation(id, "line", 1, json);
 }
