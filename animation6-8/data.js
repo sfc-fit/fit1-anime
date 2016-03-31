@@ -1,9 +1,19 @@
 
 function init(){
-    var c;
-    setGridChart();
     setupAllSVGData();
     setupAnimationFunction();
+    setGridChart();
+}
+
+function debugOpacity1(elem){
+    if(elem instanceof Array){
+	var i;
+	for(i = 0; i < Array.length - 1; i++){
+	    elem[i].attr({ opacity: 1 });
+	}
+    }else{
+	elem.attr({ opacity: 1 });
+    }
 }
 
 function setRect(id, x1, y1, charSize, width, curve, offset, text){
@@ -92,7 +102,7 @@ function setupAllSVGData(){
     setTextRectangle(580, 450, 540, "ex06-8.js", jsText);
     setTspanStrs("plain", 580 + 13 + 5, 450 + 27 + (1 * 23), ["alert('Hello, ' + ", "document", ".", "getElementById('", "who", "').innerHTML + '!');"],
 		 { fill: "black", strokeWidth: 1, opacity: 1 });
-    setTspanStrs("taro", 580 + 13 + 5, 450 + 27 + (5 * 23), ["document", ".", "getElementById('", "who", "')", "innerHTML", " = ", "'太郎'"],
+    setTspanStrs("taro", 580 + 13 + 5, 450 + 27 + (5 * 23), ["document", ".", "getElementById('", "who", "')", ".innerHTML", " = ", "'太郎'"],
 		 { fill: "black", strokeWidth: 1, opacity: 1 });
     setTspanStrs("hanako", 580 + 13 + 5, 450 + 27 + (9 * 23), ["document", ".", "getElementById('", "who", "')", "innerHTML", " = ", "'花子'"],
 		 { fill: "black", strokeWidth: 1, opacity: 1 });
@@ -127,20 +137,89 @@ function setupAllSVGData(){
 
     // story 4
     setText("h1Tag", 400, 120, "JavaScriptによる変更の練習").attr({ strokeWidth: 0, opacity: 1 });
+    
     svgTmp = setRect("firstBrowserRect", 350, 140, 5, 100, 0, 0, "あいさつ");
     svgTmp[0].attr({ opacity: 1 });
     svgTmp[1].attr({ opacity: 1 });
+    svgTmp = setTspanStrs("BroserFuncSayHello()", 500, 160, ['onclick="', "sayhello()" ,'";']);
 
     svgTmp = setRect("SecondBroserRect", 350, 190, 5, 100, 0, 18, "太郎");
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+    svgTmp = setTspanStrs("BroserFuncTaro()", 500, 210, ['onclick="', "taro()" ,'";']);
+
+    svgTmp = setArrow("FromBrowserSayHelloFuncToJsFuncDefinition", 600, 170, 680, 430);
     svgTmp[0].attr({ opacity: 1 });
     svgTmp[1].attr({ opacity: 1 });
 
     svgTmp = setRect("ThirdBroserRect", 350, 240, 5, 100, 0, 18, "花子");
     svgTmp[0].attr({ opacity: 1 });
     svgTmp[1].attr({ opacity: 1 });
+    svgTmp = setTspanStrs("BroserFuncHanako()", 500, 260, ['onclick="', "hanako()" ,'";']);
 
-    // setText("FirstPTagOutput", 368, 290, 
+    svgTmp = setText("FirstPTagOutput", 378, 310, "world");
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
+
+    svgTmp = setText("SecondPTagOutput", 383, 310, "太郎");
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
+
+    svgTmp = setArrow("FromH1TagToPTagArrow", 300, 635, 400, 330);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+
+    svgTmp = setArrow("SayHelloDefinitionDocumentToHTML", 750, 510, 380, 630);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+
+    svgTmp = setText("documentObjectExp", 430, 560, "ウェブページ全体");
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
+
+    svgTmp = setArrow("getElementByIdToPTag", 820, 520, 200, 790);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+
+    svgTmp = setText("getElementByIDExp", 350, 750, 'id="who"の要素を探す');
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
+
+    svgTmp = setArrow("innerHTMLToPTagWorld", 950, 515, 245, 805);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+    svgTmp = setText("innerHTMLToPTagExp", 500, 720, "要素の中身の部分");
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
+
+    svgTmp = setArrow("sayhelloAlertToBrowserAlert", 680, 480, 600, 330);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+    svgTmp = setRect("HelloWorldAlert", 465, 285, 5, 125, 0, 0, "Hello, world!");
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+
+    svgTmp = setArrow("onclickTaroToTaroDefinition", 550, 220, 680, 550);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+
+    svgTmp = setArrow("TaroDocumentToDocumentObj", 590, 590, 380, 660);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+
+    svgTmp = setText("AllDocumentObj", 305, 610, "ウェブページ全体");
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
+
+    svgTmp = setArrow("TaroGetElementByID", 750, 610, 245, 805);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+    svgTmp = setText("tarGetElementByID", 350, 785, 'id="who"の要素を探す');
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
     
+    svgTmp = setArrow("taroInnerHTMLArrow", 800, 610, 245, 805);
+    svgTmp[0].attr({ opacity: 1 });
+    svgTmp[1].attr({ opacity: 1 });
+
+    svgTmp = setText("innerHTMLToPTagExp", 440, 770, "要素の中身の部分");
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
+
+    svgTmp = setText("changeWorld", 420, 770, "この部分を'太郎'に書き換える");
+    svgTmp.attr({ strokeWidth: 1, opacity: 1 });
     
 }
 
@@ -153,6 +232,6 @@ function setupAnimationFunction(){
 	    execArrowAnimation("FromScriptSrcJsToBrowser", { opacity: 1 });
 	},
 	function(){
-	    
+	    console.log("Animation ended.");
 	}];
 }
