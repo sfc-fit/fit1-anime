@@ -136,10 +136,15 @@ function draw(){
 リセットボタンに反応
 */
 function reset(){
-	texts[0]='<!DOCTYPE html>\n<html>\n \n  <head>\n    <meta charset="utf-8">\n    <title>練習問題05-11</title>\n  </head>\n \n  <body>\n    <h1>　　　　　　　　　　　</h1>\n    <input type="button" value="　　　　　　　" \nonclick="alert(\'　　　　　　\');">\n  </body>\n \n</html>';
-	hideArrow(0);
 	count=0;
 	phase=0;
 	started=false;
 	resetAll();
+	document.getElementById("box0").value="イベントハンドラの練習";
+	document.getElementById("box1").value="ここをクリック";
+	document.getElementById("box2").value="Hello,world!";
+	for(var i=0;i<3;i++){
+		resizeBlank(blankRelation.obj[i],blankRelation.no[i]);
+	}
+	hideArrow(0);
 }
