@@ -26,7 +26,7 @@ addComponent(rectSoft(630,130,100,50,"#ccc",0,"black",1));				//component[1]
 addComponent(labelUI(635,160,15,"","ここをクリック","black"));				//component[2]
 addComponent(rectDot(885,115,100,70,"#fff",1,"black",1));				//component[3]
 addComponent(labelUI(895,160,23,"","onclick=alert(\"　\");","black"));	//component[4]
-addComponent(labelUI(1050,160,23,"","","black"));						//component[5]
+addComponent(labelUI(1040,160,23,"","","black"));						//component[5]
 addComponent(rectHard(760,160,130,70,"#fff",0,"black",1));				//component[6]
 addComponent(labelUI(765,202,20,"","Hello,World","black"));				//component[7]
 addComponent(labelUI(500,100,50,"",["tspan","の","テスト"],"black",1));
@@ -101,6 +101,9 @@ function draw(){
 			setVisible(5,1);
 			setVisible(3,1);
 			setArrow(htmlText[10],component[1]);
+			if(Number(component[1].attr("width"))<30){
+				component[1].attr("width",30);
+			}
 			break;
 		case 2:
 			defuse(htmlText[10]);
@@ -115,6 +118,9 @@ function draw(){
 			setVisible(7,1);
 			setArrow(component[5],component[7]);
 			showArrow();
+			if(Number(component[6].attr("width"))<70){
+				component[6].attr("width",70);
+			}
 			//scroll(1);								//ブラウザスクロール
 			break;
 		case 4:
@@ -130,6 +136,8 @@ function draw(){
 リセットボタンに反応
 */
 function reset(){
+	texts[0]='<!DOCTYPE html>\n<html>\n \n  <head>\n    <meta charset="utf-8">\n    <title>練習問題05-11</title>\n  </head>\n \n  <body>\n    <h1>　　　　　　　　　　　</h1>\n    <input type="button" value="　　　　　　　" \nonclick="alert(\'　　　　　　\');">\n  </body>\n \n</html>';
+	hideArrow(0);
 	count=0;
 	phase=0;
 	started=false;

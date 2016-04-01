@@ -5,16 +5,19 @@ update関数は毎フレーム読み込まれます
 
 var started=false;
 var auto=false;
+var called=false;
+var limitCount=0;
 /*document.getElementById("resetButton").style.opacity=0;
 document.getElementById("aheadButton").style.opacity=0;*/
 
 function exec(){
 	started=true;
 	//document.getElementById("aheadButton").style.opacity=1;
-	if(phase==0){
+	if(phase==0&&called==false){
 		fixBox();
 		checkVariable();
 		parent();
+		called=true;
 		/*if(document.getElementById("autoBox").checked==false){
 			draw();
 		}*/
@@ -29,12 +32,21 @@ function replay(){
 }
 
 function ahead(){
-	if(started==false){
+	/*if(started==false){
 		fixBox();
 		checkVariable();
 		started=true;
+	}*/
+	if(called==false){
+		fixBox();
+		checkVariable();
+		parent();
+		called=true;
 	}
-	draw();
+	if(limitCount==0){
+		draw();
+		limitCount=60;
+	}
 }
 
 //updata関数を呼び続ける
@@ -45,10 +57,12 @@ function parent(){
 	else{
 		auto=true;
 	}*/
-
+	requestAnimationFrame(parent);
 	if(started==true){
-		requestAnimationFrame(parent);
 		requestAnimationFrame(update);
+	}
+	if(limitCount>0){
+		limitCount--;
 	}
 }
 

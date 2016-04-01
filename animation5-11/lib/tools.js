@@ -874,8 +874,10 @@ function resetAll(){
 	boxList.hsObj=new Array();
 	rebirthBox();
 	defuse(htmlTitle);
-	defuse(jsTitle);
+	//defuse(jsTitle);
 	defuse(browserTitle);
+	called=false;
+	limitCount=0;
 	for(var i=0;i<scrollCount.length;i++){
 		scrollCount[i]=0;
 	}
