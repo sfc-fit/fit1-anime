@@ -3,13 +3,44 @@
 function init(){
     setupAllSVGData();
     setupAnimationFunction();
+    switchEffect(person);
+    // debugIndex();
     setGridChart();
+}
+
+function debugIndex(){
+    debugAnimationStartIndex = AnimationFunctionAry.length;
+    if(debugAnimationStartIndex != 0){
+	var i;
+	for(i = 0; i < debugAnimationStartIndex; i++){
+	    if(AnimationFunctionAry.length > 0){
+		AnimationFunctionAry.shift()();
+	    }
+	}
+    }
 }
 
 function tspanRangeAnimation(id, index1, index2, effectObj){
     var i;
     for(i = index1; i <= index2; i++){
 	execStringAnimationByTspan(id, 1, i, effectObj);
+    }
+}
+
+function switchEffect(p){
+    if(irreversible === true){
+	return;
+    }
+    if(p == ConditionStatus.Taro){
+	eA("animationTaroSwitch", "rect", { fill: "aquamarine", stroke: "green" });
+	eA("animationTaroSwitch", "taroバージョンを実行する", { fill: "green", stroke: "green", strokeWidth: 1 });
+	eA("animationHanakoSwitch", "rect", { fill: "white", stroke: "black" });
+	eA("animationHanakoSwitch", "hanakoバージョンを実行する", { fill: "black", stroke: "black", strokeWidth: 1 });
+    }else{
+	eA("animationHanakoSwitch", "rect", { fill: "aquamarine", stroke: "green" });
+	eA("animationHanakoSwitch", "hanakoバージョンを実行する", { fill: "green", stroke: "green", strokeWidth: 1 });
+	eA("animationTaroSwitch", "rect", { fill: "white", stroke: "black" });
+	eA("animationTaroSwitch", "taroバージョンを実行する", { fill: "black", stroke: "black", strokeWidth: 1 });
     }
 }
 
@@ -59,8 +90,7 @@ function setupAllSVGData(){
 	'<meta charset="utf-8">',
 	'<title>練習問題06-8.js</title>',
 	'<script src="ex06-8.js"></script>',
-	'',
-	'<body>',
+	'',	'<body>',
 	'<h1>JavaScriptによる変更の練習</h1>',
 	'<input type="button" value="あいさつ"',
 	'onclick="sayhello();">',
@@ -100,9 +130,9 @@ function setupAllSVGData(){
     setTextRectangle(580, 450, 540, "ex06-8.js", jsText);
     setTspanStrs("plain", 580 + 13 + 5, 450 + 27 + (1 * 23), ["alert('Hello, ' + ", "document", ".", "getElementById('", "who", "')", ".innerHTML", " + '!');"],
 		 { fill: "black", strokeWidth: 1, opacity: 1 });
-    setTspanStrs("taro", 580 + 13 + 5, 450 + 27 + (5 * 23), ["document", ".", "getElementById('", "who", "')", ".innerHTML", " = ", "'太郎'"],
+    setTspanStrs("taro", 580 + 13 + 5, 450 + 27 + (5 * 23), ["document", ".", "getElementById('", "who", "')", ".innerHTML", " = ", "'", "太郎", "';"],
 		 { fill: "black", strokeWidth: 1, opacity: 1 });
-    setTspanStrs("hanako", 580 + 13 + 5, 450 + 27 + (9 * 23), ["document", ".", "getElementById('", "who", "')", "innerHTML", " = ", "'花子'"],
+    setTspanStrs("hanako", 580 + 13 + 5, 450 + 27 + (9 * 23), ["document", ".", "getElementById('", "who", "')", "innerHTML", " = ", "'", "花子", "';"],
 		 { fill: "black", strokeWidth: 1, opacity: 1 });
     function AutomaticButtonFunction(){
 	executedStatus = Status.AutoExecution;
@@ -134,9 +164,10 @@ function setupAllSVGData(){
     svgTmp = setTspanStrs("BrowserFuncSayHello()", 500, 160, ['onclick="', "sayhello()" ,'";'], { opacity: 0 });
     svgTmp.attr({ fill: "black", strokeWidth: 0, opacity: 0 });
     svgTmp = setRect("SecondBrowserRect", 350, 190, 5, 100, 5, 18, "太郎");
-    svgTmp = setTspanStrs("BroserFuncTaro()", 500, 210, ['onclick="', "taro()" ,'";'], { opacity: 0 });
-    svgTmp = setRect("ThirdBroserRect", 350, 240, 5, 100, 5, 18, "花子");
-    svgTmp = setTspanStrs("BroserFuncHanako()", 500, 260, ['onclick="', "hanako()" ,'";'], { opacity: 0 });
+    svgTmp = setTspanStrs("BrowserFuncTaro", 500, 210, ['onclick="', "taro()" ,'";'], { opacity: 0 });
+    svgTmp = setRect("ThirdBrowserRect", 350, 240, 5, 100, 5, 18, "花子");
+    svgTmp = setTspanStrs("BrowserFuncHanako", 500, 260, ['onclick="', "hanako()" ,'";'], { opacity: 0 });
+    // browser text
     svgTmp = setText("FirstPTagOutput", 378, 310, "world");
     svgTmp = setText("SecondPTagOutput", 383, 310, "太郎");
     svgTmp = setText("ThirdPTagOutput", 383, 310, "花子");
@@ -150,15 +181,45 @@ function setupAllSVGData(){
     svgTmp = setText("innerHTMLToPTagExp", 500, 720, "要素の中身の部分");
     svgTmp = setArrow("sayhelloAlertToBrowserAlert", 680, 480, 600, 330);
     svgTmp = setRect("HelloWorldTaroAlert", 465, 285, 5, 125, 0, 0, "Hello, 太郎!");
+    svgTmp = setRect("HelloWorldHanakoAlert", 465, 285, 5, 125, 0, 0, "Hello, 花子!");
     svgTmp = setRect("HelloWorldAlert", 465, 285, 5, 125, 0, 0, "Hello, world!");
+    // taro
     svgTmp = setArrow("onclickTaroToTaroDefinition", 550, 220, 680, 550);
     svgTmp = setArrow("TaroDocumentToDocumentObj", 590, 590, 380, 660);
     svgTmp = setText("AllDocumentObj", 305, 610, "ウェブページ全体");
     svgTmp = setArrow("TaroGetElementByID", 750, 610, 245, 805);
     svgTmp = setText("tarGetElementByID", 350, 785, 'id="who"の要素を探す');
     svgTmp = setArrow("taroInnerHTMLArrow", 800, 610, 245, 805);
-    svgTmp = setText("innerHTMLToPTagExp", 440, 770, "要素の中身の部分");
+    svgTmp = setText("taroInnerHTMLToPTagExp", 440, 770, "要素の中身の部分");
     svgTmp = setText("changeWorld", 420, 770, "この部分を'太郎'に書き換える");
+    svgTmp = setText("moveTaroStr", 800, 660, "太郎");
+    svgTmp.attr({ opacity: 0, stroke: "black", strokeWidth: 1, fill: "black" });
+    svgTmp = setArrow("fromPTagTaroToWorld", 200, 800, 400, 340);
+    svgTmp = setText("moveTaroStrToBrowser", 230, 800, "太郎");
+    
+    // debug button
+    var sAry = ["Taro", "Hanako"];
+    function switchToTaroState(){
+	if(person == ConditionStatus.Hanako){
+	    person = ConditionStatus.Taro;
+	    switchEffect(person);
+	}
+    }
+    function switchToHanakoState(){
+	if(person == ConditionStatus.Taro){
+	    person = ConditionStatus.Hanako;
+	    switchEffect(person);
+	}
+    }
+    svgTmp = setRect("animationTaroSwitch", 600, 750, 5, 225, 5, 3, "taroバージョンを実行する");
+    svgTmp[0].attr({ opacity: 1 }); svgTmp[1].attr({ opacity: 1 });
+    pushE("animationTaroSwitch", "rect", switchToTaroState);
+    pushE("animationTaroSwitch", "taroバージョンを実行する", switchToTaroState);
+    svgTmp = setRect("animationHanakoSwitch", 840, 750, 5, 245, 5, 0, "hanakoバージョンを実行する");
+    svgTmp[0].attr({ opacity: 1 }); svgTmp[1].attr({ opacity: 1 });
+    pushE("animationHanakoSwitch", "rect", switchToHanakoState);
+    pushE("animationHanakoSwitch", "hanakoバージョンを実行する", switchToHanakoState);
+    
 }
 
 function setupAnimationFunction(){
@@ -174,9 +235,9 @@ function setupAnimationFunction(){
 	    eA("fileAssignment", "スクリプトファイルの指定", { opacity: 1 });
 	},
 	function(){
-	    eA("ex06-8.html", '<script src="ex06-8.js"></script>', { strokeWidth: 1, fill: "red", stroke: "red", opacity: 0 });
 	    execArrowAnimation("FromScriptSrcJsToBrowser", { opacity: 0 });
 	    eA("fileAssignment", "スクリプトファイルの指定", { opacity: 0 });
+	    eA("ex06-8.html", '<script src="ex06-8.js"></script>', { strokeWidth: 0, fill: "black", stroke: "black", opacity: 1 });
 	},
 	function(){
 	    eA("ex06-8.js", "title", { fill: "red", strokeWidth: 1, stroke: "red", opacity: 1 });
@@ -229,6 +290,7 @@ function setupAnimationFunction(){
 				 "ex06-8.html", 'onclick="hanako();">', 1, { fill: "black", stroke: "black", strokeWidth: 0 }, animationSpeed);
 	    eA("pTag", "tspan", { fill: "black", stroke: "black", strokeWidth: 0 });
 	},
+	// 1回目のsayhello関数の実行
 	function(){
 	    eA("firstBrowserRect", "rect", { fill: "pink", stroke: "red" });
 	    eA("firstBrowserRect", "あいさつ", { fill: "red", stroke: "red", strokeWidth: 1 });
@@ -328,12 +390,220 @@ function setupAnimationFunction(){
 	    execArrowAnimation("sayhelloAlertToBrowserAlert", { opacity: 0 });
 	    eA("HelloWorldAlert", "Hello, world!", { fill: "red", stroke: "red", strokeWidth: 1, opacity: 0 });
 	    eA("HelloWorldAlert", "rect", { fill: "white", stroke: "red", strokeWidth: 0 });
-	},
-	function(){
-	    eA("SecondBrowserRect", "太郎", { fill: "red", stroke: "red", strokeWidth: 1, opacity: 1 });
-	    eA("SecondBrowserRect", "rect", { fill: "pink", stroke: "red", strokeWidth: 1 });
-	},
-	function(){
-	    console.log("Animation ended.");
+	    decideSwitchAppendAnimationFunctions(person);
 	}];
+}
+
+function decideSwitchAppendAnimationFunctions(state){
+    irreversible = true;
+    if(state == ConditionStatus.Taro){
+	// ユーザのスイッチ、条件分岐！！
+	// erase button
+	eA("animationHanakoSwitch", "rect", { opacity: 0 });
+	eA("animationHanakoSwitch", "hanakoバージョンを実行する", { opacity: 0 });
+	FunctionStorage = [
+	    function(){
+		eA("SecondBrowserRect", "太郎", { fill: "red", stroke: "red", strokeWidth: 1, opacity: 1 });
+		eA("SecondBrowserRect", "rect", { fill: "pink", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("BrowserFuncTaro", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("onclickTaroToTaroDefinition", { opacity: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("taro", 1, 0, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("TaroDocumentToDocumentObj", { opacity: 1 });
+		// reset
+		eA("SecondBrowserRect", "太郎", { fill: "black", stroke: "black", strokeWidth: 1, opacity: 1 });
+		eA("SecondBrowserRect", "rect", { fill: "white", stroke: "black", strokeWidth: 1 });
+		execStringAnimationByTspan("BrowserFuncTaro", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 }); 
+		execStringAnimationByTspan("taro", 1, 0, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("onclickTaroToTaroDefinition", { opacity: 0 });
+	    },
+	    function(){
+		eA("AllDocumentObj", "ウェブページ全体", { strokeWidth: 1, opacity: 1 });
+		execEffectSVGIndexes("ex06-8.html", "<html>", 1, "ex06-8.html", "</html>", 1, { fill: "red", stroke: "red", strokeWidth: 1 }, animationSpeed);
+		eA("pTag", "tspan", { fill: "red", stroke: "red", strokeWidth: 1 });
+		execStringAnimationByTspan("pTag", 1, 1, { fill: "red", strokeWidth: 1, stroke: "red" });
+	    },
+	    function(){
+		// reset <html> ~ </html>
+		eA("AllDocumentObj", "ウェブページ全体", { strokeWidth: 1, opacity: 0 });
+		execEffectSVGIndexes("ex06-8.html", "<html>", 1, "ex06-8.html", "</html>", 1, { fill: "black", stroke: "black", strokeWidth: 0 }, animationSpeed);
+		eA("pTag", "tspan", { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("pTag", 1, 1, { fill: "black", strokeWidth: 0, stroke: "black" });
+		execArrowAnimation("TaroDocumentToDocumentObj", { opacity: 0 });
+	    },
+	    function(){
+		tspanRangeAnimation("taro", 0, 4, { fill: "red", stroke: "red", strokeWidth: 1 });
+		execArrowAnimation("TaroGetElementByID", { opacity: 1 });
+	    },
+	    function(){
+		eA("tarGetElementByID", 'id="who"の要素を探す', { strokeWidth: 1, opacity: 1 });
+		tspanRangeAnimation("pTag", 0, 2, { fill: "red", strokeWidth: 1, stroke: "red" }); 
+	    },
+	    function(){
+		// reset
+		tspanRangeAnimation("taro", 0, 4, { fill: "black", stroke: "black", strokeWidth: 0 });
+		tspanRangeAnimation("pTag", 0, 2, { fill: "black", strokeWidth: 0, stroke: "black" });
+		eA("tarGetElementByID", 'id="who"の要素を探す', { strokeWidth: 1, opacity: 0 });
+		execArrowAnimation("TaroGetElementByID", { opacity: 0 });
+	    },
+	    function(){
+		tspanRangeAnimation("taro", 0, 5, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("taroInnerHTMLArrow", { opacity: 1 });
+	    },
+	    function(){
+		eA("taroInnerHTMLToPTagExp", "要素の中身の部分", { strokeWidth: 1, opacity: 1 });
+		execStringAnimationByTspan("pTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		eA("taroInnerHTMLToPTagExp", "要素の中身の部分", { strokeWidth: 1, opacity: 0 });
+		execArrowAnimation("taroInnerHTMLArrow", { opacity: 0 });
+		execStringAnimationByTspan("pTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		tspanRangeAnimation("taro", 0, 5, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		execStringAnimationByTspan("taro", 1, 8, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("taroInnerHTMLArrow", { opacity: 1 });
+		eA("moveTaroStr", "太郎", { opacity: 1 });
+	    },
+	    function(){
+		eA("pTag", "tspan", { opacity: 0 });
+		eA("moveTaroStr", "太郎", { x: 300, y: 825, opacity: 0 }); // "太郎" 文字列の移動
+		eA("TaroTag", "tspan", { opacity: 1 });
+	    },
+	    function(){
+		execArrowAnimation("taroInnerHTMLArrow", { opacity: 0 });
+		eA("moveTaroStr", "太郎", { opacity: 0 });
+		execStringAnimationByTspan("TaroTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+		execStringAnimationByTspan("taro", 1, 8, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		execArrowAnimation("fromPTagTaroToWorld", { opacity: 1 });
+		eA("moveTaroStrToBrowser", "太郎", { strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		eA("moveTaroStrToBrowser", "太郎", { x: 410, y: 410, opacity: 0 });
+		eA("FirstPTagOutput", "world", { opacity: 0 });
+		eA("SecondPTagOutput", "太郎", { strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("TaroTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("fromPTagTaroToWorld", { opacity: 0 });
+		eA("SecondPTagOutput", "太郎", { fill: "red", stroke: "red", strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		eA("SecondPTagOutput", "太郎", { fill: "black", stroke: "black", strokeWidth: 1 });
+	    },
+	    // 2回目のsayhello関数の実行アニメーション
+	    function(){
+		eA("firstBrowserRect", "rect", { fill: "pink", stroke: "red" });
+		eA("firstBrowserRect", "あいさつ", { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("BrowserFuncSayHello()", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1});
+	    },
+	    function(){
+		execArrowAnimation("FromBrowserSayHelloFuncToJsFuncDefinition", { opacity: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("plain", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		eA("firstBrowserRect", "rect", { fill: "white", stroke: "black" });
+		eA("firstBrowserRect", "あいさつ", { fill: "black", stroke: "black", strokeWidth: 1 });
+		execStringAnimationByTspan("BrowserFuncSayHello()", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("FromBrowserSayHelloFuncToJsFuncDefinition", { opacity: 0 });
+	    },
+	    function(){
+		execArrowAnimation("SayHelloDefinitionDocumentToHTML", { opacity: 1 });
+		eA("documentObjectExp", "ウェブページ全体", { strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		execEffectSVGIndexes("ex06-8.html", "<html>", 1, "ex06-8.html", "</html>", 1, { fill: "red", stroke: "red", strokeWidth: 1 }, animationSpeed);
+		eA("TaroTag", "tspan", { fill: "red", stroke: "red", strokeWidth: 1 });
+		execStringAnimationByTspan("TaroTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		// reset
+		execArrowAnimation("SayHelloDefinitionDocumentToHTML", { opacity: 0 });
+		eA("documentObjectExp", "ウェブページ全体", { strokeWidth: 1, opacity: 0 });
+		execEffectSVGIndexes("ex06-8.html", "<html>", 1, "ex06-8.html", "</html>", 1, { fill: "black", stroke: "black", strokeWidth: 0 }, animationSpeed);
+		eA("TaroTag", "tspan", { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("TaroTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("plain", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		tspanRangeAnimation("plain", 1, 5, { stroke: "red", strokeWidth: 1, fill: "red" });
+	    },
+	    function(){
+		execArrowAnimation("getElementByIdToPTag", { opacity: 1 });
+		eA("getElementByIDExp", 'id="who"の要素を探す', { opacity: 1 });
+		eA("TaroTag", "tspan", { fill: "red", stroke: "red", strokeWidth: 1 });
+		execStringAnimationByTspan("TaroTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("getElementByIdToPTag", { opacity: 0 });
+		eA("getElementByIDExp", 'id="who"の要素を探す', { opacity: 0 });
+		eA("TaroTag", "tspan", { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("TaroTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		tspanRangeAnimation("plain", 1, 5, { stroke: "black", strokeWidth: 0, fill: "black" });
+	    },
+	    function(){
+		tspanRangeAnimation("plain", 1, 6, { stroke: "red", strokeWidth: 1, fill: "red" });
+		execArrowAnimation("getElementByIdToPTag", { opacity: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("TaroTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+		eA("taroInnerHTMLToPTagExp", "要素の中身の部分", { strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		// reset 
+		tspanRangeAnimation("plain", 1, 6, { stroke: "black", strokeWidth: 0, fill: "black" });
+		execArrowAnimation("getElementByIdToPTag", { opacity: 0 });
+		eA("taroInnerHTMLToPTagExp", "要素の中身の部分", { strokeWidth: 1, opacity: 0 });
+		execStringAnimationByTspan("TaroTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		execArrowAnimation("sayhelloAlertToBrowserAlert", { opacity: 1 });
+	    },
+	    function(){
+		eA("HelloWorldAlert", "rect", { opacity: 0 });
+		eA("HelloWorldTaroAlert", "Hello, 太郎!", { opacity: 1, fill: "red", stroke: "red", strokeWidth: 1 });
+		eA("HelloWorldTaroAlert", "rect", { opacity: 1, fill: "pink", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		eA("HelloWorldTaroAlert", "Hello, 太郎!", { opacity: 0, fill: "black", stroke: "red", strokeWidth: 0 });
+		eA("HelloWorldTaroAlert", "rect", { opacity: 0, fill: "white", stroke: "white", strokeWidth: 0 });
+		execArrowAnimation("sayhelloAlertToBrowserAlert", { opacity: 0 });
+	    },
+	    function(){
+		alert("アニメーションは終了しました。");
+	    }];
+    }else{
+	// erase button
+	eA("animationTaroSwitch", "rect", { opacity: 0 });
+	eA("animationTaroSwitch", "taroバージョンを実行する", { opacity: 0 });
+	FunctionStorage = [
+	    function(){
+		eA("ThirdBrowserRect", "花子", { fill: "red", stroke: "red", strokeWidth: 1 });
+		eA("ThirdBrowserRect", "rect", { fill: "pink", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		
+	    },
+	    function(){
+		console.log("Animation ended.");
+	    }
+	];
+    }
 }

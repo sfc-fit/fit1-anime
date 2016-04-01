@@ -270,6 +270,10 @@ function execManager(userInput){
 	    if(executedStatus == Status.AutoExecution){
 		if(AnimationFunctionAry.length > 0){
 		    AnimationFunctionAry.shift()();
+		}else{
+		    if(FunctionStorage.length > 0){
+			FunctionStorage.shift()();
+		    }
 		}
 		window.setTimeout(animationLoop, 2000);
 	    }
@@ -278,6 +282,10 @@ function execManager(userInput){
 	if(AnimationFunctionAry.length > 0){
 	    animationStepIndex++;
 	    AnimationFunctionAry.shift()();
+	}else{
+	    if(FunctionStorage.length > 0){
+		FunctionStorage.shift()();
+	    }
 	}
     }
 }
