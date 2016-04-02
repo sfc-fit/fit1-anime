@@ -4,7 +4,7 @@ function init(){
     setupAllSVGData();
     setupAnimationFunction();
     switchEffect(person);
-    // debugIndex();
+    debugIndex();
     setGridChart();
 }
 
@@ -196,6 +196,20 @@ function setupAllSVGData(){
     svgTmp.attr({ opacity: 0, stroke: "black", strokeWidth: 1, fill: "black" });
     svgTmp = setArrow("fromPTagTaroToWorld", 200, 800, 400, 340);
     svgTmp = setText("moveTaroStrToBrowser", 230, 800, "太郎");
+    
+    // hanako
+    svgTmp = setArrow("Browser:hanako:onclick:arrow", 600, 280, 680, 630);
+    svgTmp = setArrow("Js:hanako:document", 570, 680, 350, 710);
+    svgTmp = setText("Js:hanako:document:text", 415, 720, "ウェブページ全体");
+    svgTmp = setArrow("Js:hanako:document.getElementById('who')", 750, 705, 250, 800);
+    svgTmp = setText("Js:hanako:document.getElementById('who')", 415, 720, 'id="who"の要素を探す');
+    svgTmp = setArrow("Js:hanako:document.getElementById('who'):text", 750, 735, 250, 800);
+    svgTmp = setArrow("Js:hanako:document.getElementById('who').innerHTML", 800, 705, 250, 800);
+    svgTmp = setText("Js:hanako:document.getElementById('who').innerHTML:text", 425, 790, "要素の中身の部分");
+    svgTmp = setArrow("Js:hanako:assign", 800, 705, 250, 810);
+    svgTmp = setText("Js:Moving:hanako", 800, 725, "花子");
+    svgTmp = setArrow("html:browser:ptag:arrow", 220, 800, 375, 330);
+    svgTmp = setText("html:Moving:hanako", 250, 800 ,"花子");
     
     // debug button
     var sAry = ["Taro", "Hanako"];
@@ -593,16 +607,110 @@ function decideSwitchAppendAnimationFunctions(state){
 	// erase button
 	eA("animationTaroSwitch", "rect", { opacity: 0 });
 	eA("animationTaroSwitch", "taroバージョンを実行する", { opacity: 0 });
+	
 	FunctionStorage = [
 	    function(){
 		eA("ThirdBrowserRect", "花子", { fill: "red", stroke: "red", strokeWidth: 1 });
 		eA("ThirdBrowserRect", "rect", { fill: "pink", stroke: "red", strokeWidth: 1 });
 	    },
 	    function(){
-		
+		execStringAnimationByTspan("BrowserFuncHanako", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
 	    },
 	    function(){
-		console.log("Animation ended.");
+		execArrowAnimation("Browser:hanako:onclick:arrow", { opacity: 1 });
+	    },
+	    function(){
+		execArrowAnimation("Browser:hanako:onclick:arrow", { opacity: 0 });
+		eA("ThirdBrowserRect", "花子", { fill: "black", stroke: "black", strokeWidth: 1 });
+		eA("ThirdBrowserRect", "rect", { fill: "white", stroke: "black", strokeWidth: 1 });
+		execStringAnimationByTspan("BrowserFuncHanako", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("hanako", 1, 0, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("Js:hanako:document", { opacity: 1 });
+		eA("Js:hanako:document:text", "ウェブページ全体", { opacity: 1, strokeWidth: 1 });
+	    },
+	    function(){
+	    	execEffectSVGIndexes("ex06-8.html", "<html>", 1, "ex06-8.html", "</html>", 1, 
+				     { fill: "red", stroke: "red", strokeWidth: 1 }, animationSpeed);
+		execStringAnimationByTspan("pTag", 1, 0, { fill: "red", stroke: "red", strokeWidth: 1 });
+		execStringAnimationByTspan("pTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+		execStringAnimationByTspan("pTag", 1, 2, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		// reset 
+	    	execEffectSVGIndexes("ex06-8.html", "<html>", 1, "ex06-8.html", "</html>", 1, { fill: "black", stroke: "black", strokeWidth: 0 }, animationSpeed);
+		execStringAnimationByTspan("pTag", 1, 0, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("pTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("pTag", 1, 2, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("Js:hanako:document", { opacity: 0 });
+		eA("Js:hanako:document:text", "ウェブページ全体", { opacity: 0, strokeWidth: 0 });
+		tspanRangeAnimation("hanako", 0, 0, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		tspanRangeAnimation("hanako", 0, 4, { fill: "red", stroke: "red", strokeWidth: 1 });
+		execArrowAnimation("Js:hanako:document.getElementById('who')", { opacity: 1 });
+	    },
+	    function(){
+		eA("Js:hanako:document.getElementById('who')", 'id="who"の要素を探す', { opacity: 1, strokeWidth: 1 });
+	    },
+	    function(){
+		tspanRangeAnimation("pTag", 0, 2, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		tspanRangeAnimation("pTag", 0, 2, { fill: "black", stroke: "black", strokeWidth: 0 });
+		eA("Js:hanako:document.getElementById('who')", 'id="who"の要素を探す', { opacity: 0, strokeWidth: 1 });
+		execArrowAnimation("Js:hanako:document.getElementById('who')", { opacity: 0 });
+		tspanRangeAnimation("hanako", 0, 4, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		tspanRangeAnimation("hanako", 0, 5, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("Js:hanako:document.getElementById('who').innerHTML", { opacity: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("pTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+		eA("Js:hanako:document.getElementById('who').innerHTML:text", "要素の中身の部分", { strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		tspanRangeAnimation("hanako", 0, 5, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("pTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("Js:hanako:document.getElementById('who').innerHTML", { opacity: 0 });
+		eA("Js:hanako:document.getElementById('who').innerHTML:text", "要素の中身の部分", { strokeWidth: 1, opacity: 0 });
+	    },
+	    function(){
+		execArrowAnimation("Js:hanako:assign", { opacity: 1 });
+		execStringAnimationByTspan("hanako", 1, 8, { fill: "red", stroke: "red", strokeWidth: 1 });
+		eA("Js:Moving:hanako", "花子", { opacity: 1, strokeWidth: 1 });
+	    },
+	    function(){
+		eA("Js:Moving:hanako", "花子", { x: 260, y: 840, opacity: 0 });
+		tspanRangeAnimation("HanakoTag", 0, 2, { opacity: 1 });
+		eA("pTag", "tspan", { opacity: 0 });
+		eA("HanakoTag", "tspan", { opacity: 1});
+		execStringAnimationByTspan("pTag", 1, 1, { opacity: 0 });
+		execStringAnimationByTspan("HanakoTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("hanako", 1, 8, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("Js:hanako:assign", { opacity: 0 });
+		execStringAnimationByTspan("HanakoTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		execArrowAnimation("html:browser:ptag:arrow", { opacity: 1 });
+		eA("html:Moving:hanako", "花子", { opacity: 1, strokeWidth: 1 });
+	    },
+	    function(){
+		eA("html:Moving:hanako", "花子", { x: 400, y: 350, opacity: 0 });
+		eA("FirstPTagOutput", "world", { opacity: 0 });
+		eA("ThirdPTagOutput", "花子", { opacity: 1, strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("html:browser:ptag:arrow", { opacity: 0 });
+	    },
+	    function(){
+		alert("アニメーションは終了しました。");
 	    }
 	];
     }
