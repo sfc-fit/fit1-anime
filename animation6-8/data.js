@@ -4,7 +4,7 @@ function init(){
     setupAllSVGData();
     setupAnimationFunction();
     switchEffect(person);
-    debugIndex();
+    // debugIndex();
     setGridChart();
 }
 
@@ -180,6 +180,7 @@ function setupAllSVGData(){
     svgTmp = setArrow("innerHTMLToPTagWorld", 950, 515, 245, 805);
     svgTmp = setText("innerHTMLToPTagExp", 500, 720, "要素の中身の部分");
     svgTmp = setArrow("sayhelloAlertToBrowserAlert", 680, 480, 600, 330);
+    // hello world alert
     svgTmp = setRect("HelloWorldTaroAlert", 465, 285, 5, 125, 0, 0, "Hello, 太郎!");
     svgTmp = setRect("HelloWorldHanakoAlert", 465, 285, 5, 125, 0, 0, "Hello, 花子!");
     svgTmp = setRect("HelloWorldAlert", 465, 285, 5, 125, 0, 0, "Hello, world!");
@@ -708,6 +709,97 @@ function decideSwitchAppendAnimationFunctions(state){
 	    },
 	    function(){
 		execArrowAnimation("html:browser:ptag:arrow", { opacity: 0 });
+	    },
+	    // sayhello関数の2回目の呼び出し
+	    function(){
+		eA("firstBrowserRect", "rect", { fill: "pink", stroke: "red" });
+		eA("firstBrowserRect", "あいさつ", { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("BrowserFuncSayHello()", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("FromBrowserSayHelloFuncToJsFuncDefinition", { opacity: 1 });
+	    },
+	    function(){
+		eA("firstBrowserRect", "rect", { fill: "white", stroke: "black" });
+		eA("firstBrowserRect", "あいさつ", { fill: "black", stroke: "black", strokeWidth: 1 });
+		execStringAnimationByTspan("BrowserFuncSayHello()", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("FromBrowserSayHelloFuncToJsFuncDefinition", { opacity: 0 });
+	    },
+	    function(){
+		execStringAnimationByTspan("plain", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("SayHelloDefinitionDocumentToHTML", { opacity: 1 });
+		eA("documentObjectExp", "ウェブページ全体", { strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		execEffectSVGIndexes("ex06-8.html", "<html>", 1, "ex06-8.html", "</html>", 1, { fill: "red", stroke: "red", strokeWidth: 1 }, animationSpeed);
+		eA("HanakoTag", "tspan", { fill: "red", stroke: "red", strokeWidth: 1 });
+		execStringAnimationByTspan("HanakoTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		// 
+		execStringAnimationByTspan("plain", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("SayHelloDefinitionDocumentToHTML", { opacity: 0 });
+		eA("documentObjectExp", "ウェブページ全体", { strokeWidth: 1, opacity: 0 });
+		execEffectSVGIndexes("ex06-8.html", "<html>", 1, "ex06-8.html", "</html>", 1, { fill: "black", stroke: "black", strokeWidth: 0 }, animationSpeed);
+		eA("HanakoTag", "tspan", { fill: "black", stroke: "black", strokeWidth: 0 });
+		execStringAnimationByTspan("HanakoTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		// "alert('Hello, ' + ",
+		// "document",
+		// ".",
+		// "getElementById('",
+		// "who",
+		// "')",
+		// ".innerHTML",
+		// " + '!');"],
+		tspanRangeAnimation("plain", 1, 5, { fill: "red", stroke: "red", strokeWidth: 1 });
+		execArrowAnimation("getElementByIdToPTag", { opacity: 1 });
+		eA("getElementByIDExp", 'id="who"の要素を探す', { strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("HanakoTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		// reset
+		tspanRangeAnimation("plain", 1, 5, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("getElementByIdToPTag", { opacity: 0 });
+		eA("getElementByIDExp", 'id="who"の要素を探す', { strokeWidth: 1, opacity: 0 });
+		execStringAnimationByTspan("HanakoTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		tspanRangeAnimation("plain", 1, 6, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		execArrowAnimation("innerHTMLToPTagWorld", { opacity: 1 });
+		eA("innerHTMLToPTagExp", "要素の中身の部分", { strokeWidth: 1, opacity: 1 });
+	    },
+	    function(){
+		execStringAnimationByTspan("HanakoTag", 1, 1, { fill: "red", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		// reset
+		tspanRangeAnimation("plain", 1, 6, { fill: "black", stroke: "black", strokeWidth: 0 });
+		execArrowAnimation("innerHTMLToPTagWorld", { opacity: 0 });
+		eA("innerHTMLToPTagExp", "要素の中身の部分", { strokeWidth: 1, opacity: 0 });
+		execStringAnimationByTspan("HanakoTag", 1, 1, { fill: "black", stroke: "black", strokeWidth: 0 });
+	    },
+	    function(){
+		execArrowAnimation("sayhelloAlertToBrowserAlert", { opacity: 1 });
+	    },
+	    function(){
+		eA("HelloWorldAlert", "rect", { opacity: 0 });
+		eA("HelloWorldHanakoAlert", "Hello, 花子!", { opacity: 1, fill: "red", stroke: "red", strokeWidth: 1 });
+		eA("HelloWorldHanakoAlert", "rect", { opacity: 1, fill: "pink", stroke: "red", strokeWidth: 1 });
+	    },
+	    function(){
+		eA("HelloWorldHanakoAlert", "Hello, 花子!", { opacity: 0, fill: "red", stroke: "red", strokeWidth: 1 });
+		eA("HelloWorldHanakoAlert", "rect", { opacity: 0, fill: "pink", stroke: "red", strokeWidth: 1 });
+		execArrowAnimation("sayhelloAlertToBrowserAlert", { opacity: 0 });
 	    },
 	    function(){
 		alert("アニメーションは終了しました。");
