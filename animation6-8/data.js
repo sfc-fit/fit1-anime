@@ -5,7 +5,7 @@ function init(){
     setupAnimationFunction();
     switchEffect(person);
     // debugIndex();
-    setGridChart();
+    // setGridChart();
 }
 
 function debugIndex(){

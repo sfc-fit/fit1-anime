@@ -254,7 +254,6 @@ function selectiveFunctionExecution(indexAry, fromIndex){
 	}
     }
     if(fromIndex !== 0){
-	// remove functions.
 	for(var k = 0; k < fromIndex; k++){
 	    AnimationFunctionAry.shift();
 	}
