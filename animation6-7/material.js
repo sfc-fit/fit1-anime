@@ -44,9 +44,8 @@ function parent(){
 	else{
 		auto=true;
 	}*/
-
+	requestAnimationFrame(parent);
 	if(started==true){
-		requestAnimationFrame(parent);
 		requestAnimationFrame(update);
 	}
 }
