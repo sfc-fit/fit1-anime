@@ -63,7 +63,7 @@ var radioPanel=circleUI(507,63,63,"#303030",1,"black",0);
 var allCheck=circleUI(480,20,8,"white",1,"#303030",2);
 var taroCheck=circleUI(480,60,8,"white",1,"#303030",2);
 var hanakoCheck=circleUI(480,100,8,"white",1,"#303030",2);
-var allText=labelUI(500,25,15,"","挨拶","#fff");
+var allText=labelUI(500,25,15,"","全編","#fff");
 var taroText=labelUI(500,66,15,"","太郎編","#fff");
 var hanakoText=labelUI(500,106,15,"","花子編","#fff");
 repaint(allCheck,"aquamarine",1,0);
