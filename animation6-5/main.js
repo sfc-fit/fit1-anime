@@ -78,7 +78,6 @@ function draw(){
 			setArrow(htmlText[6],component[0],0);
 			highlight(htmlText[6]);
 			break;
-
 		case 1:
 			defuse(htmlText[6]);
 			highlight(jsTitle);
