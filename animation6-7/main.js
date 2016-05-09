@@ -74,7 +74,7 @@ function update(){
 		if(count%3==0){
 			//checkText();	//テキスト等の要素が枠内にあるかチェック
 		}
-		if(count%120==0&&phase<16&&auto==true){
+		if(count%120==0&&auto==true){
 			draw();
 		}
 		count++;
@@ -135,6 +135,7 @@ function draw(){
 				defuse(htmlText[i]);
 			}			
 			absoluteArrow(900,120,800,385,0);
+			showArrow(0);
 			highlight(component[14].selectAll("tspan")[1]);
 			highlight(jsText[3]);
 			highlight(jsText[3].selectAll("tspan")[1]);
@@ -266,7 +267,7 @@ function branch(){
 				phase = 7;
 				break;
 			case 14: 
-				phase = 5;
+				phase = 4;
 				break;
 			case 18: 
 				phase = 15;
@@ -284,7 +285,7 @@ function branch(){
 		if(action==1){
 			switch(phase){
 				case 14: 
-					phase = 5;
+					phase = 4;
 					break;
 				case 18:
 					phase = 7;
@@ -309,5 +310,7 @@ function reset(){
 	phase=0;
 	started=false;
 	action=0;
+	component[25].attr("text",who);
+	component[5].attr("text",who);
 	resetAll();
 }
